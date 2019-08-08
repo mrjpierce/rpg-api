@@ -1,6 +1,6 @@
 interface IBoard {
-    boardId: number;
-    boardLayout: object;
+    id: number;
+    layout: object;
 }
 
 class Board implements IBoard {
@@ -19,3 +19,7 @@ class Board implements IBoard {
 }
 
 export const board1 = new Board (1)
+
+// multi deimensinal-array, using the indexs of the array, can store on them
+// actor storage maneger??
+// 
