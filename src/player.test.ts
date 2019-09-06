@@ -1,17 +1,16 @@
-import {readyPlayerOne} from './player'
+import Player from './player'
+jest.mock('./player')
 
 
-test('player is created', () => {
-    expect(readyPlayerOne.playerId).toBe(1);
-    // pull out the magic numbers and set a variable that is describing of what the number should be
-    // SELF DESCRIBING CODE!!!
+describe('Player', () => {
+    let instance: Player;
+    let testId = 1
+    
+    beforeEach(() => {
+        instance = new Player(testId, 1, 1);
+    });
+
+    it('should return a created player', () => {
+        expect(instance).toBeInstanceOf(Player);
+    });
 });
-
-// first test should be the class 
-
-test('move should should return player', () => {
-    expect(readyPlayerOne.move(readyPlayerOne, 11)).toBeTruthy();
-});
-
-// additional tests:
-//

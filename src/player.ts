@@ -1,22 +1,23 @@
-interface IPlayer {
-    // only be as specific as you need to be, obviously its the player, do need the playerId and stuff
+import {IBoard} from "./board";
+//always work off interfaces thats why we import the board
+//becasue the player does have no meaning without the board we first need is to have the board
+export interface IPlayer {
     id: number;
-    position: number;
-    // I was thinking this would just be the cordinates of a combination of two nums, one for x and y axis
-    move(player: IPlayer, newPosition: number) : IPlayer;
+    xPos: number;
+    yPos: number;
+    move(newYPos: number, newXPos: number, player: IPlayer) : void;
 }
 
-class Player implements IPlayer {
-    constructor(public playerId: number, ) {}
-    position: number;
-    // will need to make it so that when I genearte a player I can generate them on different positions on the board
-    move(player: Player, newPosition : number) : Player {
-        this.position = newPosition
-        return Player
-        // need to think about what needs to be returned, do we need to return the entire player object? 
+export default class Player implements IPlayer {
+    constructor(public id: number, public xPos: number, public yPos: number, private board: IBoard) {}
+
+    move(newXPos: number, newYPos: number) : void {
+        if(this.board.isFree(newXPos, newYPos)) {
+            this.board.removePlayer(newXPos, newYPos);
+            this.board.placePlayer(newXPos, newYPos, this)
+            this.xPos = newXPos
+            this.yPos = newYPos
+        } else false;
     }
 }
 
-export const readyPlayerOne = new Player(1)
-
-// export interfaces and class and ins
