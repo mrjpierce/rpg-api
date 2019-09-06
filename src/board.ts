@@ -29,5 +29,3 @@ export default class Board implements IBoard {
     // so after this gets called its returning nothing right now is the player object that is created by the constructor updated?
    }
 }
-
-console.log(new Board(3));

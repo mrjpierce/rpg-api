@@ -1,6 +1,5 @@
 import {IBoard} from "./board";
-//always work off interfaces thats why we import the board
-//becasue the player does have no meaning without the board we first need is to have the board
+
 export interface IPlayer {
     id: number;
     xPos: number;
@@ -13,11 +12,10 @@ export default class Player implements IPlayer {
 
     move(newXPos: number, newYPos: number) : void {
         if(this.board.isFree(newXPos, newYPos)) {
-            this.board.removePlayer(newXPos, newYPos);
+            this.board.removePlayer(this.xPos, this.yPos);
             this.board.placePlayer(newXPos, newYPos, this)
             this.xPos = newXPos
             this.yPos = newYPos
         } else false;
     }
 }
-
