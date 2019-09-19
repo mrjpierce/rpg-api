@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,18 +22,18 @@
     "mongoose": "^5.6.4",
     "node": "^12.10.0",
     "ts-node": "^8.4.1",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.5.3"
+    "tsconfig-paths": "^3.9.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
+    "@types/jest": "^24.0.18",
     "@types/mongoose": "^5.5.8",
     "@types/node": "^12.6.4",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "reflect-metadata": "^0.1.13",
     "serverless": "^1.47.0",
     "serverless-offline": "^5.7.3",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0"
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.6.3"
   }
 }

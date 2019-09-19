@@ -19,9 +19,13 @@ export interface IMonster extends IUnit{
 
 @injectable()
 export default class Player implements IPlayer {
-    private Id: number;
-    private XPos: number;
-    private YPos: number;
+    Id: number;
+    XPos: number;
+    YPos: number;
+
+    // private Id: number;
+    // private XPos: number;
+    // private YPos: number;
 
     constructor(id: number, xPos: number, yPos: number, private board: IBoard) {
         this.Id = id;
