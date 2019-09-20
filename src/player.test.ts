@@ -2,8 +2,7 @@ import Player from './player';
 import { IBoard } from './board';
 
 describe('Player', () => {
-
-    // How do i use dependency injection correctly in Jest? I feel like I am not implementing it correctly at all
+    //
     let sut : Player
     let instance: Player
     // const sut : Player
