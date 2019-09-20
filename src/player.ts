@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { IBoard } from "./board";
+import "reflect-metadata";
 
 export interface IUnit {
     Id: number;
@@ -23,9 +24,9 @@ export default class Player implements IPlayer {
     XPos: number;
     YPos: number;
 
-    // private Id: number;
-    // private XPos: number;
-    // private YPos: number;
+    // protected Id: number;
+    // protected XPos: number;
+    // protected YPos: number;
 
     constructor(id: number, xPos: number, yPos: number, private board: IBoard) {
         this.Id = id;

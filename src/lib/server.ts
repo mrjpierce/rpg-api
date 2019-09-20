@@ -1,7 +1,7 @@
 import app from "./app";
-import BoardCreator from '../src/board';
-import GameCreator from './../src/game'
-import Player from "../src/player";
+import BoardCreator from '../board';
+import GameCreator from '../game'
+import Player from "../player";
 
 const port = 4040;
 app.listen(port, function() {

@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/mongoose": "^5.5.8",
-    "@types/node": "^12.6.4",
+    "@types/node": "^12.7.5",
     "jest": "^24.9.0",
     "reflect-metadata": "^0.1.13",
     "serverless": "^1.47.0",

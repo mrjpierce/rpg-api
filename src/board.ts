@@ -1,14 +1,14 @@
 import {IPlayer} from './player';
 import {ITerrain} from './terrain';
-// import { injectable } from 'inversify';
+import { injectable } from 'inversify';
 
 export interface IBoard {
     isFree(xPos:number, yPos:number): boolean;
-    removePlayer(xPos:number, yPos:number): void;
-    placePlayer (newXPos:number, newYPos:number, player: IPlayer): void;
+    removePlayer(xPos: number, yPos: number): void;
+    placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
 }
 
-// @injectable()
+@injectable()
 export default class Board implements IBoard {
     private playerGrid: Array<Array<IPlayer>>;
     private terrainGrid: Array<Array<ITerrain>>
@@ -24,11 +24,11 @@ export default class Board implements IBoard {
    isFree(xPos, yPos) {
     if (typeof this.playerGrid[xPos][yPos] === null){
         return true;
-    }else false;
+    }else return false;
    }
  
    removePlayer(xPos, yPos) {
-    this.playerGrid[xPos][yPos] = null
+    // this.playerGrid[xPos][yPos] = null
    }
 
    placePlayer (newXPos, newYPos, player) {
