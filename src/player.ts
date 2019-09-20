@@ -6,7 +6,7 @@ export interface IUnit {
     Id: number;
     XPos: number;
     YPos: number;
-    getCordinates(playerId: number) : any;
+    getCoordinates(playerId: number) : any;
 }
 
 export interface IPlayer extends IUnit {
@@ -18,8 +18,14 @@ export interface IMonster extends IUnit{
     move() : void;
 }
 
+export type PlayerBuildFuncType = (id: number, xPos: number, yPos: number, board: IBoard) => IPlayer;
+
 @injectable()
 export default class Player implements IPlayer {
+    static Build(id: number, xPos: number, yPos: number, board: IBoard): IPlayer {
+        return new Player(id, xPos, yPos, board);
+    }
+
     Id: number;
     XPos: number;
     YPos: number;
@@ -28,13 +34,13 @@ export default class Player implements IPlayer {
     // protected XPos: number;
     // protected YPos: number;
 
-    constructor(id: number, xPos: number, yPos: number, private board: IBoard) {
+    protected constructor(id: number, xPos: number, yPos: number, private board: IBoard) {
         this.Id = id;
         this.XPos = xPos;
         this.YPos = yPos;
     }
 
-    getCordinates(id: number) : any {
+    getCoordinates(id: number) : any {
         if(id === this.Id){
             const cordinates : any = new Array(this.XPos, this.YPos)
             return cordinates 

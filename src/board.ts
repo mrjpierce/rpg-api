@@ -1,4 +1,4 @@
-import {IPlayer} from './player';
+import Player, {IPlayer} from './player';
 import {ITerrain} from './terrain';
 import { injectable } from 'inversify';
 
@@ -10,30 +10,31 @@ export interface IBoard {
 
 @injectable()
 export default class Board implements IBoard {
-    private playerGrid: Array<Array<IPlayer>>;
-    private terrainGrid: Array<Array<ITerrain>>
-    constructor (gridSize:number){
-       this.terrainGrid = new Array<Array<ITerrain>>(gridSize);        
-       this.playerGrid = new Array<Array<IPlayer>>(gridSize);
-       for (let i = 0; i < this.playerGrid.length; i++) {
-           this.playerGrid[i] = new Array<IPlayer>(gridSize);
-           this.terrainGrid[i] = new Array<ITerrain>(gridSize);
-        } 
-   }
+  private playerGrid: Array<Array<IPlayer | null>>;
+  private terrainGrid: Array<Array<ITerrain>>;
 
-   isFree(xPos, yPos) {
+  constructor (gridSize: number) {
+    this.terrainGrid = new Array<Array<ITerrain>>(gridSize);        
+    this.playerGrid = new Array<Array<IPlayer>>(gridSize);
+    for (let i = 0; i < this.playerGrid.length; i++) {
+      this.playerGrid[i] = new Array<IPlayer>(gridSize);
+      this.terrainGrid[i] = new Array<ITerrain>(gridSize);
+    } 
+  }
+
+  isFree(xPos: number, yPos: number) {
     if (typeof this.playerGrid[xPos][yPos] === null){
-        return true;
-    }else return false;
-   }
- 
-   removePlayer(xPos, yPos) {
-    // this.playerGrid[xPos][yPos] = null
-   }
+      return true;
+    } else { 
+      return false; 
+    }
+  }
 
-   placePlayer (newXPos, newYPos, player) {
+  removePlayer(xPos: number, yPos: number) {
+    this.playerGrid[xPos][yPos] = null
+  }
+
+  placePlayer(newXPos: number, newYPos: number, player: Player) {
     this.playerGrid[newXPos][newYPos] = player;
-   }
+  }
 }
-
-console.log(new Board(3))
