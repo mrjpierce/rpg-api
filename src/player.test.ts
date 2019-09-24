@@ -1,20 +1,27 @@
-import Player from './player';
-import { IBoard } from './board';
+import Player, { IPlayer } from './player';
+import Board, { IBoard } from './board';
+
+// Task 3: Write tests for move function on player
 
 describe('Player', () => {
-    //
-    let sut : Player
-    let instance: Player
-    // const sut : Player
-    const testId = 1
-    let board : IBoard
-    // because 
+    let player: IPlayer;
+    let board: IBoard;
     
     beforeEach(() => {
-        var instance = new Player(testId, 1, 1, board);
+        board = new Board(3); //TODO: https://jestjs.io/docs/en/es6-class-mocks, jest.fn
+        player = Player.Build(1, 2, 2, board);
     });
 
-    it('should return a created player', () => {
-        expect(instance).toBeInstanceOf(sut);
+    describe('move', () => {
+        it('should change XPos to correct value', () => {
+            // Arrange
+            // None
+
+            // Act
+            player.move(2, 3);
+
+            // Assert
+            expect(player.XPos).toBe(3);
+        });
     });
 });

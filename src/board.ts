@@ -3,9 +3,9 @@ import {ITerrain} from './terrain';
 import { injectable } from 'inversify';
 
 export interface IBoard {
-    isFree(xPos:number, yPos:number): boolean;
-    removePlayer(xPos: number, yPos: number): void;
-    placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
+  isFree(xPos:number, yPos:number): boolean;
+  removePlayer(xPos: number, yPos: number): void;
+  placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
 }
 
 @injectable()
