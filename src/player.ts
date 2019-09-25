@@ -15,7 +15,7 @@ export interface IPlayer extends IUnit {
 
 //eventually move to its only file
 export interface IMonster extends IUnit{
-    move() : void;
+    move(newXPos: number, newYPos: number) : void;
 }
 
 export type PlayerBuildFuncType = (id: number, xPos: number, yPos: number, board: IBoard) => IPlayer;
@@ -52,6 +52,8 @@ export abstract class Unit implements IUnit {
     }
 
     move(newXPos: number, newYPos: number) : void {
+        // this._xPos = newXPos;
+        // this._yPos = newYPos;
         if(this.board.isFree(newXPos, newYPos)) {
             this.board.removePlayer(this.XPos, this.YPos);
             this.board.placePlayer(newXPos, newYPos, this);
@@ -72,4 +74,14 @@ export default class Player extends Unit implements IPlayer {
     }
 }
 
+@injectable()
+export class Monster extends Unit implements IMonster {
+    static Build(id: number, xPos: number, yPos: number, board: IBoard): IPlayer {
+        return new Monster(id, xPos, yPos, board);
+    }
+
+    protected constructor(id: number, xPos: number, yPos: number, board: IBoard) {
+        super(id, xPos, yPos, board);
+    }
+}
 // Task 1: Define Monster class that extends Unit
