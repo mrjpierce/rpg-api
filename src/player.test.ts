@@ -21,7 +21,7 @@ describe('Player', () => {
             player.move(2, 3);
 
             // Assert
-            expect(player.XPos).toBe(3);
+            expect(player.XPos).toBe(2);
         });
     });
 });

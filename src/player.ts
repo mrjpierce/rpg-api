@@ -10,7 +10,7 @@ export interface IUnit {
 }
 
 export interface IPlayer extends IUnit {
-    move(newYPos: number, newXPos: number) : void;
+    move(newXPos: number, newYPos: number) : void;
 }
 
 //eventually move to its only file
