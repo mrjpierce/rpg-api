@@ -1,6 +1,7 @@
-import initDIContainer, { TYPES } from "./di-container";
+import initDIContainer from "./di-container";
 import { IBoard } from "./board";
 import { PlayerBuildFuncType } from "./player";
+import { TYPES } from "../out/di-container";
 
 const container = initDIContainer();
 

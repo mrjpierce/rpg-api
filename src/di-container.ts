@@ -1,11 +1,7 @@
 import { Container } from 'inversify';
 import Board, { IBoard } from './board';
 import Player, { PlayerBuildFuncType } from './player';
-
-export const TYPES = {
-  "IBoard": Symbol("IBoard"),
-  "IPlayerBuilder": Symbol("IPlayerBuilder"),
-};
+import { TYPES } from '../out/di-container';
 
 export default function initGame(): Container {
   const diContainer = new Container();
