@@ -1,0 +1,3 @@
+{
+  "extends": ["@ifit/ts-config/tslint-rules", "tslint-config-prettier"]
+}

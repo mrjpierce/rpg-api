@@ -1,0 +1,27 @@
+language: node_js
+before_install:
+  - printf "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc
+script:
+  - commitlint-travis
+  - yarn validate
+after_success:
+  - yarn codecov
+deploy:
+  - provider: script
+    script: sls deploy --stage dev
+    skip_cleanup: true
+    on:
+      branch: dev
+  - provider: script
+    script: sls deploy --stage test
+    skip_cleanup: true
+    on:
+      branch: test
+  - provider: script
+    script: sls deploy --stage production
+    skip_cleanup: true
+    on:
+      branch: master
+after_deploy:
+  - if [[ ${TRAVIS_BRANCH} == "test" ]]; then swag update-unpublished; fi
+  - if [[ ${TRAVIS_BRANCH} == "master" ]]; then swag publish; fi

@@ -1,0 +1,15 @@
+openapi: 3.0.0
+servers:
+  - url: https://gateway.ifit-dev.com/example-service
+    description: Deployed to dev and uses the dev env for this service. For external services uses ifit-test
+  - url: https://gateway.ifit-test.com/example-service
+    description: Deployed to the test env and uses ifit-test for other external services
+  - url: https://gateway.ifit.com/example-service
+    description: Production
+info:
+  description: This is an exmaple of a service swagger doc, check more at swaggerhub
+  version: "1.0.0"
+  title: Example Service
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'

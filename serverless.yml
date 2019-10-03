@@ -1,0 +1,29 @@
+service: rpg-api
+custom:
+  blab:
+    noVPC: true
+  stage: '${opt:stage, self:provider.stage}'
+  local:
+    LLAMA_LE_TOKEN: '${env:LLAMA_LE_TOKEN}'
+    LLAMA_LOG_LEVEL: '${env:LLAMA_LOG_LEVEL}'
+  dev:
+    LLAMA_LE_TOKEN: <NEED TO GET>
+    LLAMA_LOG_LEVEL: warn
+  test:
+    LLAMA_LE_TOKEN: <NEED TO GET>
+    LLAMA_LOG_LEVEL: warn
+  production:
+    LLAMA_LE_TOKEN: <NEED TO GET>
+    LLAMA_LOG_LEVEL: error
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+  timeout: 15
+  environment:
+    LLAMA_LE_TOKEN: '${self:custom.${self:custom.stage}.LLAMA_LE_TOKEN}'
+    LLAMA_LOG_LEVEL: '${self:custom.${self:custom.stage}.LLAMA_LOG_LEVEL}'
+plugins:
+  - serverless-offline
+  - '@ifit/blab'
+  - '@ifit/janus'
