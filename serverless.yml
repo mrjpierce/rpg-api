@@ -23,6 +23,17 @@ provider:
   environment:
     LLAMA_LE_TOKEN: '${self:custom.${self:custom.stage}.LLAMA_LE_TOKEN}'
     LLAMA_LOG_LEVEL: '${self:custom.${self:custom.stage}.LLAMA_LOG_LEVEL}'
+functions:
+  get-game:
+    handler: out/index.getGameLambda
+    events:
+      - http:
+          path: /phrase/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
 plugins:
   - serverless-offline
   - '@ifit/blab'

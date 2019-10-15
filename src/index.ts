@@ -1,5 +1,6 @@
 import { Lambdafy } from "@ifit/fleece";
 import { ContainerFactory } from "./container-factory";
+import { GetGameHandler } from "./handlers/get-game";
 
 const containerFactory = new ContainerFactory();
 
@@ -11,5 +12,5 @@ const containerFactory = new ContainerFactory();
 // const player2 = playerBuilder(2, 1, 2, board);
 
 const lambdafy = (identifier: any) => Lambdafy.create(containerFactory, identifier);
-
-export const getGameLambda = lambdafy(/* ? */);
+// lambadfy wraps the handler in function for scoping
+export const getGameLambda = lambdafy(GetGameHandler);

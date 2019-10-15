@@ -17,3 +17,13 @@
 //Product
 //1. what is being built, should be a complex object. Think of it as one type of thing but with just varying data. i.e. Sandwhichs are the same type of thing but an infinite number of possible sandwhich variations
 
+//one of these per endpoint from the serverless 
+// look at feelces documentation and see how to implement it
+// Handlers are spun up in a lambda
+// categorize handlers by operation, CRUD 
+// whenever we send a payload to the service, we specifcy that in the header.
+// BAD engineers will over use the POST, 
+// /game/5 = path in serverless game/:id/
+// /game/?id=3 = query
+// life cycle methods: 
+  // get handlers will take in one param and usually its an ID, which is usu

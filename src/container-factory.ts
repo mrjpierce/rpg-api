@@ -17,7 +17,8 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
     const eventContainer = this.sharedContainer.createChild();
 
     // event-specific container bindings here
-
+    // pretty much like more life cycle methods
+    
     return eventContainer;
   }
 
