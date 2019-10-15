@@ -419,6 +419,13 @@
     "@hapi/bourne" "1.x.x"
     "@hapi/hoek" "6.x.x"
 
+"@ifit/blab@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ifit/blab/-/blab-4.0.0.tgz#0580b13960edfb55e27512fdd0b0a4b6f7ea1fae"
+  integrity sha512-CjUKNv+MmFI/a/uSjJWx+RQtzU5Az+6s8MUZSWp+mbNo3jKJQxb3SGzsODLuPfLj7TZgRbOO5GrE+VsAmHpZoA==
+  dependencies:
+    dotenv "^4.0.0"
+
 "@ifit/fleece@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ifit/fleece/-/fleece-2.3.0.tgz#352e1292f2d9e6a456e54716e471cd1cd2766092"
@@ -2186,6 +2193,11 @@ dot-prop@^4.1.0:
   integrity sha512-tUMXrxlExSW6U2EXiiKGSBVdYgtV8qlHL+C10TsW4PURY/ic+eaysnSkwB4kA/mBlCyy/IKDJ+Lc3wbWeaXtuQ==
   dependencies:
     is-obj "^1.0.0"
+
+dotenv@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
+  integrity sha1-hk7xN5rO1Vzm+V3r7NzhefegzR0=
 
 download@^5.0.3:
   version "5.0.3"

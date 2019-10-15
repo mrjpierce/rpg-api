@@ -57,6 +57,7 @@
   },
   "hammer": {},
   "dependencies": {
+    "@ifit/blab": "^4.0.0",
     "@ifit/fleece": "^2.3.0",
     "@ifit/janus": "^4.0.2",
     "@ifit/llama": "^1.3.0",
