@@ -10,11 +10,14 @@ export interface ITerrain {
 
 export class MountainTerrain implements ITerrain {
     public readonly type: TerrainType = TerrainType.Mountain;
+    isPassable: true;
+
     constructor(){}
 }
 
 export class ForestTerrain implements ITerrain {
     public readonly type: TerrainType = TerrainType.Forest;
+    isPassable: true;
     constructor(){}
 }
 
