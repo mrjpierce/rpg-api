@@ -17,8 +17,7 @@ export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQue
 export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuery> {
   /* ? */
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
-    return HTTPResult.OK({body: null});
+    return HTTPResult.OK({body: 'hello world'});
   }
   // event gets passed around to all the life cycle methods, 
-  
 }

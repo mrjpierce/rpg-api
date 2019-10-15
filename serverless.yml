@@ -28,7 +28,7 @@ functions:
     handler: out/index.getGameLambda
     events:
       - http:
-          path: /phrase/{id}
+          path: /game/{id}
           method: get
           request:
             parameters:
