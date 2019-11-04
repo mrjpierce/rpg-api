@@ -1,5 +1,7 @@
 import { HTTPHandler, HTTPEvent, HTTPResult } from "@ifit/fleece";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
+import { TYPES } from "../types";
+import { IGameDAO } from "../dao/game-dao";
 
 export interface IGetGameQuery {
   name?: string;
@@ -16,8 +18,13 @@ export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQue
 @injectable()
 export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuery> {
   /* ? */
+  constructor(@inject(TYPES.IGameDAO) private gameDao:IGameDAO){
+    super();
+  }
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
-    return HTTPResult.OK({body: 'hello world'});
+    const {id} = event.processed.pathParameters;
+    const game = this.gameDao.find(`${id}`);
+    return HTTPResult.OK({body: JSON.stringify(game)});
   }
   // event gets passed around to all the life cycle methods, 
 }
