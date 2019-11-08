@@ -6,6 +6,7 @@ export interface IBoard {
   isFree(xPos:number, yPos:number): boolean;
   removePlayer(xPos: number, yPos: number): void;
   placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
+  move (newXPos: number, newYPos: number, player: IPlayer): void;
 }
 
 @injectable()
@@ -30,8 +31,17 @@ export default class Board implements IBoard {
     }
   }
 
+  move(newXPos: number, newYPos: number, player: Player) : void {
+    if(this.isFree(newXPos, newYPos)) {
+        this.removePlayer(player.XPos, player.YPos);
+        this.placePlayer(newXPos, newYPos, player);
+        player.setXPos(newXPos);
+        player.setYPos(newYPos);
+    } else false
+  }
+
   removePlayer(xPos: number, yPos: number) {
-    this.playerGrid[xPos][yPos] = null
+    this.playerGrid[xPos][yPos] = null;
   }
 
   placePlayer(newXPos: number, newYPos: number, player: Player) {

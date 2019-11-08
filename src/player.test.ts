@@ -10,7 +10,7 @@ describe('Player', () => {
     
     beforeEach(() => {
         board = new Board(3); //TODO: https://jestjs.io/docs/en/es6-class-mocks, jest.fn
-        player = Player.Build(1, 1, 2, board);
+        player = Player.Build(1, 1, 2);
     });
 
     describe('move', () => {
@@ -18,7 +18,7 @@ describe('Player', () => {
             // Arrange
             // None
             // Act
-            player.move(2, 3);
+            board.move(2, 3, player);
 
             // Assert
             expect(player.XPos).toBe(2);
@@ -26,7 +26,7 @@ describe('Player', () => {
     });
     describe('move', () => {
         it('should change YPos to correct value', () => {
-            player.move(3,1);
+            board.move(3,1, player);
 
             expect(player.YPos).toBe(1);
         });
