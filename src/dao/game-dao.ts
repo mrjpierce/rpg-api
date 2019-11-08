@@ -6,7 +6,6 @@ import Player from "../player";
 export interface IGameDAO {
   find(id: string): IGame;
 }
-// data access object, takes care
 @injectable()
 export class GameDAO implements IGameDAO {
   constructor(){
