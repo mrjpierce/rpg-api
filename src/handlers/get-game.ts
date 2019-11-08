@@ -24,7 +24,8 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
     const {id} = event.processed.pathParameters;
     const game = this.gameDao.find(`${id}`);
-    return HTTPResult.OK({body: JSON.stringify(game)});
+    console.log('ASS', game)
+    return HTTPResult.OK({body: game });
   }
   // event gets passed around to all the life cycle methods, 
 }

@@ -52,8 +52,6 @@ export abstract class Unit implements IUnit {
     }
 
     move(newXPos: number, newYPos: number) : void {
-        // this._xPos = newXPos;
-        // this._yPos = newYPos;
         if(this.board.isFree(newXPos, newYPos)) {
             this.board.removePlayer(this.XPos, this.YPos);
             this.board.placePlayer(newXPos, newYPos, this);
