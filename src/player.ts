@@ -1,5 +1,4 @@
 import { injectable } from 'inversify';
-import { IBoard } from "./board";
 import "reflect-metadata";
 
 export interface IUnit {
@@ -9,16 +8,11 @@ export interface IUnit {
     coordinates: IPosition;
 }
 
-export interface IPlayer extends IUnit {
-    move(newXPos: number, newYPos: number) : void;
+export interface IPlayer extends IUnit {   
 }
 
-//eventually move to its only file
-export interface IMonster extends IUnit{
-    move(newXPos: number, newYPos: number) : void;
+export interface IMonster extends IUnit {   
 }
-
-export type PlayerBuildFuncType = (id: number, xPos: number, yPos: number, board: IBoard) => IPlayer;
 
 export interface IPosition {
     x: number;
@@ -45,43 +39,41 @@ export abstract class Unit implements IUnit {
         };
     }
 
-    constructor(id: number, xPos: number, yPos: number, private board: IBoard) {
+    public set setXPos(newXPos){
+        this._xPos = newXPos;
+    }
+
+    public set setYPos(newYPos){
+        this._yPos = newYPos;
+    }
+
+    // remind me on the underscore with the xPos and yPos
+
+    constructor(id: number, xPos: number, yPos: number) {
         this.Id = id;
         this._xPos = xPos;
         this._yPos = yPos;
-    }
-
-    move(newXPos: number, newYPos: number) : void {
-        // this._xPos = newXPos;
-        // this._yPos = newYPos;
-        if(this.board.isFree(newXPos, newYPos)) {
-            this.board.removePlayer(this.XPos, this.YPos);
-            this.board.placePlayer(newXPos, newYPos, this);
-            this._xPos = newXPos;
-            this._yPos = newYPos;
-        } else false
     }
 }
 
 @injectable()
 export default class Player extends Unit implements IPlayer {
-    static Build(id: number, xPos: number, yPos: number, board: IBoard): IPlayer {
-        return new Player(id, xPos, yPos, board);
+    static Build(id: number, xPos: number, yPos: number): IPlayer {
+        return new Player(id, xPos, yPos);
     }
 
-    protected constructor(id: number, xPos: number, yPos: number, board: IBoard) {
-        super(id, xPos, yPos, board);
+    protected constructor(id: number, xPos: number, yPos: number) {
+        super(id, xPos, yPos);
     }
 }
 
 @injectable()
 export class Monster extends Unit implements IMonster {
-    static Build(id: number, xPos: number, yPos: number, board: IBoard): IPlayer {
-        return new Monster(id, xPos, yPos, board);
+    static Build(id: number, xPos: number, yPos: number): IPlayer {
+        return new Monster(id, xPos, yPos);
     }
 
-    protected constructor(id: number, xPos: number, yPos: number, board: IBoard) {
-        super(id, xPos, yPos, board);
+    protected constructor(id: number, xPos: number, yPos: number) {
+        super(id, xPos, yPos);
     }
 }
-// Task 1: Define Monster class that extends Unit

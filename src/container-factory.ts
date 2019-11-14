@@ -1,7 +1,5 @@
 import { HTTPEvent, IContainer, IContainerFactory } from "@ifit/fleece";
 import { Container } from "inversify";
-// import Player, { PlayerBuildFuncType } from "./player";
-// import Board, { IBoard } from "./board";
 import { TYPES } from "./types";
 import { GameDAO, IGameDAO } from "./dao/game-dao";
 
@@ -30,15 +28,6 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
     });
 
   container.bind<IGameDAO>(TYPES.IGameDAO).to(GameDAO);
-
-    /*
-    const board = new Board(3);
-    container.bind<IBoard>(TYPES.IBoard).toConstantValue(board);
-    container.bind<PlayerBuildFuncType>(TYPES.IPlayerBuilder)
-      .toConstantValue((id: number, xPos: number, yPos: number, board: IBoard) => 
-        Player.Build(id, xPos, yPos, board)
-      );
-    */
 
     return container;
   }

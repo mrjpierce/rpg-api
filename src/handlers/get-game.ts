@@ -12,7 +12,6 @@ export interface IGetGamePath {
 }
 
 export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQuery> {
-
 }
 
 @injectable()
@@ -24,7 +23,6 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
     const {id} = event.processed.pathParameters;
     const game = this.gameDao.find(`${id}`);
-    return HTTPResult.OK({body: JSON.stringify(game)});
+    return HTTPResult.OK({body: JSON.stringify(game) });
   }
-  // event gets passed around to all the life cycle methods, 
 }
