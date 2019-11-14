@@ -1,7 +1,6 @@
-import Game, { IGame } from "../game";
+import { IGame } from "../game";
 import { injectable } from "inversify";
-import Board from "../board";
-import Player from "../player";
+import { store } from "./mock-store";
 
 export interface IGameDAO {
   find(id: string): IGame;
@@ -9,18 +8,16 @@ export interface IGameDAO {
 @injectable()
 export class GameDAO implements IGameDAO {
   constructor(){
-    const board1 = new Board(3);
-    const player1 = Player.Build(1, 0, 0);
-    const player2 = Player.Build(2, 1, 0);
-
-    this.games = [];
-    this.games["0"]= new Game(board1, [player1, player2]);
   }
-  /* ? */
-  private games: IGame[];
 
   find(id: string): IGame{
-    return this.games[id].board;
+    const game = store.games[id] as IGame;
+    // the as keyword in TS is casting, just telling the complier to treat it as a certain data object
+    if(!game){
+      throw new Error(`game of ${id} does not exist`);
+    }
+    return game;
   }
-  
+  //error first or error early, 
+  //chaining can 
 }

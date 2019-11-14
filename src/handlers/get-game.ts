@@ -12,7 +12,6 @@ export interface IGetGamePath {
 }
 
 export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQuery> {
-
 }
 
 @injectable()

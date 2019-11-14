@@ -2,7 +2,7 @@ import {IPlayer} from './player';
 import {IBoard} from './board';
 
 export interface IGame {
-    board?: any;
+    board?: IBoard;
 }
 export default class Game {
     constructor (private board: IBoard, private players: IPlayer[]){
