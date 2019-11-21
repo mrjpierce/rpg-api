@@ -26,7 +26,7 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     const {gameId} = event.processed.pathParameters;
     const {newX, newY} = event.processed.body;
     const game = this.gameDao.find(`${gameId}`);
-    if(game.board.move(newX, newY, )){
+    if(game.board.move(newX, newY, player)){
       // set up player DAO similar to how we set up the gameDao
     }
     return HTTPResult.OK({body: JSON.stringify(game)});

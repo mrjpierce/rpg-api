@@ -3,9 +3,6 @@ import "reflect-metadata";
 
 export interface IUnit {
     Id: number;
-    XPos: number;
-    YPos: number;
-    coordinates: IPosition;
 }
 
 export interface IPlayer extends IUnit {   
@@ -24,30 +21,19 @@ export abstract class Unit implements IUnit {
     protected _xPos: number;
     protected _yPos: number;
 
-    public get XPos(): number {
-        return this._xPos;
-    }
-
-    public get YPos(): number {
-        return this._yPos;
-    }
-
     public get coordinates(): IPosition {
         return {
-            x: this.XPos,
-            y: this.YPos
+            x: this._xPos,
+            y: this._yPos
         };
     }
 
     public set setXPos(newXPos){
         this._xPos = newXPos;
     }
-
     public set setYPos(newYPos){
         this._yPos = newYPos;
     }
-
-    // remind me on the underscore with the xPos and yPos
 
     constructor(id: number, xPos: number, yPos: number) {
         this.Id = id;

@@ -33,7 +33,7 @@ export default class Board implements IBoard {
 
   move(newXPos: number, newYPos: number, player: Player) : void {
     if(this.isFree(newXPos, newYPos)) {
-        this.removePlayer(player.XPos, player.YPos);
+        this.removePlayer(player.coordinates.x, player.coordinates.y);
         this.placePlayer(newXPos, newYPos, player);
         player.setXPos(newXPos);
         player.setYPos(newYPos);
