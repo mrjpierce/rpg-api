@@ -17,7 +17,6 @@ export interface IPutMovePlayerEvent extends HTTPEvent<IPutMovePlayerBody, IPutM
 
 @injectable()
 export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMovePlayerPath, null> {
-  /* ? */
   constructor(@inject(TYPES.IGameDAO) private gameDao: IGameDAO) {
     super();
   }
@@ -25,11 +24,11 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     const { gameId } = event.processed.pathParameters;
     const { newX, newY } = event.processed.body;
     const game = this.gameDao.find(`${gameId}`);
-
+    // const findPlayer method that use the similar syntax as what is in the board.ts so findIndex
     if (game.board.move(newX, newY, player)) {
-      // set up player DAO similar to how we set up the gameDao
     }
     return HTTPResult.OK({ body: JSON.stringify(game) });
+    //depending on if the .move is turthy or not we will return a succussful message or maybe a 500
     // more than just ok
     // look up other prototypes on httpresult
   }

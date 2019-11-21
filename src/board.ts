@@ -13,8 +13,10 @@ export interface IBoard {
 export default class Board implements IBoard {
   private playerGrid: Array<Array<IPlayer | null>>;
   private terrainGrid: Array<Array<ITerrain>>;
+  private playerList: Array<IPlayer>;
 
   constructor(gridSize: number) {
+    this.playerList = new Array<IPlayer>();
     this.terrainGrid = new Array<Array<ITerrain>>(gridSize);
     this.playerGrid = new Array<Array<IPlayer>>(gridSize);
     for (let i = 0; i < this.playerGrid.length; i++) {
@@ -23,8 +25,8 @@ export default class Board implements IBoard {
     }
   }
 
-  isFree(coordinates: ICoordinates) {
-    if (typeof this.playerGrid[coordinates.x][coordinates.y] === null) {
+  isFree(newCoordinates: ICoordinates): boolean {
+    if (typeof this.playerGrid[newCoordinates.x][newCoordinates.y] === null) {
       return true;
     } else {
       return false;
@@ -35,15 +37,21 @@ export default class Board implements IBoard {
     if (this.isFree(newCooridnates)) {
       this.removePlayer(newCooridnates);
       this.placePlayer(newCooridnates, player);
-      player.setCoordinates(newCooridnates);
+      player.coordinates = newCooridnates;
     } else false;
   }
 
-  removePlayer(coordinates: ICoordinates) {
-    this.playerGrid[coordinates.x][coordinates.y] = null;
+  removePlayer(currentCoordinates: ICoordinates): void {
+    const currentPlayer = this.playerGrid[currentCoordinates.x][currentCoordinates.y];
+    this.playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
+    const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
+    //assumes if there are no {} brackets that the anything after is the return
+    this.playerList.splice(returnedIndex, 1);
+    // playerList needs to be exposed to the outside world
   }
 
-  placePlayer(newCoordinates: ICoordinates, player: Player) {
+  placePlayer(newCoordinates: ICoordinates, player: Player): void {
     this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
+    this.playerList.push(player);
   }
 }

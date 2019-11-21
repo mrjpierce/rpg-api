@@ -25,6 +25,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/no-empty-interface': 'off'
   },
   settings: {
     react: {

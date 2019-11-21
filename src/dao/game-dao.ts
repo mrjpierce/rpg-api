@@ -7,17 +7,16 @@ export interface IGameDAO {
 }
 @injectable()
 export class GameDAO implements IGameDAO {
-  constructor(){
-  }
+  constructor() {}
 
-  find(id: string): IGame{
+  find(id: string): IGame {
     const game = store.games[id] as IGame;
     // the as keyword in TS is casting, just telling the complier to treat it as a certain data object
-    if(!game){
+    if (!game) {
       throw new Error(`game of ${id} does not exist`);
     }
     return game;
   }
-  //error first or error early, 
-  //chaining can 
+  //error first or error early,
+  //chaining can
 }

@@ -26,15 +26,10 @@ export abstract class Unit implements IUnit {
     };
   }
 
-  public set setCoordinates(newCoordinates) {
+  public set coordinates(newCoordinates: ICoordinates) {
     this._xPos = newCoordinates.x;
     this._yPos = newCoordinates.y;
   }
-
-  // public set setCoordinates(newCoordinates: ICoordinates) {
-  //   this._xPos = newCoordinates.x;
-  //   this._yPos = newCoordinates.y;
-  // }
 
   constructor(id: number, coordinates: ICoordinates) {
     this.Id = id;
