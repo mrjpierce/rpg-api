@@ -1,19 +1,17 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 import "reflect-metadata";
 
 export interface IUnit {
-    Id: number;
+  Id: number;
 }
 
-export interface IPlayer extends IUnit {   
-}
+export interface IPlayer extends IUnit {}
 
-export interface IMonster extends IUnit {   
-}
+export interface IMonster extends IUnit {}
 
 export interface ICoordinates {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 export abstract class Unit implements IUnit {
@@ -22,18 +20,18 @@ export abstract class Unit implements IUnit {
   protected _yPos: number;
 
   public get coordinates(): ICoordinates {
-      return {
-        x: this._xPos,
-        y: this._yPos
-      };
+    return {
+      x: this._xPos,
+      y: this._yPos
+    };
   }
 
-  public set setCoordinates(newCoordinates): void {
+  public set setCoordinates(newCoordinates) {
     this._xPos = newCoordinates.x;
     this._yPos = newCoordinates.y;
   }
 
-  // public set setCoordinates(newCoordinates: ICoordinates): void {
+  // public set setCoordinates(newCoordinates: ICoordinates) {
   //   this._xPos = newCoordinates.x;
   //   this._yPos = newCoordinates.y;
   // }
@@ -60,7 +58,7 @@ export default class Player extends Unit implements IPlayer {
 export class Monster extends Unit implements IMonster {
   static Build(id: number, coordinates: ICoordinates): IPlayer {
     return new Monster(id, coordinates);
-}
+  }
 
   protected constructor(id: number, coordinates: ICoordinates) {
     super(id, coordinates);
