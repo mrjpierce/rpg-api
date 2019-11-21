@@ -33,16 +33,16 @@ export abstract class Unit implements IUnit {
     this._yPos = newCoordinates.y;
   }
 
-  public set setCoordinates(newCoordinates: ICoordinates): void {
-    this._xPos = newCoordinates.x;
-    this._yPos = newCoordinates.y;
-}
-
-  // constructor(id: number, coordinates: ICoordinates) {
-  //   this.Id = id;
-  //   this._xPos = coordinates.x;
-  //   this._yPos = coordinates.y;
+  // public set setCoordinates(newCoordinates: ICoordinates): void {
+  //   this._xPos = newCoordinates.x;
+  //   this._yPos = newCoordinates.y;
   // }
+
+  constructor(id: number, coordinates: ICoordinates) {
+    this.Id = id;
+    this._xPos = coordinates.x;
+    this._yPos = coordinates.y;
+  }
 }
 
 @injectable()
