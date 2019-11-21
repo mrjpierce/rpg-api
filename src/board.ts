@@ -33,9 +33,9 @@ export default class Board implements IBoard {
 
   move(newCooridnates: ICoordinates, player: Player) : void {
     if(this.isFree(newCooridnates)) {
-        this.removePlayer(newCooridnates);
-        this.placePlayer(newCooridnates, player);
-        player.setCoordinates(newCooridnates);
+      this.removePlayer(newCooridnates);
+      this.placePlayer(newCooridnates, player);
+      player.setCoordinates(newCooridnates);
     } else false
   }
 

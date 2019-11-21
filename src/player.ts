@@ -17,27 +17,32 @@ export interface ICoordinates {
 }
 
 export abstract class Unit implements IUnit {
-    public readonly Id: number;
-    protected _xPos: number;
-    protected _yPos: number;
+  public readonly Id: number;
+  protected _xPos: number;
+  protected _yPos: number;
 
-    public get coordinates(): ICoordinates {
-        return {
-            x: this._xPos,
-            y: this._yPos
-        };
-    }
+  public get coordinates(): ICoordinates {
+      return {
+        x: this._xPos,
+        y: this._yPos
+      };
+  }
 
-    public set setCoordinates(newCoordinates): void {
-        this._xPos = newCoordinates.x;
-        this._yPos = newCoordinates.y;
-    }
+  public set setCoordinates(newCoordinates): void {
+    this._xPos = newCoordinates.x;
+    this._yPos = newCoordinates.y;
+  }
 
-    constructor(id: number, coordinates: ICoordinates) {
-        this.Id = id;
-        this._xPos = coordinates.x;
-        this._yPos = coordinates.y;
-    }
+  public set setCoordinates(newCoordinates: ICoordinates): void {
+    this._xPos = newCoordinates.x;
+    this._yPos = newCoordinates.y;
+}
+
+  // constructor(id: number, coordinates: ICoordinates) {
+  //   this.Id = id;
+  //   this._xPos = coordinates.x;
+  //   this._yPos = coordinates.y;
+  // }
 }
 
 @injectable()
