@@ -31,5 +31,6 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     }
     return HTTPResult.OK({body: JSON.stringify(game)});
     // more than just ok
+    // look up other prototypes on httpresult
   }
 }

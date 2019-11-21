@@ -11,7 +11,7 @@ export interface IPlayer extends IUnit {
 export interface IMonster extends IUnit {   
 }
 
-export interface IPosition {
+export interface ICoordinates {
     x: number;
     y: number;
 }
@@ -21,45 +21,43 @@ export abstract class Unit implements IUnit {
     protected _xPos: number;
     protected _yPos: number;
 
-    public get coordinates(): IPosition {
+    public get coordinates(): ICoordinates {
         return {
             x: this._xPos,
             y: this._yPos
         };
     }
 
-    public set setXPos(newXPos){
-        this._xPos = newXPos;
-    }
-    public set setYPos(newYPos){
-        this._yPos = newYPos;
+    public set coordinates(newCoordinates: ICoordinates): void {
+        this._xPos = newCoordinates.x;
+        this._yPos = newCoordinates.y;
     }
 
-    constructor(id: number, xPos: number, yPos: number) {
+    constructor(id: number, coordinates: ICoordinates) {
         this.Id = id;
-        this._xPos = xPos;
-        this._yPos = yPos;
+        this._xPos = coordinates.x;
+        this._yPos = coordinates.y;
     }
 }
 
 @injectable()
 export default class Player extends Unit implements IPlayer {
-    static Build(id: number, xPos: number, yPos: number): IPlayer {
-        return new Player(id, xPos, yPos);
-    }
+  static Build(id: number, coordinates: ICoordinates): IPlayer {
+    return new Player(id, coordinates);
+  }
 
-    protected constructor(id: number, xPos: number, yPos: number) {
-        super(id, xPos, yPos);
-    }
+  protected constructor(id: number, coordinates: ICoordinates) {
+    super(id, coordinates);
+  }
 }
 
 @injectable()
 export class Monster extends Unit implements IMonster {
-    static Build(id: number, xPos: number, yPos: number): IPlayer {
-        return new Monster(id, xPos, yPos);
-    }
+  static Build(id: number, coordinates: ICoordinates): IPlayer {
+    return new Monster(id, coordinates);
+}
 
-    protected constructor(id: number, xPos: number, yPos: number) {
-        super(id, xPos, yPos);
-    }
+  protected constructor(id: number, coordinates: ICoordinates) {
+    super(id, coordinates);
+  }
 }
