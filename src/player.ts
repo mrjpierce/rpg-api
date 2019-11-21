@@ -28,7 +28,7 @@ export abstract class Unit implements IUnit {
         };
     }
 
-    public set coordinates(newCoordinates: ICoordinates): void {
+    public set setCoordinates(newCoordinates): void {
         this._xPos = newCoordinates.x;
         this._yPos = newCoordinates.y;
     }

@@ -1,12 +1,12 @@
-import Player, {IPlayer} from './player';
+import Player, {IPlayer, ICoordinates} from './player';
 import {ITerrain} from './terrain';
 import { injectable } from 'inversify';
 
 export interface IBoard {
-  isFree(xPos:number, yPos:number): boolean;
-  removePlayer(xPos: number, yPos: number): void;
-  placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
-  move (newXPos: number, newYPos: number, player: IPlayer): void;
+  isFree(coordinates: ICoordinates): boolean;
+  removePlayer(coordinates: ICoordinates): void;
+  placePlayer (coordinates: ICoordinates, player: IPlayer): void;
+  move (newCoordinates: ICoordinates, player: IPlayer): void;
 }
 
 @injectable()
@@ -23,28 +23,27 @@ export default class Board implements IBoard {
     } 
   }
 
-  isFree(xPos: number, yPos: number) {
-    if (typeof this.playerGrid[xPos][yPos] === null){
+  isFree(coordinates: ICoordinates) {
+    if (typeof this.playerGrid[coordinates.x][coordinates.y] === null){
       return true;
     } else { 
       return false; 
     }
   }
 
-  move(newXPos: number, newYPos: number, player: Player) : void {
-    if(this.isFree(newXPos, newYPos)) {
-        this.removePlayer(player.coordinates.x, player.coordinates.y);
-        this.placePlayer(newXPos, newYPos, player);
-        player.setXPos(newXPos);
-        player.setYPos(newYPos);
+  move(newCooridnates: ICoordinates, player: Player) : void {
+    if(this.isFree(newCooridnates)) {
+        this.removePlayer(newCooridnates);
+        this.placePlayer(newCooridnates, player);
+        player.setCoordinates(newCooridnates);
     } else false
   }
 
-  removePlayer(xPos: number, yPos: number) {
-    this.playerGrid[xPos][yPos] = null;
+  removePlayer(coordinates: ICoordinates) {
+    this.playerGrid[coordinates.x][coordinates.y] = null;
   }
 
-  placePlayer(newXPos: number, newYPos: number, player: Player) {
-    this.playerGrid[newXPos][newYPos] = player;
+  placePlayer(newCoordinates: ICoordinates, player: Player) {
+    this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
   }
 }
