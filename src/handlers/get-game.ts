@@ -11,18 +11,16 @@ export interface IGetGamePath {
   id: string;
 }
 
-export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQuery> {
-}
+export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQuery> {}
 
 @injectable()
 export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuery> {
-  /* ? */
-  constructor(@inject(TYPES.IGameDAO) private gameDao:IGameDAO){
+  constructor(@inject(TYPES.IGameDAO) private gameDao: IGameDAO) {
     super();
   }
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
-    const {id} = event.processed.pathParameters;
+    const { id } = event.processed.pathParameters;
     const game = this.gameDao.find(`${id}`);
-    return HTTPResult.OK({body: JSON.stringify(game) });
+    return HTTPResult.OK({ body: JSON.stringify(game) });
   }
 }

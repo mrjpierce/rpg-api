@@ -1,79 +1,61 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 import "reflect-metadata";
 
 export interface IUnit {
-    Id: number;
-    XPos: number;
-    YPos: number;
-    coordinates: IPosition;
+  Id: number;
 }
 
-export interface IPlayer extends IUnit {   
-}
+export interface IPlayer extends IUnit {}
 
-export interface IMonster extends IUnit {   
-}
+export interface IMonster extends IUnit {}
 
-export interface IPosition {
-    x: number;
-    y: number;
+export interface ICoordinates {
+  x: number;
+  y: number;
 }
 
 export abstract class Unit implements IUnit {
-    public readonly Id: number;
-    protected _xPos: number;
-    protected _yPos: number;
+  public readonly Id: number;
+  protected _xPos: number;
+  protected _yPos: number;
 
-    public get XPos(): number {
-        return this._xPos;
-    }
+  public get coordinates(): ICoordinates {
+    return {
+      x: this._xPos,
+      y: this._yPos
+    };
+  }
 
-    public get YPos(): number {
-        return this._yPos;
-    }
+  public set coordinates(newCoordinates: ICoordinates) {
+    this._xPos = newCoordinates.x;
+    this._yPos = newCoordinates.y;
+  }
 
-    public get coordinates(): IPosition {
-        return {
-            x: this.XPos,
-            y: this.YPos
-        };
-    }
-
-    public set setXPos(newXPos){
-        this._xPos = newXPos;
-    }
-
-    public set setYPos(newYPos){
-        this._yPos = newYPos;
-    }
-
-    // remind me on the underscore with the xPos and yPos
-
-    constructor(id: number, xPos: number, yPos: number) {
-        this.Id = id;
-        this._xPos = xPos;
-        this._yPos = yPos;
-    }
+  constructor(id: number, coordinates: ICoordinates) {
+    this.Id = id;
+    this._xPos = coordinates.x;
+    this._yPos = coordinates.y;
+  }
 }
 
 @injectable()
 export default class Player extends Unit implements IPlayer {
-    static Build(id: number, xPos: number, yPos: number): IPlayer {
-        return new Player(id, xPos, yPos);
-    }
+  static Build(id: number, coordinates: ICoordinates): IPlayer {
+    return new Player(id, coordinates);
+  }
 
-    protected constructor(id: number, xPos: number, yPos: number) {
-        super(id, xPos, yPos);
-    }
+  protected constructor(id: number, coordinates: ICoordinates) {
+    super(id, coordinates);
+  }
 }
 
 @injectable()
 export class Monster extends Unit implements IMonster {
-    static Build(id: number, xPos: number, yPos: number): IPlayer {
-        return new Monster(id, xPos, yPos);
-    }
+  static Build(id: number, coordinates: ICoordinates): IPlayer {
+    return new Monster(id, coordinates);
+  }
 
-    protected constructor(id: number, xPos: number, yPos: number) {
-        super(id, xPos, yPos);
-    }
+  protected constructor(id: number, coordinates: ICoordinates) {
+    super(id, coordinates);
+  }
 }

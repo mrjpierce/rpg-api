@@ -1,50 +1,57 @@
-import Player, {IPlayer} from './player';
-import {ITerrain} from './terrain';
-import { injectable } from 'inversify';
+import Player, { IPlayer, ICoordinates } from "./player";
+import { ITerrain } from "./terrain";
+import { injectable } from "inversify";
 
 export interface IBoard {
-  isFree(xPos:number, yPos:number): boolean;
-  removePlayer(xPos: number, yPos: number): void;
-  placePlayer (newXPos: number, newYPos: number, player: IPlayer): void;
-  move (newXPos: number, newYPos: number, player: IPlayer): void;
+  isFree(coordinates: ICoordinates): boolean;
+  removePlayer(coordinates: ICoordinates): void;
+  placePlayer(coordinates: ICoordinates, player: IPlayer): void;
+  move(newCoordinates: ICoordinates, player: IPlayer): void;
 }
 
 @injectable()
 export default class Board implements IBoard {
   private playerGrid: Array<Array<IPlayer | null>>;
   private terrainGrid: Array<Array<ITerrain>>;
+  private playerList: Array<IPlayer>;
 
-  constructor (gridSize: number) {
-    this.terrainGrid = new Array<Array<ITerrain>>(gridSize);        
+  constructor(gridSize: number) {
+    this.playerList = new Array<IPlayer>();
+    this.terrainGrid = new Array<Array<ITerrain>>(gridSize);
     this.playerGrid = new Array<Array<IPlayer>>(gridSize);
     for (let i = 0; i < this.playerGrid.length; i++) {
       this.playerGrid[i] = new Array<IPlayer>(gridSize);
       this.terrainGrid[i] = new Array<ITerrain>(gridSize);
-    } 
-  }
-
-  isFree(xPos: number, yPos: number) {
-    if (typeof this.playerGrid[xPos][yPos] === null){
-      return true;
-    } else { 
-      return false; 
     }
   }
 
-  move(newXPos: number, newYPos: number, player: Player) : void {
-    if(this.isFree(newXPos, newYPos)) {
-        this.removePlayer(player.XPos, player.YPos);
-        this.placePlayer(newXPos, newYPos, player);
-        player.setXPos(newXPos);
-        player.setYPos(newYPos);
-    } else false
+  isFree(newCoordinates: ICoordinates): boolean {
+    if (typeof this.playerGrid[newCoordinates.x][newCoordinates.y] === null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  removePlayer(xPos: number, yPos: number) {
-    this.playerGrid[xPos][yPos] = null;
+  move(newCooridnates: ICoordinates, player: Player): void {
+    if (this.isFree(newCooridnates)) {
+      this.removePlayer(newCooridnates);
+      this.placePlayer(newCooridnates, player);
+      player.coordinates = newCooridnates;
+    } else false;
   }
 
-  placePlayer(newXPos: number, newYPos: number, player: Player) {
-    this.playerGrid[newXPos][newYPos] = player;
+  removePlayer(currentCoordinates: ICoordinates): void {
+    const currentPlayer = this.playerGrid[currentCoordinates.x][currentCoordinates.y];
+    this.playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
+    const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
+    //assumes if there are no {} brackets that the anything after is the return
+    this.playerList.splice(returnedIndex, 1);
+    // playerList needs to be exposed to the outside world
+  }
+
+  placePlayer(newCoordinates: ICoordinates, player: Player): void {
+    this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
+    this.playerList.push(player);
   }
 }
