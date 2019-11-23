@@ -1,35 +1,34 @@
-import Player, { IPlayer } from './player';
-import Board, { IBoard } from './board';
-jest.mock('./board')
+import Player, { IPlayer } from "./player";
+import Board, { IBoard } from "./board";
+jest.mock("./board");
 
 // Task 3: Write tests for move function on player
 
-describe('Player', () => {
-    let player: IPlayer;
-    let board: IBoard;
-    
-    beforeEach(() => {
-        board = new Board(3); //TODO: https://jestjs.io/docs/en/es6-class-mocks, jest.fn
-        player = Player.Build(1, 1, 2);
-    });
+describe("Player", () => {
+  let player: IPlayer;
+  let board: IBoard;
 
-    describe('move', () => {
-        it('should change XPos to correct value', () => {
-            // Arrange
-            // None
-            // Act
-            board.move(2, 3, player);
+  beforeEach(() => {
+    board = new Board(3); //TODO: https://jestjs.io/docs/en/es6-class-mocks, jest.fn
+    player = Player.Build(2, { x: 0, y: 0 });
+  });
 
-            // Assert
-            expect(player.XPos).toBe(2);
-        });
-    });
-    describe('move', () => {
-        it('should change YPos to correct value', () => {
-            board.move(3,1, player);
+  describe("move", () => {
+    it("should change XPos to correct value", () => {
+      // Arrange
+      // None
+      // Act
+      board.move({ x: 0, y: 0 }, player);
 
-            expect(player.YPos).toBe(1);
-        });
+      // Assert
+      expect(player).toBe(2);
     });
-    
+  });
+  describe("move", () => {
+    it("should change YPos to correct value", () => {
+      board.move({ x: 0, y: 0 }, player);
+
+      expect(player).toBe(1);
+    });
+  });
 });
