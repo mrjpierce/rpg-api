@@ -2,6 +2,7 @@ import { HTTPHandler, HTTPEvent, HTTPResult } from "@ifit/fleece";
 import { injectable, inject } from "inversify";
 import { TYPES } from "../types";
 import { IGameDAO } from "../dao/game-dao";
+import { IPlayerDAO } from "../dao/player-dao";
 
 export interface IPutMovePlayerPath {
   gameId: string;
@@ -17,13 +18,17 @@ export interface IPutMovePlayerEvent extends HTTPEvent<IPutMovePlayerBody, IPutM
 
 @injectable()
 export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMovePlayerPath, null> {
-  constructor(@inject(TYPES.IGameDAO) private gameDao: IGameDAO) {
+  constructor(
+    @inject(TYPES.IGameDAO) private gameDao: IGameDAO,
+    @inject(TYPES.IPlayerDAO) private playerDao: IPlayerDAO
+  ) {
     super();
   }
   public async run(event: IPutMovePlayerEvent): Promise<HTTPResult> {
     const { gameId } = event.processed.pathParameters;
     const { newX, newY } = event.processed.body;
     const game = this.gameDao.find(`${gameId}`);
+    const player = this.playerDao.find(`${playerId}`);
     // const findPlayer method that use the similar syntax as what is in the board.ts so findIndex
     if (game.board.move(newX, newY, player)) {
     }

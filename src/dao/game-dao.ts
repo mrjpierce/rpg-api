@@ -17,6 +17,4 @@ export class GameDAO implements IGameDAO {
     }
     return game;
   }
-  //error first or error early,
-  //chaining can
 }

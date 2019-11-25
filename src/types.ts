@@ -1,5 +1,6 @@
 export const TYPES = {
-  "IBoard": Symbol("IBoard"),
-  "IPlayerBuilder": Symbol("IPlayerBuilder"),
-  "IGameDAO": Symbol("IGameDAO"),
+  IBoard: Symbol("IBoard"),
+  IPlayerBuilder: Symbol("IPlayerBuilder"),
+  IGameDAO: Symbol("IGameDAO"),
+  IPlayerDAO: Symbol("IPlayerDAO")
 };
