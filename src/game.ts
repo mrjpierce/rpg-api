@@ -7,7 +7,7 @@ export interface IGame {
 export default class Game {
   constructor(private board: IBoard, private players: IPlayer[]) {
     this.players.forEach((player, index) => {
-      this.board.placePlayer(index, index, player);
+      this.board.placePlayer({ x: index, y: index }, player);
     });
   }
 }
