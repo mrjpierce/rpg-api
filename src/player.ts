@@ -16,7 +16,8 @@ export interface ICoordinates {
 
 export abstract class Unit implements IUnit {
   public readonly Id: number;
-  protected coordinates: ICoordinates;
+  protected _xPos: number;
+  protected _yPos: number;
 
   public get coordinates(): ICoordinates {
     return {
@@ -32,7 +33,8 @@ export abstract class Unit implements IUnit {
 
   constructor(id: number, coordinates: ICoordinates) {
     this.Id = id;
-    this.coordinates = coordinates;
+    this._xPos = coordinates.x;
+    this._yPos = coordinates.y;
   }
 }
 
