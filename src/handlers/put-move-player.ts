@@ -26,6 +26,7 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
   }
   public async run(event: IPutMovePlayerEvent): Promise<HTTPResult> {
     const { gameId } = event.processed.pathParameters;
+    const { playerId } = event.processed.pathParameters;
     const { newX, newY } = event.processed.body;
     const game = this.gameDao.find(`${gameId}`);
     const player = this.playerDao.find(`${playerId}`);
