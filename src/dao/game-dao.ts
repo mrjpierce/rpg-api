@@ -11,7 +11,6 @@ export class GameDAO implements IGameDAO {
 
   find(id: string): IGame {
     const game = store.games[id] as IGame;
-    // the as keyword in TS is casting, just telling the complier to treat it as a certain data object
     if (!game) {
       throw new Error(`game of ${id} does not exist`);
     }
