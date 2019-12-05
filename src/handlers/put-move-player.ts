@@ -28,10 +28,14 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     const { gameId } = event.processed.pathParameters;
     const { playerId } = event.processed.pathParameters;
     const { newX, newY } = event.processed.body;
+    const newCordinates = { x: newX, y: newY };
     const game = this.gameDao.find(`${gameId}`);
     const player = this.playerDao.find(`${playerId}`);
     // const findPlayer method that use the similar syntax as what is in the board.ts so findIndex
-    if (game.board.move(newX, newY, player)) {
+    // need to figure out exactly what i want to accomplish here lol
+    function findPlayer(game) {
+      if (game.board.move(newCordinates, player)) {
+      }
     }
     return HTTPResult.OK({ body: JSON.stringify(game) });
     //depending on if the .move is turthy or not we will return a succussful message or maybe a 500
