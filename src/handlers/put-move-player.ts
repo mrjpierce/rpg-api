@@ -3,7 +3,6 @@ import { injectable, inject } from "inversify";
 import { TYPES } from "../types";
 import { IGameDAO } from "../dao/game-dao";
 import { IPlayerDAO } from "../dao/player-dao";
-import { IGame } from "../game";
 
 export interface IPutMovePlayerPath {
   gameId: string;
@@ -32,16 +31,14 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     const newCordinates = { x: newX, y: newY };
     const game = this.gameDao.find(`${gameId}`);
     const player = this.playerDao.find(`${playerId}`);
-    // const findPlayer method that use the similar syntax as what is in the board.ts so findIndex
-    // need to figure out exactly what i want to accomplish here lol
-
-    const findPlayer = function(game): boolean {
+    // Goals for meeting: 1. figure out the best way to handle the http results / using fleece 2. Go over how to setup the Put endpoint in serverless
+    const movePlayer = function(game): boolean {
       if (game.board.move(newCordinates, player)) {
         return true;
       }
     };
 
-    return findPlayer(game) ? HTTPResult.OK({ body: JSON.stringify(game) }) : HTTPResult.NotModified();
+    return movePlayer(game) ? HTTPResult.OK({ body: JSON.stringify(game) }) : HTTPResult.NotModified();
 
     // const findPlayer = (game: IGame) => {
     //   game.board.move(newCordinates, player) ? HTTPResult.OK({ body: JSON.stringify(game) }) : HTTPResult.NotModified();
