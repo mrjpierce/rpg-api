@@ -8,6 +8,7 @@ export default class Game {
   constructor(private board: IBoard, private players: IPlayer[]) {
     this.players.forEach((player, index) => {
       this.board.placePlayer({ x: index, y: index }, player);
+      // there is no way this works
     });
   }
 }
