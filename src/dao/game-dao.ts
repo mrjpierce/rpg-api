@@ -7,8 +7,6 @@ export interface IGameDAO {
 }
 @injectable()
 export class GameDAO implements IGameDAO {
-  constructor() {}
-
   find(id: string): IGame {
     const game = store.games[id] as IGame;
     if (!game) {

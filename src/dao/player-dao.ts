@@ -7,8 +7,6 @@ export interface IPlayerDAO {
 }
 @injectable()
 export class PlayerDAO implements IPlayerDAO {
-  constructor() {}
-
   find(id: string): IPlayer {
     const player = store.players[id] as IPlayer;
     if (!player) {

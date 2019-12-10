@@ -31,18 +31,13 @@ export class PutMovePlayerHandler extends HTTPHandler<IPutMovePlayerBody, IPutMo
     const newCordinates = { x: newX, y: newY };
     const game = this.gameDao.find(`${gameId}`);
     const player = this.playerDao.find(`${playerId}`);
-    // Goals for meeting: 1. figure out the best way to handle the http results / using fleece 2. Go over how to setup the Put endpoint in serverless
-    const movePlayer = function(game): boolean {
+    const movePlayer = function(): boolean {
       if (game.board.move(newCordinates, player)) {
         return true;
       }
+      return false;
     };
 
-    return movePlayer(game) ? HTTPResult.OK({ body: JSON.stringify(game) }) : HTTPResult.NotModified();
-
-    // const findPlayer = (game: IGame) => {
-    //   game.board.move(newCordinates, player) ? HTTPResult.OK({ body: JSON.stringify(game) }) : HTTPResult.NotModified();
-    // };
-    // return findPlayer(game);
+    return movePlayer() ? HTTPResult.OK({ body: {} }) : HTTPResult.NotModified();
   }
 }
