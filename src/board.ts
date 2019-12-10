@@ -59,7 +59,7 @@ export default class Board implements IBoard {
   placePlayer(newCoordinates: ICoordinates, player: Player): void {
     // why the hell isn't it getting called on the move??
     this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
-    console.log(player, "player method");
+    console.log(newCoordinates, "player method");
     this.playerList.push(player);
     console.log("place player end of player", player);
   }
