@@ -1,5 +1,5 @@
-import { HTTPHandler, HTTPEvent, HTTPResult } from "@ifit/fleece";
 import { injectable, inject } from "inversify";
+import { HTTPHandler, HTTPEvent, HTTPResult } from "@ifit/fleece";
 import { TYPES } from "../types";
 import { IGameDAO } from "../dao/game-dao";
 

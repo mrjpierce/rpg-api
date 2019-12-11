@@ -1,5 +1,6 @@
-import { HTTPEvent, IContainer, IContainerFactory } from "@ifit/fleece";
+import "reflect-metadata";
 import { Container } from "inversify";
+import { HTTPEvent, IContainer, IContainerFactory } from "@ifit/fleece";
 import { TYPES } from "./types";
 import { GameDAO, IGameDAO } from "./dao/game-dao";
 import { IPlayerDAO, PlayerDAO } from "./dao/player-dao";

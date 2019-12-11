@@ -19,7 +19,7 @@
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha.cmd"
       },
       "runtimeArgs": ["--recursive", "${workspaceRoot}/out/"],
-      "outFiles": [],
+      "outFiles": ["${workspaceRoot}/out/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
       // Prevents debugger from stepping into this code :)
       "skipFiles": ["node_modules/**/*.js", "<node_internals>/**/*.js"]

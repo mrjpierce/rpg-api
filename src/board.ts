@@ -1,6 +1,6 @@
+import { injectable } from "inversify";
 import Player, { IPlayer, ICoordinates } from "./player";
 import { ITerrain } from "./terrain";
-import { injectable } from "inversify";
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
