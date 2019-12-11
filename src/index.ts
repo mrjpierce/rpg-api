@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Lambdafy } from "@ifit/fleece";
 import { ContainerFactory } from "./container-factory";
 import { GetGameHandler } from "./handlers/get-game";

@@ -1,6 +1,6 @@
 import Player, { IPlayer } from "./player";
 import Board, { IBoard } from "./board";
-jest.mock("./board");
+// jest.mock("./board");
 
 // Task 3: Write tests for move function on player
 

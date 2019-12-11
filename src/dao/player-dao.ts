@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { IPlayer } from "../player";
 import { injectable } from "inversify";
 import { store } from "./mock-store";

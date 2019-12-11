@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { IGame } from "../game";
 import { injectable } from "inversify";
 import { store } from "./mock-store";

@@ -1,4 +1,10 @@
 {
   "extends": "./node_modules/@ifit/ts-config/compiler-options/node10",
-  "exclude": ["test", "out"]
+  "exclude": ["test", "out"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "out",
+    "sourceMap": true
+  }
 }
