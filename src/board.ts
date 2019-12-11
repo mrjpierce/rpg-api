@@ -39,11 +39,8 @@ export default class Board implements IBoard {
 
   move(newCooridnates: ICoordinates, player: Player): boolean {
     if (this.isFree(newCooridnates)) {
-      console.log("here");
       this.removePlayer(player.coordinates);
-      console.log("after remove");
       this.placePlayer(newCooridnates, player);
-      console.log("after place player");
       player.coordinates = newCooridnates;
       return true;
     }
@@ -57,10 +54,10 @@ export default class Board implements IBoard {
     this.playerList.splice(returnedIndex, 1);
   }
 
-  placePlayer(newCoordinates: ICoordinates, player: Player): void {
+  placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
     // why the hell isn't it getting called on the move??
     this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
-    console.log(newCoordinates, "player method");
+    console.log(this.playerGrid[newCoordinates.x][newCoordinates.y], "player method");
     this.playerList.push(player);
     console.log("place player end of player", player);
   }
