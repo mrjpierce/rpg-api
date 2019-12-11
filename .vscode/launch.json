@@ -22,7 +22,7 @@
       "outFiles": ["${workspaceRoot}/out/**/*.js"],
       "internalConsoleOptions": "openOnSessionStart",
       // Prevents debugger from stepping into this code :)
-      "skipFiles": ["node_modules/**/*.js", "<node_internals>/**/*.js"]
+      "skipFiles": ["node_modules/**/*.js", "<node_internals>/**/*.js", "${workspaceRoot}/src/player.test.ts"]
     }
   ]
 }
