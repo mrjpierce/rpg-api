@@ -1,7 +1,9 @@
-import { HTTPEvent, IContainer, IContainerFactory } from "@ifit/fleece";
+import "reflect-metadata";
 import { Container } from "inversify";
+import { HTTPEvent, IContainer, IContainerFactory } from "@ifit/fleece";
 import { TYPES } from "./types";
 import { GameDAO, IGameDAO } from "./dao/game-dao";
+import { IPlayerDAO, PlayerDAO } from "./dao/player-dao";
 
 type ServiceEvent = HTTPEvent;
 
@@ -17,7 +19,7 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
 
     // event-specific container bindings here
     // pretty much like more life cycle methods
-    
+
     return eventContainer;
   }
 
@@ -27,7 +29,8 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
       skipBaseClassChecks: true
     });
 
-  container.bind<IGameDAO>(TYPES.IGameDAO).to(GameDAO);
+    container.bind<IGameDAO>(TYPES.IGameDAO).to(GameDAO);
+    container.bind<IPlayerDAO>(TYPES.IPlayerDAO).to(PlayerDAO);
 
     return container;
   }

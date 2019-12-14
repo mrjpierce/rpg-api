@@ -65,7 +65,8 @@
     "auto-bind": "^2.1.1",
     "inversify": "^5.0.1",
     "joi": "^14.3.1",
-    "reflect-metadata": "^0.1.13"
+    "mocha": "^6.2.2",
+    "nodemon": "^2.0.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",

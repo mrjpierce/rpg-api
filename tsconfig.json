@@ -1,4 +1,4 @@
 {
   "extends": "./node_modules/@ifit/ts-config/compiler-options/node10",
-  "exclude": ["test", "out"]
+  "exclude": ["test", "out"],
 }

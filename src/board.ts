@@ -1,19 +1,20 @@
+import "reflect-metadata";
+import { injectable } from "inversify";
 import Player, { IPlayer, ICoordinates } from "./player";
 import { ITerrain } from "./terrain";
-import { injectable } from "inversify";
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
   removePlayer(coordinates: ICoordinates): void;
   placePlayer(coordinates: ICoordinates, player: IPlayer): void;
-  move(newCoordinates: ICoordinates, player: IPlayer): void;
+  move(newCoordinates: ICoordinates, player: IPlayer): boolean;
 }
 
 @injectable()
 export default class Board implements IBoard {
   private playerGrid: Array<Array<IPlayer | null>>;
   private terrainGrid: Array<Array<ITerrain>>;
-  private playerList: Array<IPlayer>;
+  public readonly playerList: Array<IPlayer>;
 
   constructor(gridSize: number) {
     this.playerList = new Array<IPlayer>();
@@ -26,32 +27,38 @@ export default class Board implements IBoard {
   }
 
   isFree(newCoordinates: ICoordinates): boolean {
-    if (typeof this.playerGrid[newCoordinates.x][newCoordinates.y] === null) {
+    if (
+      this.playerGrid[newCoordinates.x][newCoordinates.y] === null ||
+      this.playerGrid[newCoordinates.x][newCoordinates.y] === undefined
+    ) {
       return true;
     } else {
       return false;
     }
   }
 
-  move(newCooridnates: ICoordinates, player: Player): void {
+  move(newCooridnates: ICoordinates, player: Player): boolean {
     if (this.isFree(newCooridnates)) {
-      this.removePlayer(newCooridnates);
+      this.removePlayer(player.coordinates);
       this.placePlayer(newCooridnates, player);
       player.coordinates = newCooridnates;
-    } else false;
+      return true;
+    }
+    return false;
   }
 
   removePlayer(currentCoordinates: ICoordinates): void {
     const currentPlayer = this.playerGrid[currentCoordinates.x][currentCoordinates.y];
     this.playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
     const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
-    //assumes if there are no {} brackets that the anything after is the return
     this.playerList.splice(returnedIndex, 1);
-    // playerList needs to be exposed to the outside world
   }
 
-  placePlayer(newCoordinates: ICoordinates, player: Player): void {
+  placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
+    // why the hell isn't it getting called on the move??
     this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
+    console.log(this.playerGrid[newCoordinates.x][newCoordinates.y], "player method");
     this.playerList.push(player);
+    console.log("place player end of player", player);
   }
 }

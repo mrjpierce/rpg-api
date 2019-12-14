@@ -1,11 +1,13 @@
-import { injectable } from "inversify";
 import "reflect-metadata";
+import { injectable } from "inversify";
 
 export interface IUnit {
   Id: number;
 }
 
-export interface IPlayer extends IUnit {}
+export interface IPlayer extends IUnit {
+  coordinates: ICoordinates;
+}
 
 export interface IMonster extends IUnit {}
 
