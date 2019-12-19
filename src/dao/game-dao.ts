@@ -1,12 +1,15 @@
 import "reflect-metadata";
-import { IGame } from "../game";
-import { injectable } from "inversify";
+import Game, { IGame } from "../game";
+import { injectable, inject } from "inversify";
 import { store } from "./mock-store";
-import { DataAccessObject, IDataObject } from "@ifit/mongoose-dao";
 
-export interface IGameDAO {
-  find(id: string): IGame;
-}
+import { DataAccessObject, IDataObject } from "@ifit/mongoose-dao";
+import { types } from "@babel/core";
+import { TYPES } from "../types";
+
+// export interface IGameDAO {
+//   find(id: string): IGame;
+// }
 
 // export class GameDAO implements IGameDAO {
 //   find(id: string): IGame {
@@ -17,17 +20,15 @@ export interface IGameDAO {
 //     return game;
 //   }
 // }
-export interface IGameDO {
+export interface IGameDO extends IDataObject {
   //DO is the data object which serves the DAO
 }
+
 @injectable()
-export interface IGameDAO<IGameDO, IGame> extends DataAccessObject<IGameDO, IGame> {
-  // good way to think about a data store is think
-  //hydration/dehydration:
-  find(id: string): Promise<IGameDO>;
-}
+export interface IGameDAO<IGameDO, IGame> extends DataAccessObject<IGameDO, IGame> {}
 export class GameDAO<IGameDO, IGame> extends DataAccessObject<IGameDO, IGame> implements IGameDAO<IGameDO, IGame> {
-  async find(id: string): Promise<IGameDO> {}
-  //async territory
+  constructor(@inject(TYPES.IGameModel) protected gameModel: IGameModel) {
+    super();
+    // we are men and men use semicolens;
+  }
 }
-// todo get tests back upto date and do async and await study
