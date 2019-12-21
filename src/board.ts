@@ -40,8 +40,8 @@ export default class Board implements IBoard {
   move(newCooridnates: ICoordinates, player: Player): boolean {
     if (this.isFree(newCooridnates)) {
       this.removePlayer(player.coordinates);
-      this.placePlayer(newCooridnates, player);
       player.coordinates = newCooridnates;
+      this.placePlayer(newCooridnates, player);
       return true;
     }
     return false;
@@ -55,10 +55,11 @@ export default class Board implements IBoard {
   }
 
   placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
-    // why the hell isn't it getting called on the move??
     this.playerGrid[newCoordinates.x][newCoordinates.y] = player;
-    console.log(this.playerGrid[newCoordinates.x][newCoordinates.y], "player method");
+    console.log(newCoordinates);
+    console.log(this.playerGrid);
     this.playerList.push(player);
-    console.log("place player end of player", player);
+    console.log("place player end", player);
+    // using mock on jest to use the debug better
   }
 }
