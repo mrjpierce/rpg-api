@@ -1,10 +1,12 @@
 import "reflect-metadata";
-import Game, { IGame } from "../game";
-import { injectable, inject } from "inversify";
-import { store } from "./mock-store";
+// import Game, { IGame } from "../game";
+// import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+
+// import { store } from "./mock-store";
 
 import { DataAccessObject, IDataObject } from "@ifit/mongoose-dao";
-import { types } from "@babel/core";
+// import { types } from "@babel/core";
 import { TYPES } from "../types";
 
 // export interface IGameDAO {
