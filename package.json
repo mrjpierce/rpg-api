@@ -25,7 +25,7 @@
     "start": "yarn build && sls offline --stage local --prefix=rpg-api",
     "swagger-editor": "swagger-editor-live swagger.yaml",
     "tdd": "jest --watch",
-    "test": "jest --coverage",
+    "test": "jest src/board.test.ts",
     "test:ci": "yarn build && jest out/**/*.test.js",
     "validate": "yarn lint:ci && yarn test:ci",
     "watch": "yarn clean; tsc -p . -w"
@@ -72,7 +72,7 @@
     "nodemon": "^2.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^24.0.25",
     "@types/mongoose": "^5.5.34",
     "@types/node": "^12.7.5",
     "@types/reflect-metadata": "^0.1.0",
@@ -87,15 +87,16 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
     "joi": "^14.3.1",
-    "mongodb-memory-server": "^6.0.2",
+    "mongodb-memory-server": "^6.2.1",
     "prettier": "^1.19.1",
     "reflect-metadata": "^0.1.13",
     "serverless": "^1.47.0",
     "serverless-offline": "^5.7.3",
     "source-map-support": "^0.5.13",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^24.2.0",
     "tslint": "^5.18.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.4"
   }
 }

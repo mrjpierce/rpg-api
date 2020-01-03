@@ -1,20 +1,18 @@
-// import BoardCreator from './board'
-// import Player from './player'
-// jest.mock('./board')
+import Board from "./board";
+// import Player from "./player";
+jest.mock("./board");
 
+describe("BoardCreation in ./board", () => {
+  let instance: Board;
+  const testArrs = 3;
+  //need to favor the strictest declaration possible, most should be const
+  // let instance2: Player;
 
-// describe('BoardCreation in ./board', () => {
-//     let instnace: BoardCreator;
-//     const testArrs = 3;
-//     const testInd = 3;
-//     //need to favor the strictest declaration possible, most should be const
-//     let instance2: Player;
-
-//     beforeEach(() => {
-//         instance2 = new Player(1, 1, 1);
-//         instnace = new BoardCreator(testArrs, testInd);
-//     });
-//     it('should be an instance of BoardCreation', () => {
-//         expect(instnace).toBeInstanceOf(BoardCreator);
-//     });
-// });
+  beforeEach(() => {
+    // instance2 = Player.Build(0, { x: 0, y: 0 });
+    instance = new Board(testArrs);
+  });
+  it("should be an instance of Board", () => {
+    expect(instance).toBeInstanceOf(Board);
+  });
+});
