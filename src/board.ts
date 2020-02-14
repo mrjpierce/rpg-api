@@ -29,11 +29,34 @@ export default class Board implements IBoard {
       this.terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
-  // create a pulbic getter for grid size, add a public property with where i store that info and use it down below
 
-  private coordinateValidator = (coordiantes: ICoordinates): boolean =>
-    // we should be more explict here and actually make sure it is an number, js does compare strings and numbers werildy
-    coordiantes.x && coordiantes.y < 4 && coordiantes.x && coordiantes.y >= 0;
+  public get gridLength(): number {
+    return this.playerGrid.length;
+  }
+
+  private coordinateValidator(coordiantes: ICoordinates): boolean {
+    if (!isFinite(coordiantes.x || coordiantes.y)) {
+      return false;
+    }
+    // else {
+    //   if (coordiantes.x || coordiantes.y <= 3) {
+    //     return true;
+    //   }
+    // }
+    return true;
+  }
+
+  // isFree(newCoordinates: ICoordinates): boolean {
+  //   // have to think how to handle this!!!!! can't return boolean
+
+  //   if (
+  //     !this._playerGrid[newCoordinates.x][newCoordinates.y] === null ||
+  //     !this._playerGrid[newCoordinates.x][newCoordinates.y] === undefined
+  //   ) {
+  //     throw new Error("Position is not free");
+  //   }
+  //   return true;
+  // }
 
   isFree(newCoordinates: ICoordinates): boolean {
     if (
@@ -43,6 +66,7 @@ export default class Board implements IBoard {
       return true;
     } else {
       return false;
+      throw new Error("Position is not free");
     }
   }
 
@@ -50,26 +74,20 @@ export default class Board implements IBoard {
     if (!this.coordinateValidator(newCooridnates)) {
       return false;
     }
-    if (this.isFree(newCooridnates)) {
-      // wrap these in a try/catch, then in the lower level methods to throw errors
-      // removePlayer and placePlayer should be atomic
+    try {
+      this.isFree(newCooridnates);
       this.removePlayer(player.coordinates);
       player.coordinates = newCooridnates;
       this.placePlayer(newCooridnates, player);
-      return true;
+    } catch (e) {
+      throw e;
     }
-    return false;
+    return true;
   }
 
-  // throw errors if the operation is fatal to the whole thing
-
   removePlayer(currentCoordinates: ICoordinates): void {
-    // when using certain languages we relinquish some contorl over certain things
-    // size of memory bank, heap size, the garbage collector
-    // in node js is inturpeting it down to c++
-    // age old question of failing gracefully or returning
+    // wrapping it in if statement and use the throw
 
-    // check to see if there is even a player occupying the coordiantes we are giving
     const currentPlayer = this._playerGrid[currentCoordinates.x][currentCoordinates.y];
     // keyword "throw"
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
