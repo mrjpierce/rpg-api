@@ -12,9 +12,10 @@ describe("Board in ./board", () => {
   const orgCoords2 = { x: 2, y: 2 };
   const incorrectInputs: ICoordinates[] = [
     { x: "strang" as any, y: 0 },
-    { x: Infinity, y: 0 }
+    { x: 4, y: 0 },
+    { x: 0, y: 3 },
+    { x: 4, y: 4 }
   ];
-  // when testing to see that it does throw an error pass the method call to the expect and then use .throws
 
   beforeEach(() => {
     player1 = Player.Build(0, orgCoords1);
@@ -27,7 +28,7 @@ describe("Board in ./board", () => {
     });
   });
   describe("move", () => {
-    it("removes player, changes player coord, places player and returns true", () => {
+    it("moves the player to the correct cordinates", () => {
       board.move(newCoords, player1);
       expect(board.playerGrid[newCoords.x][newCoords.y]).toBe(player1);
     });
@@ -54,9 +55,32 @@ describe("Board in ./board", () => {
     it("returns true because the grid is open on the 3D array", () => {
       expect(board.isFree(newCoords)).toBeTruthy();
     });
-    it("should return the error that grid", () => {
+    it("throws the error that grid position is not free", () => {
       board.move(newCoords, player1);
-      expect(() => board.move(newCoords, player2)).toThrowError(/Position is not free/);
+      expect(() => board.move(newCoords, player2)).toThrowError(/^Position is not free$/);
+    });
+  });
+  describe.only("removePlayer", () => {
+    it("removes old coordinates and sets them to null", () => {
+      // need to keep the unit of test waaaayyy more specific and don't use more than we need
+      // ARANGE
+      board.placePlayer(orgCoords1, player1);
+
+      // ACT
+      board.removePlayer(orgCoords1);
+      // very rarely should this act be more than one line and if the method being called is not the one in the describe than we have gone too far and need to limit what is being tested
+
+      //ASSERT
+      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
+    });
+    // effect than cause
+    it("throws error when there is no player at the past in coordinates", () => {
+      expect(() => board.removePlayer({ x: 0, y: 0 })).toThrowError(/No player at given coordinates/);
+    });
+    it.only("throws error because given coordiantes outside of board bounds", () => {
+      expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
+        /One of the given cooridnates is outside board bounds/
+      );
     });
   });
   describe("gridLength", () => {
@@ -64,10 +88,6 @@ describe("Board in ./board", () => {
       expect(board.gridLength).toEqual(gridSize);
     });
   });
-
-  // write the throw tests and then move onto the implementation
-  // expect(() => "call that i'm testing,"()).throws("use regex, utilizing /, this will ensure that the error we are getting is the one we want")
-  // .throws use regex, which can be defiend with
   describe("playerGrid", () => {
     beforeEach(() => {
       playerGrid = board.playerGrid;

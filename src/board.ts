@@ -38,36 +38,20 @@ export default class Board implements IBoard {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
     }
-    // else {
-    //   if (coordiantes.x || coordiantes.y <= 3) {
-    //     return true;
-    //   }
-    // }
+    if (coordiantes.x > this.gridLength - 1 || coordiantes.y > this.gridLength - 1) {
+      return false;
+    }
     return true;
   }
 
-  // isFree(newCoordinates: ICoordinates): boolean {
-  //   // have to think how to handle this!!!!! can't return boolean
-
-  //   if (
-  //     !this._playerGrid[newCoordinates.x][newCoordinates.y] === null ||
-  //     !this._playerGrid[newCoordinates.x][newCoordinates.y] === undefined
-  //   ) {
-  //     throw new Error("Position is not free");
-  //   }
-  //   return true;
-  // }
-
   isFree(newCoordinates: ICoordinates): boolean {
     if (
-      this._playerGrid[newCoordinates.x][newCoordinates.y] === null ||
-      this._playerGrid[newCoordinates.x][newCoordinates.y] === undefined
+      this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
+      this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
     ) {
-      return true;
-    } else {
-      return false;
       throw new Error("Position is not free");
     }
+    return true;
   }
 
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
@@ -86,14 +70,21 @@ export default class Board implements IBoard {
   }
 
   removePlayer(currentCoordinates: ICoordinates): void {
-    // wrapping it in if statement and use the throw
-
+    console.log(this.playerGrid.length);
+    console.log(currentCoordinates.x);
+    if (currentCoordinates.x >= this.playerGrid.length) {
+      throw new Error("One of the given cooridnates is outside board bounds");
+    }
     const currentPlayer = this._playerGrid[currentCoordinates.x][currentCoordinates.y];
-    // keyword "throw"
+    if (!currentPlayer) {
+      throw new Error("No player at given coordinates");
+    }
+    // TDD thinking in terms of outcomes, first might be quick dirty code
+    // Premature refactoring is the root of all evil!
+    // Should be extremely specific with my refactor
+
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
     const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
-    // think about what could go wrong ex: splice doesn't remove the player
-    // we've got the happy path, now we need to check all the other wrong paths
     this.playerList.splice(returnedIndex, 1);
   }
 
