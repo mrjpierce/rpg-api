@@ -82,6 +82,16 @@ describe("Board in ./board", () => {
         /One of the given cooridnates is outside board bounds/
       );
     });
+    it("throws error because id provided did not correspeond with an id of a player on the board", () => {
+      //ARRANGE
+
+      //ACT
+
+      //ASSERT
+      expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
+        /One of the given cooridnates is outside board bounds/
+      );
+    });
   });
   describe("gridLength", () => {
     it("returns an number of the grid length", () => {

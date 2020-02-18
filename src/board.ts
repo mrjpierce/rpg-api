@@ -70,8 +70,6 @@ export default class Board implements IBoard {
   }
 
   removePlayer(currentCoordinates: ICoordinates): void {
-    console.log(this.playerGrid.length);
-    console.log(currentCoordinates.x);
     if (currentCoordinates.x >= this.playerGrid.length) {
       throw new Error("One of the given cooridnates is outside board bounds");
     }
@@ -86,6 +84,7 @@ export default class Board implements IBoard {
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
     const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
     this.playerList.splice(returnedIndex, 1);
+    console.log(this.playerList);
   }
 
   placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
