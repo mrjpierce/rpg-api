@@ -3,21 +3,23 @@ import Player, { IPlayer, ICoordinates } from "./player";
 
 describe("Board in ./board", () => {
   let board: Board;
-  let player: IPlayer;
+  let player1: IPlayer;
+  let player2: IPlayer;
   let playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
   const gridSize = 3;
   const newCoords = { x: 1, y: 1 };
-  const firstCoords = { x: 0, y: 0 };
+  const orgCoords1 = { x: 0, y: 1 };
+  const orgCoords2 = { x: 2, y: 2 };
   const incorrectInputs: ICoordinates[] = [
     { x: "strang" as any, y: 0 },
-    { x: 0, y: 4 },
-    { x: 10000, y: -15 }
+    { x: 4, y: 0 },
+    { x: 0, y: 3 },
+    { x: 4, y: 4 }
   ];
-  // when testing to see that it does throw an error pass the method call to the expect and then use .throws
-  // nest or nesting is when it is between the curly braces
 
   beforeEach(() => {
-    player = Player.Build(0, firstCoords);
+    player1 = Player.Build(0, orgCoords1);
+    player2 = Player.Build(1, orgCoords2);
     board = new Board(gridSize);
   });
   describe("constructor", () => {
@@ -26,34 +28,65 @@ describe("Board in ./board", () => {
     });
   });
   describe("move", () => {
-    it("removes player, changes player coord, places player and returns true", () => {
-      board.move(newCoords, player);
-      expect(board.playerGrid[newCoords.x][newCoords.y]).toBe(player);
+    it("moves the player to the correct cordinates", () => {
+      board.move(newCoords, player1);
+      expect(board.playerGrid[newCoords.x][newCoords.y]).toBe(player1);
     });
     it("removes player, changes player coord, places player and returns true", () => {
-      expect(board.move(newCoords, player)).toBeTruthy();
+      expect(board.move(newCoords, player1)).toBeTruthy();
     });
     it("removes old coordinates and sets them to null", () => {
-      board.move(newCoords, player);
-      expect(board.playerGrid[firstCoords.x][firstCoords.y]).toBe(null);
+      board.move(newCoords, player1);
+      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
     });
     it("sets the moving players coordinates to the new give coordinates", () => {
-      board.move(newCoords, player);
-      expect(player.coordinates).toEqual(board.playerGrid[newCoords.x][newCoords.y].coordinates);
-    });
-    it("returns false because coordinates are not free", () => {
-      board.placePlayer(firstCoords, player);
-      const moveAttempt = board.move(firstCoords, player);
-      expect(moveAttempt).toBeFalsy();
+      board.move(newCoords, player1);
+      expect(player1.coordinates).toEqual(board.playerGrid[newCoords.x][newCoords.y].coordinates);
     });
     it.each(incorrectInputs)(
-      "it will return false because due to inputs not being in the correct data shape, ",
+      "it will return false because due to inputs not being compatable",
       (coordinates: ICoordinates) => {
-        console.log(coordinates);
-        board.move(coordinates, player);
-        expect(board.move(coordinates, player)).toBeFalsy();
+        board.move(coordinates, player1);
+        expect(board.move(coordinates, player1)).toBeFalsy();
       }
     );
+  });
+  describe("isFree", () => {
+    it("returns true because the grid is open on the 3D array", () => {
+      expect(board.isFree(newCoords)).toBeTruthy();
+    });
+    it("throws the error that grid position is not free", () => {
+      board.move(newCoords, player1);
+      expect(() => board.move(newCoords, player2)).toThrowError(/^Position is not free$/);
+    });
+  });
+  describe.only("removePlayer", () => {
+    it("removes old coordinates and sets them to null", () => {
+      // need to keep the unit of test waaaayyy more specific and don't use more than we need
+      // ARANGE
+      board.placePlayer(orgCoords1, player1);
+
+      // ACT
+      board.removePlayer(orgCoords1);
+      // very rarely should this act be more than one line and if the method being called is not the one in the describe than we have gone too far and need to limit what is being tested
+
+      //ASSERT
+      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
+    });
+    // effect than cause
+    it("throws error when there is no player at the past in coordinates", () => {
+      expect(() => board.removePlayer({ x: 0, y: 0 })).toThrowError(/No player at given coordinates/);
+    });
+    it.only("throws error because given coordiantes outside of board bounds", () => {
+      expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
+        /One of the given cooridnates is outside board bounds/
+      );
+    });
+  });
+  describe("gridLength", () => {
+    it("returns an number of the grid length", () => {
+      expect(board.gridLength).toEqual(gridSize);
+    });
   });
   describe("playerGrid", () => {
     beforeEach(() => {
@@ -63,6 +96,7 @@ describe("Board in ./board", () => {
       expect(playerGrid).toBe(board.playerGrid);
     });
     it("contains a player in the returned array", () => {
+      // todo still need to
       expect(playerGrid);
     });
   });
