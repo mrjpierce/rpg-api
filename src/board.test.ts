@@ -89,7 +89,7 @@ describe("Board in ./board", () => {
 
       //ASSERT
       expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
-        /One of the given cooridnates is outside board bounds/
+        /Provided id does not corespond with any id of the existing players/
       );
     });
   });
