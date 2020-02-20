@@ -77,18 +77,18 @@ describe("Board in ./board", () => {
     it("throws error when there is no player at the past in coordinates", () => {
       expect(() => board.removePlayer({ x: 0, y: 0 })).toThrowError(/No player at given coordinates/);
     });
-    it.only("throws error because given coordiantes outside of board bounds", () => {
+    it("throws error because given coordiantes outside of board bounds", () => {
       expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
         /One of the given cooridnates is outside board bounds/
       );
     });
-    it("throws error because id provided did not correspeond with an id of a player on the board", () => {
+    it.only("throws error because id provided did not correspeond with an id of a player on the board", () => {
       //ARRANGE
-
+      board.move(orgCoords1, player1);
       //ACT
 
       //ASSERT
-      expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
+      expect(() => board.removePlayer({ x: 0, y: 1 })).toThrowError(
         /Provided id does not corespond with any id of the existing players/
       );
     });

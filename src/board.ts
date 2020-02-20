@@ -83,8 +83,11 @@ export default class Board implements IBoard {
 
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
     const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
+    if (!returnedIndex) {
+      throw new Error("Provided id does not corespond with any id of the existing players");
+    }
+    console.log(returnedIndex);
     this.playerList.splice(returnedIndex, 1);
-    console.log(this.playerList);
   }
 
   placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
