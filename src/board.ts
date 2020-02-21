@@ -9,13 +9,14 @@ export interface IBoard {
   placePlayer(coordinates: ICoordinates, player: IPlayer): void;
   move(newCoordinates: ICoordinates, player: IPlayer): boolean;
   playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
+  checkPlayerId(id: number): boolean;
 }
 
 @injectable()
 export default class Board implements IBoard {
   private _playerGrid: Array<Array<IPlayer | null>>;
   private terrainGrid: Array<Array<ITerrain>>;
-  public readonly playerList: Array<IPlayer>;
+  private playerList: Array<IPlayer>;
   public get playerGrid(): ReadonlyArray<ReadonlyArray<IPlayer | null>> {
     return this._playerGrid;
   }
@@ -29,9 +30,16 @@ export default class Board implements IBoard {
       this.terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
+  // TODO make playerlist private and build functions around the array that deal with any client side operations that might need info regarding the player list
+  // TODO ensure that the playerlist and playerGrid cannot be updated seperatley and never get out of sync
+
+  // wrapping the player list in a function that would check to see if a provided Id corresponded with a id of player on the playerlist
 
   public get gridLength(): number {
     return this.playerGrid.length;
+  }
+  public checkPlayerId(id: number): boolean {
+    return true;
   }
 
   private coordinateValidator(coordiantes: ICoordinates): boolean {
@@ -82,16 +90,30 @@ export default class Board implements IBoard {
     // Should be extremely specific with my refactor
 
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
+
     const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
-    if (!returnedIndex) {
+    // guarntee that we never would have to check this because the grid and list are updated at the exact same time and don't fail
+    if (returnedIndex === -1) {
       throw new Error("Provided id does not corespond with any id of the existing players");
     }
-    console.log(returnedIndex);
     this.playerList.splice(returnedIndex, 1);
   }
 
+  // when writing a unit test, or each individual function, black box
+
   placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
+    // throw if the coordinateValidator
+    // there is not a way to reconcile this error thus throwing an error explaining is the best move
+
+    // if(!this.coordinateValidator)
+    // toDo : finish check here with cooridnate validator and throw appropriate error
+    // so the only way i have seen this not work is when the
+    // if(newCoordinates.x <= this.gridLength) {
+    // }
     this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
+    // if (player.coordinates.x !== newCoordinates.x) {
+    //   throw new Error("players coordinates did not update correctly");
+    // }
     this.playerList.push(player);
   }
 }

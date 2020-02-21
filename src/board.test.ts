@@ -84,12 +84,42 @@ describe("Board in ./board", () => {
     });
     it.only("throws error because id provided did not correspeond with an id of a player on the board", () => {
       //ARRANGE
-      board.move(orgCoords1, player1);
+      board.placePlayer(orgCoords1, player1);
+      board.playerList.pop();
+      // A code smell would be if in the arrange there is a lot of convaluded bs
       //ACT
-
+      // the playerlist and playergrid need to be inseperable,
       //ASSERT
-      expect(() => board.removePlayer({ x: 0, y: 1 })).toThrowError(
+      expect(() => board.removePlayer(orgCoords1)).toThrowError(
         /Provided id does not corespond with any id of the existing players/
+      );
+    });
+  });
+  describe("placePlayer", () => {
+    it("updates the players coordinates with the new given coordinats", () => {
+      //ARRANGE
+      board.placePlayer(orgCoords1, player1);
+      //ACT
+      board.placePlayer(newCoords, player1);
+      //ASSERT
+      // split the expect, we can use more than one, should not have the && in
+      expect(player1.coordinates.x === newCoords.x && player1.coordinates.y === newCoords.y);
+    });
+    it("adds the player to the playerList", () => {
+      //ARRANGE
+      const playerArr = [player1];
+      //ACT
+      board.placePlayer(orgCoords1, player1);
+      //ASSERT
+      expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
+    });
+    it("throws an error because the coordinates did not update correctly", () => {
+      // Black box, claim ignorance, in this
+      //ARRANGE
+      //ACT
+      //ASSERT
+      expect(() => board.placePlayer({ x: 1, y: "strang" as any }, player1)).toThrowError(
+        /players coordinates did not update correctly/
       );
     });
   });
