@@ -40,7 +40,7 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player1);
       expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
     });
-    it.only("throws error", () => {
+    it("throws error", () => {
       expect(() => board.listGridChecker(player1)).toThrowError(/Something is wrong stupid/);
     });
   });

@@ -54,14 +54,10 @@ export default class Board implements IBoard {
     return true;
   }
   listGridChecker(player: IPlayer): boolean {
+    //will move this to private
     const returnedListPlayer = this._playerList.filter(p => p == player);
     const returnedGridPlayer = this._playerGrid[player.coordinates.x].filter(p => p == player);
-    // need to set up the list Grid Checker to handle if there is a undefined)
-    console.log(returnedListPlayer);
-    console.log(returnedGridPlayer);
-    if (returnedGridPlayer && returnedListPlayer === []) {
-      console.log(returnedListPlayer);
-      console.log(returnedGridPlayer);
+    if (returnedGridPlayer[0] == undefined || returnedListPlayer[0] == undefined) {
       throw new Error("Something is wrong stupid");
     } else return isEqual(returnedGridPlayer[0], returnedListPlayer[0]);
   }
@@ -82,6 +78,7 @@ export default class Board implements IBoard {
   }
 
   isFree(newCoordinates: ICoordinates): boolean {
+    //will move this to private
     if (
       this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
       this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
