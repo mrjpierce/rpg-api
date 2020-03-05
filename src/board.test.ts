@@ -6,8 +6,9 @@ describe("Board in ./board", () => {
   let player1: IPlayer;
   let player2: IPlayer;
   let playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
+  let playerList: ReadonlyArray<IPlayer>;
   const gridSize = 3;
-  const newCoords = { x: 1, y: 1 };
+  const newCoords = { x: 0, y: 0 };
   const orgCoords1 = { x: 0, y: 1 };
   const orgCoords2 = { x: 2, y: 2 };
   const incorrectInputs: ICoordinates[] = [
@@ -23,8 +24,24 @@ describe("Board in ./board", () => {
     board = new Board(gridSize);
   });
   describe("constructor", () => {
-    it("should be an instance of Board", () => {
+    it("creates an instance of the Board class", () => {
       expect(board).toBeInstanceOf(Board);
+    });
+  });
+  describe.only("placePlayer", () => {
+    it("updates the players coordinates with the new given coordinats", () => {
+      board.placePlayer(orgCoords1, player1);
+      board.placePlayer(newCoords, player1);
+      expect(player1.coordinates.x === newCoords.x);
+      expect(player1.coordinates.y === newCoords.y);
+    });
+    it("adds the player to the playerList", () => {
+      const playerArr = [player1];
+      board.placePlayer(orgCoords1, player1);
+      expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
+    });
+    it.only("throws error", () => {
+      expect(() => board.listGridChecker(player1)).toThrowError(/Something is wrong stupid/);
     });
   });
   describe("move", () => {
@@ -79,30 +96,22 @@ describe("Board in ./board", () => {
       );
     });
   });
-  describe("placePlayer", () => {
-    it("updates the players coordinates with the new given coordinats", () => {
-      board.placePlayer(orgCoords1, player1);
-      board.placePlayer(newCoords, player1);
-      expect(player1.coordinates.x === newCoords.x);
-      expect(player1.coordinates.y === newCoords.y);
-    });
-    it("adds the player to the playerList", () => {
-      const playerArr = [player1];
-      board.placePlayer(orgCoords1, player1);
-      expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
-    });
-  });
   describe("gridLength", () => {
     it("returns an number of the grid length", () => {
       expect(board.gridLength).toEqual(gridSize);
     });
   });
   describe("playerGrid", () => {
-    beforeEach(() => {
-      playerGrid = board.playerGrid;
-    });
     it("returns player grid with one player placed on it", () => {
+      board.placePlayer(orgCoords1, player1);
       expect(playerGrid).toBe(board.playerGrid);
+    });
+  });
+  describe("playerList", () => {
+    it("returns a list of players on the board", () => {
+      board.placePlayer(orgCoords1, player1);
+      playerList = board.playerList;
+      expect(playerList).toBe(board.playerList);
     });
   });
   describe("checkPlayerId", () => {
@@ -114,12 +123,6 @@ describe("Board in ./board", () => {
     });
     it("returns false because id provided does not coresponds with an id of a player that exists on the playerList", () => {
       expect(board.checkPlayerList(3)).toBeFalsy();
-    });
-  });
-  describe.only("ensuring that both the playerList and playerGrid are always the same", () => {
-    it("returns true because both the gridlist and playerlist are in sync", () => {
-      board.placePlayer(orgCoords1, player1);
-      expect(board.listGridChecker(player1)).toBeTruthy();
     });
   });
 });

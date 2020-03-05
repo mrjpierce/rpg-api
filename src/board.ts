@@ -56,12 +56,15 @@ export default class Board implements IBoard {
   listGridChecker(player: IPlayer): boolean {
     const returnedListPlayer = this._playerList.filter(p => p == player);
     const returnedGridPlayer = this._playerGrid[player.coordinates.x].filter(p => p == player);
-    return isEqual(returnedGridPlayer[0], returnedListPlayer[0]);
+    // need to set up the list Grid Checker to handle if there is a undefined)
+    console.log(returnedListPlayer);
+    console.log(returnedGridPlayer);
+    if (returnedGridPlayer && returnedListPlayer === []) {
+      console.log(returnedListPlayer);
+      console.log(returnedGridPlayer);
+      throw new Error("Something is wrong stupid");
+    } else return isEqual(returnedGridPlayer[0], returnedListPlayer[0]);
   }
-
-  // TODO make playerlist private and build functions around the array that deal with any client side operations that might need info regarding the player list
-  // TODO ensure that the playerlist and playerGrid cannot be updated seperatley and never get out of sync
-  // TODO wrapping the player list in a function that would check to see if a provided Id corresponded with a id of player on the playerlist
 
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
     if (!this.coordinateValidator(newCooridnates)) {
@@ -98,7 +101,6 @@ export default class Board implements IBoard {
     }
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
     const returnedIndex = this._playerList.findIndex(player => player.Id === currentPlayer.Id);
-    // guarntee that we never would have to check this because the grid and list are updated at the exact same time and don't fail
     this._playerList.splice(returnedIndex, 1);
   }
 
@@ -109,7 +111,7 @@ export default class Board implements IBoard {
     this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
     this._playerList.push(player);
     if (!this.listGridChecker(player)) {
-      this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
+      this._playerGrid[newCoordinates.x][newCoordinates.y] = null;
       this._playerList.splice(player.Id, 1);
       throw new Error("player was not placed properly");
     }
