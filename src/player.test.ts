@@ -1,6 +1,6 @@
 import Player, { IPlayer, Monster, IMonster } from "./player";
 
-describe("Player", () => {
+describe("player.ts", () => {
   let player: IPlayer;
   let monster: IMonster;
 

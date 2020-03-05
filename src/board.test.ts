@@ -41,8 +41,9 @@ describe("Board in ./board", () => {
       expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
     });
     it("throws error", () => {
-      expect(() => board.listGridChecker(player1)).toThrowError(/Something is wrong stupid/);
+      // correct thrown for gird position is not free
     });
+    // player already exists on list on error
   });
   describe("move", () => {
     it("moves the player to the given coordinates cordinates", () => {

@@ -53,15 +53,11 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  listGridChecker(player: IPlayer): boolean {
-    //will move this to private
-    const returnedListPlayer = this._playerList.filter(p => p == player);
-    const returnedGridPlayer = this._playerGrid[player.coordinates.x].filter(p => p == player);
-    if (returnedGridPlayer[0] == undefined || returnedListPlayer[0] == undefined) {
-      throw new Error("Something is wrong stupid");
-    } else return isEqual(returnedGridPlayer[0], returnedListPlayer[0]);
-  }
 
+  //Goals before next week:
+  //1. get the place player function tests all completed that check all errors
+  //2. get remove player to the same point with encapsulation and tests set up in same point
+  //3. getPlayerAt func set
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
     if (!this.coordinateValidator(newCooridnates)) {
       return false;
@@ -88,7 +84,13 @@ export default class Board implements IBoard {
     return true;
   }
 
+  // create another fucntion getPlayerAt, provide coordiantes to this function and then it returns the player at the given coordinates
+  // this would take only coordinates obvy
+
   removePlayer(currentCoordinates: ICoordinates): void {
+    // all we need is the player no the current cooordinates
+    // remove player does take a player as an argument so we can ensure like the place player that the correct player
+    //
     if (currentCoordinates.x >= this.playerGrid.length) {
       throw new Error("One of the given cooridnates is outside board bounds");
     }
@@ -105,12 +107,13 @@ export default class Board implements IBoard {
     if (!this.coordinateValidator(newCoordinates)) {
       throw new Error("player cannot be placed");
     }
+    if (!this.isFree(newCoordinates)) {
+      throw new Error("Gird position is not free");
+    }
+    if (this._playerList.find(value => value.Id === player.Id)) {
+      throw new Error("player already exists on list");
+    }
     this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
     this._playerList.push(player);
-    if (!this.listGridChecker(player)) {
-      this._playerGrid[newCoordinates.x][newCoordinates.y] = null;
-      this._playerList.splice(player.Id, 1);
-      throw new Error("player was not placed properly");
-    }
   }
 }
