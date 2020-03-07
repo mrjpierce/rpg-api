@@ -5,7 +5,7 @@ import { ITerrain } from "./terrain";
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
-  removePlayer(coordinates: ICoordinates): void;
+  removePlayer(player: IPlayer): void;
   placePlayer(coordinates: ICoordinates, player: IPlayer): void;
   move(newCoordinates: ICoordinates, player: IPlayer): boolean;
   playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
@@ -63,7 +63,7 @@ export default class Board implements IBoard {
     }
     try {
       this.isFree(newCooridnates);
-      this.removePlayer(player.coordinates);
+      this.removePlayer(player);
       player.coordinates = newCooridnates;
       this.placePlayer(newCooridnates, player);
     } catch (e) {
@@ -86,19 +86,18 @@ export default class Board implements IBoard {
   // create another fucntion getPlayerAt, provide coordiantes to this function and then it returns the player at the given coordinates
   // this would take only coordinates obvy
 
-  removePlayer(currentCoordinates: ICoordinates): void {
+  removePlayer(playerToBeRemoved: IPlayer): void {
     // all we need is the player no the current cooordinates
     // remove player does take a player as an argument so we can ensure like the place player that the correct player
     //
-    if (currentCoordinates.x >= this.playerGrid.length) {
+    if (playerToBeRemoved.coordinates.x >= this.playerGrid.length) {
       throw new Error("One of the given cooridnates is outside board bounds");
     }
-    const currentPlayer = this._playerGrid[currentCoordinates.x][currentCoordinates.y];
-    if (!currentPlayer) {
+    if (playerToBeRemoved.coordinates.x === undefined || null) {
       throw new Error("No player at given coordinates");
     }
-    this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
-    const returnedIndex = this._playerList.findIndex(player => player.Id === currentPlayer.Id);
+    this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y] = null;
+    const returnedIndex = this._playerList.findIndex(player => player.Id === playerToBeRemoved.Id);
     this._playerList.splice(returnedIndex, 1);
   }
 
