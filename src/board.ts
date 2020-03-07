@@ -2,7 +2,6 @@ import "reflect-metadata";
 import { injectable } from "inversify";
 import { IPlayer, ICoordinates } from "./player";
 import { ITerrain } from "./terrain";
-import isEqual = require("lodash/isEqual");
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
@@ -55,7 +54,7 @@ export default class Board implements IBoard {
   }
 
   //Goals before next week:
-  //1. get the place player function tests all completed that check all errors
+
   //2. get remove player to the same point with encapsulation and tests set up in same point
   //3. getPlayerAt func set
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
@@ -108,10 +107,10 @@ export default class Board implements IBoard {
       throw new Error("player cannot be placed");
     }
     if (!this.isFree(newCoordinates)) {
-      throw new Error("Gird position is not free");
+      throw new Error("Position is not free");
     }
     if (this._playerList.find(value => value.Id === player.Id)) {
-      throw new Error("player already exists on list");
+      throw new Error("Player already exists on list");
     }
     this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
     this._playerList.push(player);

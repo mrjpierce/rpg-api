@@ -28,9 +28,10 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe.only("placePlayer", () => {
+  describe("placePlayer", () => {
     it("updates the players coordinates with the new given coordinats", () => {
       board.placePlayer(orgCoords1, player1);
+      board.removePlayer(orgCoords1);
       board.placePlayer(newCoords, player1);
       expect(player1.coordinates.x === newCoords.x);
       expect(player1.coordinates.y === newCoords.y);
@@ -40,10 +41,14 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player1);
       expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
     });
-    it("throws error", () => {
-      // correct thrown for gird position is not free
+    it("throws error that position is not free", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(() => board.placePlayer(orgCoords1, player1)).toThrowError(/^Position is not free$/);
     });
-    // player already exists on list on error
+    it("throws error that player is already on list", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
+    });
   });
   describe("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
