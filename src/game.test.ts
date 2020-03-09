@@ -1,24 +1,24 @@
-// import GameCreator from "./game";
-// import Player from "./player";
-// import BoardCreator from "./board";
+import Game from "./game";
+import Player, { IPlayer } from "./player";
+import Board from "./board";
 
-// jest.mock("./board");
+describe("constructor", () => {
+  let instance: Game;
+  let boardInstance: Board;
+  let playerInstanceOne: IPlayer;
+  let playerInstanceTwo: IPlayer;
 
-// describe("GameCreaotr in ./game", () => {
-//   let instance: GameCreator;
-//   let boardInstance: BoardCreator;
-//   let playerInstanceOne: Player;
-//   let playerInstanceTwo: Player;
-//   let testArrs: 2;
-//   let testInd: 3;
-
-//   beforeEach(() => {
-//     boardInstance = new BoardCreator(3, 3);
-//     playerInstanceOne = new Player(1, 0, 0);
-//     playerInstanceTwo = new Player(2, 0, 1);
-//     instance = new GameCreator(boardInstance, playerInstanceOne, playerInstanceTwo);
-//   });
-//   it("should be an instance of BoardCreation", () => {
-//     expect(instance).toBeInstanceOf(BoardCreator);
-//   });
-// });
+  beforeEach(() => {
+    boardInstance = new Board(3);
+    playerInstanceOne = Player.Build(2, { x: 0, y: 0 });
+    playerInstanceTwo = Player.Build(2, { x: 0, y: 0 });
+    instance = new Game(boardInstance, [playerInstanceOne, playerInstanceTwo]);
+  });
+  it("should be an instance of BoardCreation", () => {
+    expect(instance).toBeInstanceOf(Game);
+  });
+  it.only("places both players on the board", () => {
+    expect(boardInstance.playerList).toContain(playerInstanceOne);
+    expect(boardInstance.playerList).toContain(playerInstanceTwo);
+  });
+});

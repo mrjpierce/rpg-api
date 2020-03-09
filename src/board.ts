@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { injectable } from "inversify";
 import { IPlayer, ICoordinates } from "./player";
 import { ITerrain } from "./terrain";
+import isEqual = require("lodash/isEqual");
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
@@ -9,39 +10,40 @@ export interface IBoard {
   placePlayer(coordinates: ICoordinates, player: IPlayer): void;
   move(newCoordinates: ICoordinates, player: IPlayer): boolean;
   playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
-  checkPlayerId(id: number): boolean;
+  playerList: ReadonlyArray<IPlayer>;
+  checkPlayerList(id: number): boolean;
 }
 
 @injectable()
 export default class Board implements IBoard {
   private _playerGrid: Array<Array<IPlayer | null>>;
-  private terrainGrid: Array<Array<ITerrain>>;
-  private playerList: Array<IPlayer>;
+  private _terrainGrid: Array<Array<ITerrain>>;
+  private _playerList: Array<IPlayer>;
   public get playerGrid(): ReadonlyArray<ReadonlyArray<IPlayer | null>> {
     return this._playerGrid;
   }
-
-  constructor(gridSize: number) {
-    this.playerList = new Array<IPlayer>();
-    this.terrainGrid = new Array<Array<ITerrain>>(gridSize);
-    this._playerGrid = new Array<Array<IPlayer>>(gridSize);
-    for (let i = 0; i < this._playerGrid.length; i++) {
-      this._playerGrid[i] = new Array<IPlayer>(gridSize);
-      this.terrainGrid[i] = new Array<ITerrain>(gridSize);
-    }
+  public get playerList(): ReadonlyArray<IPlayer> {
+    return this._playerList;
   }
-  // TODO make playerlist private and build functions around the array that deal with any client side operations that might need info regarding the player list
-  // TODO ensure that the playerlist and playerGrid cannot be updated seperatley and never get out of sync
-
-  // wrapping the player list in a function that would check to see if a provided Id corresponded with a id of player on the playerlist
-
   public get gridLength(): number {
     return this.playerGrid.length;
   }
-  public checkPlayerId(id: number): boolean {
+  constructor(gridSize: number) {
+    this._playerList = new Array<IPlayer>();
+    this._terrainGrid = new Array<Array<ITerrain>>(gridSize);
+    this._playerGrid = new Array<Array<IPlayer>>(gridSize);
+    for (let i = 0; i < this._playerGrid.length; i++) {
+      this._playerGrid[i] = new Array<IPlayer>(gridSize);
+      this._terrainGrid[i] = new Array<ITerrain>(gridSize);
+    }
+  }
+  public checkPlayerList(id: number): boolean {
+    const idBeingChecked = this._playerList.findIndex(player => player.Id === id);
+    if (idBeingChecked === -1) {
+      return false;
+    }
     return true;
   }
-
   private coordinateValidator(coordiantes: ICoordinates): boolean {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
@@ -52,16 +54,10 @@ export default class Board implements IBoard {
     return true;
   }
 
-  isFree(newCoordinates: ICoordinates): boolean {
-    if (
-      this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
-      this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
-    ) {
-      throw new Error("Position is not free");
-    }
-    return true;
-  }
-
+  //Goals before next week:
+  //1. get the place player function tests all completed that check all errors
+  //2. get remove player to the same point with encapsulation and tests set up in same point
+  //3. getPlayerAt func set
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
     if (!this.coordinateValidator(newCooridnates)) {
       return false;
@@ -77,7 +73,24 @@ export default class Board implements IBoard {
     return true;
   }
 
+  isFree(newCoordinates: ICoordinates): boolean {
+    //will move this to private
+    if (
+      this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
+      this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
+    ) {
+      throw new Error("Position is not free");
+    }
+    return true;
+  }
+
+  // create another fucntion getPlayerAt, provide coordiantes to this function and then it returns the player at the given coordinates
+  // this would take only coordinates obvy
+
   removePlayer(currentCoordinates: ICoordinates): void {
+    // all we need is the player no the current cooordinates
+    // remove player does take a player as an argument so we can ensure like the place player that the correct player
+    //
     if (currentCoordinates.x >= this.playerGrid.length) {
       throw new Error("One of the given cooridnates is outside board bounds");
     }
@@ -85,35 +98,22 @@ export default class Board implements IBoard {
     if (!currentPlayer) {
       throw new Error("No player at given coordinates");
     }
-    // TDD thinking in terms of outcomes, first might be quick dirty code
-    // Premature refactoring is the root of all evil!
-    // Should be extremely specific with my refactor
-
     this._playerGrid[currentCoordinates.x][currentCoordinates.y] = null;
-
-    const returnedIndex = this.playerList.findIndex(player => player.Id === currentPlayer.Id);
-    // guarntee that we never would have to check this because the grid and list are updated at the exact same time and don't fail
-    if (returnedIndex === -1) {
-      throw new Error("Provided id does not corespond with any id of the existing players");
-    }
-    this.playerList.splice(returnedIndex, 1);
+    const returnedIndex = this._playerList.findIndex(player => player.Id === currentPlayer.Id);
+    this._playerList.splice(returnedIndex, 1);
   }
 
-  // when writing a unit test, or each individual function, black box
-
   placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
-    // throw if the coordinateValidator
-    // there is not a way to reconcile this error thus throwing an error explaining is the best move
-
-    // if(!this.coordinateValidator)
-    // toDo : finish check here with cooridnate validator and throw appropriate error
-    // so the only way i have seen this not work is when the
-    // if(newCoordinates.x <= this.gridLength) {
-    // }
+    if (!this.coordinateValidator(newCoordinates)) {
+      throw new Error("player cannot be placed");
+    }
+    if (!this.isFree(newCoordinates)) {
+      throw new Error("Gird position is not free");
+    }
+    if (this._playerList.find(value => value.Id === player.Id)) {
+      throw new Error("player already exists on list");
+    }
     this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
-    // if (player.coordinates.x !== newCoordinates.x) {
-    //   throw new Error("players coordinates did not update correctly");
-    // }
-    this.playerList.push(player);
+    this._playerList.push(player);
   }
 }
