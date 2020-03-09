@@ -87,14 +87,16 @@ describe("Board in ./board", () => {
       expect(() => board.isFree(newCoords)).toThrowError(/^Position is not free$/);
     });
   });
-  describe.only("removePlayer", () => {
+  describe("removePlayer", () => {
     it("removes old coordinates and sets them to null", () => {
       board.placePlayer(orgCoords1, player1);
       board.removePlayer(player1);
       expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
     });
     it("throws error when there is no player at the past in coordinates", () => {
-      expect(() => board.removePlayer(player2)).toThrowError(/No player at given coordinates/);
+      expect(() => board.removePlayer({ Id: 4, coordinates: { x: null, y: null } })).toThrowError(
+        /No player at given coordinates/
+      );
     });
     it("throws error because given coordiantes outside of board bounds", () => {
       expect(() => board.removePlayer({ Id: 4, coordinates: { x: 4, y: 4 } })).toThrowError(
@@ -131,5 +133,9 @@ describe("Board in ./board", () => {
     it("returns false because id provided does not coresponds with an id of a player that exists on the playerList", () => {
       expect(board.checkPlayerList(3)).toBeFalsy();
     });
+  });
+  describe.only("playerAtCoordinates", () => {
+    board.placePlayer(orgCoords2, player2);
+    expect(board.playerAtCooridnates(orgCoords2)).toReturn();
   });
 });

@@ -11,6 +11,7 @@ export interface IBoard {
   playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
   playerList: ReadonlyArray<IPlayer>;
   checkPlayerList(id: number): boolean;
+  playerAtCooridnates(cooordinates: ICoordinates): IPlayer;
 }
 
 @injectable()
@@ -43,6 +44,8 @@ export default class Board implements IBoard {
     }
     return true;
   }
+  public playerAtCooridnates(coordiantes: ICoordinates): IPlayer {}
+
   private coordinateValidator(coordiantes: ICoordinates): boolean {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
