@@ -136,6 +136,6 @@ describe("Board in ./board", () => {
   });
   describe.only("playerAtCoordinates", () => {
     board.placePlayer(orgCoords2, player2);
-    expect(board.playerAtCooridnates(orgCoords2)).toReturn();
+    expect(board.playerAtCoordinates(orgCoords2)).toReturn();
   });
 });
