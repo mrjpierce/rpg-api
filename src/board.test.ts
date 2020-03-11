@@ -123,7 +123,7 @@ describe("Board in ./board", () => {
       expect(playerListTest).toBe(board.playerList);
     });
   });
-  describe("checkPlayerId", () => {
+  describe.only("checkPlayerId", () => {
     beforeEach(() => {
       board.placePlayer(orgCoords1, player1);
     });
@@ -135,7 +135,9 @@ describe("Board in ./board", () => {
     });
   });
   describe.only("playerAtCoordinates", () => {
-    board.placePlayer(orgCoords2, player2);
-    expect(board.playerAtCoordinates(orgCoords2)).toReturn();
+    it("returns nothing", () => {
+      board.placePlayer(orgCoords2, player2);
+      expect(board.playerAtCoordinates(orgCoords2)).toReturn();
+    });
   });
 });
