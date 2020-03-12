@@ -98,11 +98,6 @@ describe("Board in ./board", () => {
         /No player at given coordinates/
       );
     });
-    it("throws error because given coordiantes outside of board bounds", () => {
-      expect(() => board.removePlayer({ Id: 4, coordinates: { x: 4, y: 4 } })).toThrowError(
-        /One of the given cooridnates is outside board bounds/
-      );
-    });
   });
   describe("gridLength", () => {
     it("returns an number of the grid length", () => {
@@ -123,7 +118,7 @@ describe("Board in ./board", () => {
       expect(playerListTest).toBe(board.playerList);
     });
   });
-  describe.only("checkPlayerId", () => {
+  describe("checkPlayerId", () => {
     beforeEach(() => {
       board.placePlayer(orgCoords1, player1);
     });
@@ -135,9 +130,12 @@ describe("Board in ./board", () => {
     });
   });
   describe.only("playerAtCoordinates", () => {
-    it("returns nothing", () => {
+    it("returns a player because the given coordinates are of a player on the board", () => {
       board.placePlayer(orgCoords2, player2);
-      expect(board.playerAtCoordinates(orgCoords2)).toReturn();
+      expect(board.playerAtCoordinates(orgCoords2)).toMatchObject(player2);
+    });
+    it("Error is thrown because there is no player at provided coordinates ", () => {
+      expect(() => board.playerAtCoordinates(newCoords)).toThrowError(/No player at given coordinates/);
     });
   });
 });

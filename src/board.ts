@@ -11,7 +11,7 @@ export interface IBoard {
   playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
   playerList: ReadonlyArray<IPlayer>;
   checkPlayerList(id: number): boolean;
-  playerAtCoordinates(cooordinates: ICoordinates): void;
+  playerAtCoordinates(cooordinates: ICoordinates): IPlayer;
 }
 
 @injectable()
@@ -44,10 +44,11 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  public playerAtCoordinates(coordiantes: ICoordinates): void {
-    console.log(this._playerGrid[coordiantes.x][coordiantes.y]);
+  public playerAtCoordinates(coordiantes: ICoordinates): IPlayer {
+    if (this._playerGrid[coordiantes.x][coordiantes.y] == null || undefined) {
+      throw new Error("No player at given coordinates");
+    } else return this._playerGrid[coordiantes.x][coordiantes.y];
   }
-
   private coordinateValidator(coordiantes: ICoordinates): boolean {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
@@ -57,9 +58,7 @@ export default class Board implements IBoard {
     }
     return true;
   }
-
   //Goals before next week:
-
   //2. get remove player to the same point with encapsulation and tests set up in same point
   //3. getPlayerAt func set
   move(newCooridnates: ICoordinates, player: IPlayer): boolean {
@@ -78,7 +77,6 @@ export default class Board implements IBoard {
   }
 
   isFree(newCoordinates: ICoordinates): boolean {
-    //will move this to private
     if (
       this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
       this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
@@ -88,9 +86,6 @@ export default class Board implements IBoard {
     return true;
   }
 
-  // create another fucntion getPlayerAt, provide coordiantes to this function and then it returns the player at the given coordinates
-  // this would take only coordinates obvy
-
   removePlayer(playerToBeRemoved: IPlayer): void {
     // all we need is the player no the current cooordinates
     // remove player does take a player as an argument so we can ensure like the place player that the correct player
@@ -98,9 +93,9 @@ export default class Board implements IBoard {
     if (playerToBeRemoved.coordinates.x >= this.playerGrid.length) {
       throw new Error("One of the given cooridnates is outside board bounds");
     }
-    if (playerToBeRemoved.coordinates.x === undefined || null) {
-      throw new Error("No player at given coordinates");
-    }
+    // have a check to make sure the player is on the playergrid
+    // have a check to make sure the player is on the playerlist
+    // make sure they are both the same.
     this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y] = null;
     const returnedIndex = this._playerList.findIndex(player => player.Id === playerToBeRemoved.Id);
     this._playerList.splice(returnedIndex, 1);
