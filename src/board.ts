@@ -87,12 +87,6 @@ export default class Board implements IBoard {
   }
 
   removePlayer(playerToBeRemoved: IPlayer): void {
-    // all we need is the player no the current cooordinates
-    // remove player does take a player as an argument so we can ensure like the place player that the correct player
-    //
-    if (playerToBeRemoved.coordinates.x >= this.playerGrid.length) {
-      throw new Error("One of the given cooridnates is outside board bounds");
-    }
     // have a check to make sure the player is on the playergrid
     // have a check to make sure the player is on the playerlist
     // make sure they are both the same.
