@@ -45,6 +45,9 @@ export default class Board implements IBoard {
     return true;
   }
   public playerAtCoordinates(coordiantes: ICoordinates): IPlayer {
+    if (!this.coordinateValidator(coordiantes)) {
+      throw new Error("Given coordinates are not compatable");
+    }
     if (this._playerGrid[coordiantes.x][coordiantes.y] == null || undefined) {
       throw new Error("No player at given coordinates");
     } else return this._playerGrid[coordiantes.x][coordiantes.y];
@@ -59,9 +62,7 @@ export default class Board implements IBoard {
     return true;
   }
   //Goals before next week:
-  //2. get remove player to the same point with encapsulation and tests set up in same point
-  //3. getPlayerAt func set
-  move(newCooridnates: ICoordinates, player: IPlayer): boolean {
+  public move(newCooridnates: ICoordinates, player: IPlayer): boolean {
     if (!this.coordinateValidator(newCooridnates)) {
       return false;
     }
@@ -76,7 +77,7 @@ export default class Board implements IBoard {
     return true;
   }
 
-  isFree(newCoordinates: ICoordinates): boolean {
+  public isFree(newCoordinates: ICoordinates): boolean {
     if (
       this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
       this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
@@ -86,16 +87,24 @@ export default class Board implements IBoard {
     return true;
   }
 
-  removePlayer(playerToBeRemoved: IPlayer): void {
-    // have a check to make sure the player is on the playergrid
-    // have a check to make sure the player is on the playerlist
-    // make sure they are both the same.
+  public removePlayer(playerToBeRemoved: IPlayer): void {
+    const playerOnList = this._playerList.find(player => player.Id === playerToBeRemoved.Id);
+    const playerOnGrid = this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y];
+    if (playerOnGrid == undefined) {
+      throw new Error("Provided player is not on grid");
+    }
+    if (!this.checkPlayerList(playerToBeRemoved.Id)) {
+      throw new Error("Provided player is not on player list");
+    }
+    if (!Object.is(playerOnList, playerOnGrid)) {
+      throw new Error("Player on grid and list don't match");
+    }
     this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y] = null;
     const returnedIndex = this._playerList.findIndex(player => player.Id === playerToBeRemoved.Id);
     this._playerList.splice(returnedIndex, 1);
   }
 
-  placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
+  public placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
     if (!this.coordinateValidator(newCoordinates)) {
       throw new Error("player cannot be placed");
     }

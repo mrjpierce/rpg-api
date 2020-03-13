@@ -88,14 +88,14 @@ describe("Board in ./board", () => {
     });
   });
   describe.only("removePlayer", () => {
-    it("removes old coordinates and sets them to null", () => {
+    it.only("removes old coordinates and sets them to null", () => {
       board.placePlayer(orgCoords1, player1);
       board.removePlayer(player1);
-      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
+      expect(board.playerGrid[player1.coordinates.x][player1.coordinates.y]).toBe(null);
     });
-    it.only("throws error when there is no player at the past in coordinates", () => {
+    it("throws error when the provided player is not on either gird or list", () => {
       board.placePlayer(orgCoords1, player1);
-      expect(() => board.removePlayer(player2)).toThrowError(/No player at given coordinates/);
+      expect(() => board.removePlayer(player2)).toThrowError(/Provided player is not on/);
     });
   });
   describe("gridLength", () => {

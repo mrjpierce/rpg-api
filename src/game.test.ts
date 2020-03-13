@@ -1,10 +1,10 @@
-import Game from "./game";
+import Game, { IGame } from "./game";
 import Player, { IPlayer } from "./player";
-import Board from "./board";
+import Board, { IBoard } from "./board";
 
 describe("constructor", () => {
-  let instance: Game;
-  let boardInstance: Board;
+  let instance: IGame;
+  let boardInstance: IBoard;
   let playerInstanceOne: IPlayer;
   let playerInstanceTwo: IPlayer;
 
