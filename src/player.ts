@@ -5,16 +5,16 @@ export interface IUnit {
   Id: number;
 }
 
+export interface ICoordinates {
+  x: number;
+  y: number;
+}
+
 export interface IPlayer extends IUnit {
   coordinates: ICoordinates;
 }
 
 export interface IMonster extends IUnit {}
-
-export interface ICoordinates {
-  x: number;
-  y: number;
-}
 
 export abstract class Unit implements IUnit {
   public readonly Id: number;

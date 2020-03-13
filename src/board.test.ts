@@ -41,6 +41,7 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player1);
       expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
     });
+    // add error for coordinateValditor here
     it("throws error that position is not free", () => {
       board.placePlayer(orgCoords1, player2);
       expect(() => board.placePlayer(orgCoords1, player1)).toThrowError(/^Position is not free$/);
@@ -49,6 +50,7 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player2);
       expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
     });
+    // add test for player being added to the grid correctly
   });
   describe("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
@@ -87,15 +89,21 @@ describe("Board in ./board", () => {
       expect(() => board.isFree(newCoords)).toThrowError(/^Position is not free$/);
     });
   });
-  describe.only("removePlayer", () => {
-    it.only("removes old coordinates and sets them to null", () => {
+  describe("removePlayer", () => {
+    it("removes old coordinates and sets them to null", () => {
       board.placePlayer(orgCoords1, player1);
       board.removePlayer(player1);
-      expect(board.playerGrid[player1.coordinates.x][player1.coordinates.y]).toBe(null);
+      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
+    });
+    it("throws error when the provided player is not on either gird or list", () => {
+      expect(() => board.removePlayer(player2)).toThrowError(/Provided player is not on/);
     });
     it("throws error when the provided player is not on either gird or list", () => {
       board.placePlayer(orgCoords1, player1);
-      expect(() => board.removePlayer(player2)).toThrowError(/Provided player is not on/);
+      const fooPlayer = Player.Build(player1.Id, player1.coordinates);
+      expect(() => board.removePlayer(fooPlayer)).toThrowError(
+        /Player id mismatch; Player passed does not match the player with corresponding id on board/
+      );
     });
   });
   describe("gridLength", () => {
