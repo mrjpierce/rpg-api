@@ -41,7 +41,6 @@ export default class Board implements IBoard {
     }
   }
   // Goals for next week,
-  // 1. finish removeplayer test of non corresponding coordinates
   // 2. get move tests updated and to the state
   public checkPlayerList(id: number): boolean {
     const idBeingChecked = this._playerList.findIndex(player => player.Id === id);

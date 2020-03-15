@@ -52,7 +52,7 @@ describe("Board in ./board", () => {
     });
     // add test for player being added to the grid correctly
   });
-  describe("move", () => {
+  describe.only("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
       board.placePlayer(orgCoords1, player1);
       board.move(newCoords, player1);
