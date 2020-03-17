@@ -6,7 +6,7 @@ describe("Board in ./board", () => {
   let player1: IPlayer;
   let player2: IPlayer;
   let playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
-  let playerList: ReadonlyArray<IPlayer>;
+  let playerListTest: ReadonlyArray<IPlayer>;
   const gridSize = 3;
   const newCoords = { x: 0, y: 0 };
   const orgCoords1 = { x: 0, y: 1 };
@@ -28,9 +28,10 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe.only("placePlayer", () => {
+  describe("placePlayer", () => {
     it("updates the players coordinates with the new given coordinats", () => {
       board.placePlayer(orgCoords1, player1);
+      board.removePlayer(player1);
       board.placePlayer(newCoords, player1);
       expect(player1.coordinates.x === newCoords.x);
       expect(player1.coordinates.y === newCoords.y);
@@ -40,10 +41,16 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player1);
       expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
     });
-    it("throws error", () => {
-      // correct thrown for gird position is not free
+    // add error for coordinateValditor here
+    it("throws error that position is not free", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(() => board.placePlayer(orgCoords1, player1)).toThrowError(/^Position is not free$/);
     });
-    // player already exists on list on error
+    it("throws error that player is already on list", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
+    });
+    // add test for player being added to the grid correctly
   });
   describe("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
@@ -85,15 +92,17 @@ describe("Board in ./board", () => {
   describe("removePlayer", () => {
     it("removes old coordinates and sets them to null", () => {
       board.placePlayer(orgCoords1, player1);
-      board.removePlayer(orgCoords1);
+      board.removePlayer(player1);
       expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
     });
-    it("throws error when there is no player at the past in coordinates", () => {
-      expect(() => board.removePlayer({ x: 0, y: 0 })).toThrowError(/No player at given coordinates/);
+    it("throws error when the provided player is not on either gird or list", () => {
+      expect(() => board.removePlayer(player2)).toThrowError(/Provided player is not on/);
     });
-    it("throws error because given coordiantes outside of board bounds", () => {
-      expect(() => board.removePlayer({ x: 3, y: 0 })).toThrowError(
-        /One of the given cooridnates is outside board bounds/
+    it("throws error when the provided player is not on either gird or list", () => {
+      board.placePlayer(orgCoords1, player1);
+      const fooPlayer = Player.Build(player1.Id, player1.coordinates);
+      expect(() => board.removePlayer(fooPlayer)).toThrowError(
+        /Player id mismatch; Player passed does not match the player with corresponding id on board/
       );
     });
   });
@@ -105,14 +114,15 @@ describe("Board in ./board", () => {
   describe("playerGrid", () => {
     it("returns player grid with one player placed on it", () => {
       board.placePlayer(orgCoords1, player1);
+      playerGrid = board.playerGrid;
       expect(playerGrid).toBe(board.playerGrid);
     });
   });
   describe("playerList", () => {
     it("returns a list of players on the board", () => {
-      board.placePlayer(orgCoords1, player1);
-      playerList = board.playerList;
-      expect(playerList).toBe(board.playerList);
+      board.placePlayer(newCoords, player1);
+      playerListTest = board.playerList;
+      expect(playerListTest).toBe(board.playerList);
     });
   });
   describe("checkPlayerId", () => {
@@ -124,6 +134,15 @@ describe("Board in ./board", () => {
     });
     it("returns false because id provided does not coresponds with an id of a player that exists on the playerList", () => {
       expect(board.checkPlayerList(3)).toBeFalsy();
+    });
+  });
+  describe("playerAtCoordinates", () => {
+    it("returns a player because the given coordinates are of a player on the board", () => {
+      board.placePlayer(orgCoords2, player2);
+      expect(board.playerAtCoordinates(orgCoords2)).toMatchObject(player2);
+    });
+    it("Error is thrown because there is no player at provided coordinates ", () => {
+      expect(() => board.playerAtCoordinates(newCoords)).toThrowError(/No player at given coordinates/);
     });
   });
 });

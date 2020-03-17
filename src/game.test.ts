@@ -1,17 +1,17 @@
-import Game from "./game";
+import Game, { IGame } from "./game";
 import Player, { IPlayer } from "./player";
-import Board from "./board";
+import Board, { IBoard } from "./board";
 
 describe("constructor", () => {
-  let instance: Game;
-  let boardInstance: Board;
+  let instance: IGame;
+  let boardInstance: IBoard;
   let playerInstanceOne: IPlayer;
   let playerInstanceTwo: IPlayer;
 
   beforeEach(() => {
     boardInstance = new Board(3);
-    playerInstanceOne = Player.Build(2, { x: 0, y: 0 });
-    playerInstanceTwo = Player.Build(2, { x: 0, y: 0 });
+    playerInstanceOne = Player.Build(1, { x: 0, y: 0 });
+    playerInstanceTwo = Player.Build(2, { x: 0, y: 1 });
     instance = new Game(boardInstance, [playerInstanceOne, playerInstanceTwo]);
   });
   it("should be an instance of BoardCreation", () => {
