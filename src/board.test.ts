@@ -28,10 +28,8 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe("placePlayer", () => {
+  describe.only("placePlayer", () => {
     it("updates the players coordinates with the new given coordinats", () => {
-      board.placePlayer(orgCoords1, player1);
-      board.removePlayer(player1);
       board.placePlayer(newCoords, player1);
       expect(player1.coordinates.x === newCoords.x);
       expect(player1.coordinates.y === newCoords.y);
@@ -49,6 +47,10 @@ describe("Board in ./board", () => {
     it("throws error that player is already on list", () => {
       board.placePlayer(orgCoords1, player2);
       expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
+    });
+    it("player is added to the player grid list correctly", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(board.playerGrid);
     });
     // add test for player being added to the grid correctly
   });
