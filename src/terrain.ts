@@ -1,6 +1,8 @@
 const enum TerrainType {
   "Mountain",
-  "Forest"
+  "Forest",
+  "Water",
+  "Desert"
 }
 
 export interface ITerrain {
@@ -20,4 +22,14 @@ export class ForestTerrain implements ITerrain {
   constructor() {}
 }
 
-// Task 2: Define water and desert terrains and isPassible for all classes
+export class WaterTerrain implements ITerrain {
+  public readonly type: TerrainType = TerrainType.Water;
+  isPassable: true;
+  constructor() {}
+}
+
+export class DesertTerrain implements ITerrain {
+  public readonly type: TerrainType = TerrainType.Desert;
+  isPassable: true;
+  constructor() {}
+}

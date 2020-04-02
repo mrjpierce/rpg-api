@@ -26,11 +26,9 @@ export default class Board implements IBoard {
   public get playerList(): ReadonlyArray<IPlayer> {
     return this._playerList;
   }
-
   public get gridLength(): number {
     return this.playerGrid.length;
   }
-  // putting getting and setters at the top is common, another way is putting all the exposed above
   constructor(gridSize: number) {
     this._playerList = new Array<IPlayer>();
     this._terrainGrid = new Array<Array<ITerrain>>(gridSize);
@@ -40,8 +38,6 @@ export default class Board implements IBoard {
       this._terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
-  // Goals for next week,
-  // 2. get move tests updated and to the state
   public checkPlayerList(id: number): boolean {
     const idBeingChecked = this._playerList.findIndex(player => player.Id === id);
     if (idBeingChecked === -1) {
@@ -75,8 +71,6 @@ export default class Board implements IBoard {
     return true;
   }
   public isFree(newCoordinates: ICoordinates): boolean {
-    // "is" type function or non mutative functions that don't mutate state more than likely don't throw errors
-    // update move to remove validator and add to the isFree test to check for it
     if (!this.coordinateValidator(newCoordinates)) {
       return false;
     }
@@ -105,7 +99,7 @@ export default class Board implements IBoard {
   }
   public placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
     if (!this.coordinateValidator(newCoordinates)) {
-      throw new Error("player cannot be placed");
+      throw new Error("Player cannot be placed");
     }
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
