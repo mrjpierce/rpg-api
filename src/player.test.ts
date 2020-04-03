@@ -19,3 +19,6 @@ describe("player.ts", () => {
     });
   });
 });
+
+// abstract class testing
+//
