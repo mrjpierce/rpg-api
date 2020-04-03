@@ -112,3 +112,7 @@ export default class Board implements IBoard {
     this._playerList.push(player);
   }
 }
+// todo
+// 1. ensure that move has tests that ensure the correct errors are thrown, remove and place
+// 2. move unit class and Iunit into seperate file
+// 3. get Iunit under tests

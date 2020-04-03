@@ -66,7 +66,7 @@ describe("Board in ./board", () => {
       expect(() => board.playerAtCoordinates(newCoords)).toThrowError(/No player at given coordinates/);
     });
   });
-  describe("move", () => {
+  describe.only("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
       board.placePlayer(orgCoords1, player1);
       board.move(newCoords, player1);
@@ -83,6 +83,16 @@ describe("Board in ./board", () => {
         expect(board.move(coordinates, player1)).toBeFalsy();
       }
     );
+    it.only("throws an error because the provided player is not on either gird or list", () => {
+      expect(() => board.move(newCoords, player2)).toThrowError(/Provided player is not on/);
+    });
+    it.only("throws error that player is already on list", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(() => board.move(newCoords, player2)).toThrowError(/^Player already exists on list$/);
+    });
+    // i guess what i am really doing here if the move function will actually throw the error probably could make a more verbose way with .each
+    // Yes testing in both places because black box we don't know whats happening inside move method, we are worried about what it returns to the client and that
+    // if changing a single method or small code change causes mulitple tests to break and fail it might be a code smell and worth revisiting those test to ensure they are not fraile and easy breakable
   });
   describe("isFree", () => {
     it("returns true because the grid is open on the 3D array", () => {
@@ -132,7 +142,7 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player2);
       expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
     });
-    it("player is added to the player grid array correctly", () => {
+    it("player is added to the player grid correctly", () => {
       const playerArr = [player2];
       board.placePlayer(orgCoords1, player2);
       expect(board.playerGrid[player2.coordinates.x]).toEqual(expect.arrayContaining(playerArr));
