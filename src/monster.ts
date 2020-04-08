@@ -2,14 +2,13 @@ import "reflect-metadata";
 import { injectable } from "inversify";
 import { IUnit, ICoordinates, Unit } from "./unit";
 
-export interface IPlayer extends IUnit {
+export interface IMonster extends IUnit {
   coordinates: ICoordinates;
 }
-
 @injectable()
-export default class Player extends Unit implements IPlayer {
-  static Build(id: number, coordinates: ICoordinates): IPlayer {
-    return new Player(id, coordinates);
+export class Monster extends Unit implements IMonster {
+  static Build(id: number, coordinates: ICoordinates): IMonster {
+    return new Monster(id, coordinates);
   }
 
   protected constructor(id: number, coordinates: ICoordinates) {
