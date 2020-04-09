@@ -2,9 +2,7 @@ import "reflect-metadata";
 import { injectable } from "inversify";
 import { IUnit, ICoordinates, Unit } from "./unit";
 
-export interface IPlayer extends IUnit {
-  coordinates: ICoordinates;
-}
+export interface IPlayer extends IUnit {}
 
 @injectable()
 export default class Player extends Unit implements IPlayer {

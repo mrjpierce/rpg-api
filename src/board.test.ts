@@ -1,5 +1,6 @@
 import Board from "./board";
-import Player, { IPlayer, ICoordinates } from "./player";
+import Player, { IPlayer } from "./player";
+import { ICoordinates } from "./unit";
 
 describe("Board in ./board", () => {
   let board: Board;
@@ -8,6 +9,7 @@ describe("Board in ./board", () => {
   let playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
   let playerListTest: ReadonlyArray<IPlayer>;
   const gridSize = 3;
+  const testId = [0, 1];
   const newCoords = { x: 0, y: 0 };
   const orgCoords1 = { x: 0, y: 1 };
   const orgCoords2 = { x: 2, y: 2 };
@@ -18,8 +20,8 @@ describe("Board in ./board", () => {
     { x: 4, y: 4 }
   ];
   beforeEach(() => {
-    player1 = Player.Build(0, orgCoords1);
-    player2 = Player.Build(1, orgCoords2);
+    player1 = Player.Build(testId[0], orgCoords1);
+    player2 = Player.Build(testId[1], orgCoords2);
     board = new Board(gridSize);
   });
   describe("playerGrid", () => {
@@ -66,7 +68,7 @@ describe("Board in ./board", () => {
       expect(() => board.playerAtCoordinates(newCoords)).toThrowError(/No player at given coordinates/);
     });
   });
-  describe.only("move", () => {
+  describe("move", () => {
     it("moves the player to the given coordinates cordinates", () => {
       board.placePlayer(orgCoords1, player1);
       board.move(newCoords, player1);
@@ -83,17 +85,13 @@ describe("Board in ./board", () => {
         expect(board.move(coordinates, player1)).toBeFalsy();
       }
     );
-    it.only("throws an error because the provided player is not on either gird or list", () => {
+    it("throws an error because the provided player is not on either gird or list", () => {
       expect(() => board.move(newCoords, player2)).toThrowError(/Provided player is not on/);
-    });
-    it.only("throws error that player is already on list", () => {
-      board.placePlayer(orgCoords1, player2);
-      expect(() => board.move(newCoords, player2)).toThrowError(/^Player already exists on list$/);
     });
     it("throws error when the provided player is not on either gird or list", () => {
       board.placePlayer(orgCoords1, player1);
       const fooPlayer = Player.Build(player1.Id, player1.coordinates);
-      expect(() => board.move(fooPlayer)).toThrowError(
+      expect(() => board.move(orgCoords2, fooPlayer)).toThrowError(
         /Player id mismatch; Player passed does not match the player with corresponding id on board/
       );
     });
@@ -153,6 +151,10 @@ describe("Board in ./board", () => {
       const playerArr = [player2];
       board.placePlayer(orgCoords1, player2);
       expect(board.playerGrid[player2.coordinates.x]).toEqual(expect.arrayContaining(playerArr));
+    });
+    it("player coordinates are updated to new coordinates", () => {
+      board.placePlayer(orgCoords1, player2);
+      expect(player2.coordinates).toEqual(orgCoords1);
     });
   });
 });

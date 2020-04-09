@@ -1,12 +1,15 @@
 import "reflect-metadata";
 
-export interface IUnit {
-  Id: number;
-}
 export interface ICoordinates {
   x: number;
   y: number;
 }
+
+export interface IUnit {
+  Id: number;
+  coordinates: ICoordinates;
+}
+
 export abstract class Unit implements IUnit {
   public readonly Id: number;
   protected _xPos: number;

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { injectable } from "inversify";
-import { IPlayer, ICoordinates } from "./player";
+import { IPlayer } from "./player";
+import { ICoordinates } from "./unit";
 import { ITerrain } from "./terrain";
 
 export interface IBoard {
@@ -104,7 +105,7 @@ export default class Board implements IBoard {
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
     }
-    if (this._playerList.find(value => value.Id === player.Id)) {
+    if (this._playerList.find(x => x.Id === player.Id)) {
       throw new Error("Player already exists on list");
     }
     player.coordinates = newCoordinates;
@@ -112,7 +113,3 @@ export default class Board implements IBoard {
     this._playerList.push(player);
   }
 }
-// todo
-// 1. ensure that move has tests that ensure the correct errors are thrown, remove and place
-// 2. move unit class and Iunit into seperate file
-// 3. get Iunit under tests
