@@ -90,6 +90,13 @@ describe("Board in ./board", () => {
       board.placePlayer(orgCoords1, player2);
       expect(() => board.move(newCoords, player2)).toThrowError(/^Player already exists on list$/);
     });
+    it("throws error when the provided player is not on either gird or list", () => {
+      board.placePlayer(orgCoords1, player1);
+      const fooPlayer = Player.Build(player1.Id, player1.coordinates);
+      expect(() => board.move(fooPlayer)).toThrowError(
+        /Player id mismatch; Player passed does not match the player with corresponding id on board/
+      );
+    });
     // i guess what i am really doing here if the move function will actually throw the error probably could make a more verbose way with .each
     // Yes testing in both places because black box we don't know whats happening inside move method, we are worried about what it returns to the client and that
     // if changing a single method or small code change causes mulitple tests to break and fail it might be a code smell and worth revisiting those test to ensure they are not fraile and easy breakable
