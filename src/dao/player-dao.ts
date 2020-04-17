@@ -1,18 +1,14 @@
 import "reflect-metadata";
-import { IPlayer } from "../player";
-import { injectable } from "inversify";
-import { store } from "./mock-store";
+import Player, { IPlayer } from "../player";
+import { injectable, inject } from "inversify";
+import { DataAccessObject } from "@ifit/mongoose-dao";
+import { IPlayerDO } from "../do/player-do";
 
-export interface IPlayerDAO {
-  find(id: string): IPlayer;
-}
+export interface IPlayerDAO extends DataAccessObject<IPlayerDO, IPlayer> {}
 @injectable()
-export class PlayerDAO implements IPlayerDAO {
-  find(id: string): IPlayer {
-    const player = store.players[id] as IPlayer;
-    if (!player) {
-      throw new Error(`player id of ${id} does not exist`);
-    }
-    return player;
+export class PlayerDAO extends DataAccessObject<IPlayerDO, IPlayer> implements IPlayerDAO {
+  protected targetClass = Player;
+  constructor(@inject(TYPES.IPlayerModel) protected model: IPlayerModel) {
+    super();
   }
 }

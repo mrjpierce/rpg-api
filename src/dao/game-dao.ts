@@ -11,9 +11,7 @@ export interface IGameDAO extends DataAccessObject<IGameDO, IGame> {}
 @injectable()
 export class GameDAO extends DataAccessObject<IGameDO, IGame> implements IGameDAO {
   protected targetClass = Game;
-  constructor(
-    @inject(TYPES.IGameModel) protected model: IGameModel
-  ) {
+  constructor(@inject(TYPES.IGameModel) protected model: IGameModel) {
     super();
   }
 }
