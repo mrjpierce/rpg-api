@@ -1,8 +1,10 @@
 import "reflect-metadata";
 import { injectable } from "inversify";
 import { IUnit, ICoordinates, Unit } from "./unit";
+import { DataObject } from "@ifit/mongoose-dao";
+import { IPlayerDO } from "./do/player-do";
 
-export interface IPlayer extends IUnit {}
+export interface IPlayer extends IUnit, DataObject<IPlayerDO> {}
 
 @injectable()
 export default class Player extends Unit implements IPlayer {
