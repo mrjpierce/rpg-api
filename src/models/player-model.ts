@@ -8,7 +8,7 @@ export type IPlayerDoc = IPlayerDO & Document;
 export type IPlayerModel = Model<IPlayerDoc>;
 export const modelName = "Player";
 
-export const gameSchema = new Schema({
+export const playerSchema = new Schema({
   player: { type: Schema.Types.ObjectId, ref: "Player" }
 });
 
@@ -16,6 +16,6 @@ export function getPlayerModel(): IPlayerModel {
   try {
     return model<IPlayerDoc>(modelName);
   } catch {
-    return model<IPlayerDoc>(modelName, gameSchema);
+    return model<IPlayerDoc>(modelName, playerSchema);
   }
 }
