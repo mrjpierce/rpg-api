@@ -1,14 +1,14 @@
 import "reflect-metadata";
-import Player, { IPlayer } from "../player";
 import { injectable, inject } from "inversify";
 import { DataAccessObject } from "@ifit/mongoose-dao";
-import { IPlayerDO } from "../do/player-do";
+import { IUnitDO } from "../do/player-do";
 import { IPlayerModel } from "../models/player-model";
+import { IUnit } from "../unit";
 
-export interface IPlayerDAO extends DataAccessObject<IPlayerDO, IPlayer> {}
+export interface IUnitDAO extends DataAccessObject<IUnitDO, IUnit> {}
 @injectable()
-export class PlayerDAO extends DataAccessObject<IPlayerDO, IPlayer> implements IPlayerDAO {
-  protected targetClass = Player;
+export class PlayerDAO extends DataAccessObject<IUnitDO, IUnit> implements IUnitDAO {
+  protected targetClass = Unit;
   constructor(@inject(TYPES.IPlayerModel) protected model: IPlayerModel) {
     super();
   }

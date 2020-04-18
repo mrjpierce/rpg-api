@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { IUnitDO } from "./do/player-do";
 
 export interface ICoordinates {
   x: number;
@@ -6,30 +7,28 @@ export interface ICoordinates {
 }
 
 export interface IUnit {
-  Id: number;
   coordinates: ICoordinates;
 }
 
-export abstract class Unit implements IUnit {
+export class Unit implements IUnit {
   public readonly Id: number;
-  protected _xPos: number;
-  protected _yPos: number;
+  protected _x: number;
+  protected _y: number;
 
   public get coordinates(): ICoordinates {
     return {
-      x: this._xPos,
-      y: this._yPos
+      x: this._x,
+      y: this._y
     };
   }
 
   public set coordinates(newCoordinates: ICoordinates) {
-    this._xPos = newCoordinates.x;
-    this._yPos = newCoordinates.y;
+    this._x = newCoordinates.x;
+    this._y = newCoordinates.y;
   }
 
-  constructor(id: number, coordinates: ICoordinates) {
-    this.Id = id;
-    this._xPos = coordinates.x;
-    this._yPos = coordinates.y;
+  constructor(init?: Partial<IUnitDO>) {
+    this._x = init.x;
+    this._y = init.y;
   }
 }

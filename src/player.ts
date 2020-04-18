@@ -5,6 +5,7 @@ import { DataObject } from "@ifit/mongoose-dao";
 import { IPlayerDO } from "./do/player-do";
 
 export interface IPlayer extends IUnit, DataObject<IPlayerDO> {}
+//does each unit type need a seperate data store?
 
 @injectable()
 export default class Player extends Unit implements IPlayer {
