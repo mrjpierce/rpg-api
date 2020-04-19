@@ -1,7 +1,8 @@
 export const TYPES = {
   IBoard: Symbol("IBoard"),
-  IPlayerBuilder: Symbol("IPlayerBuilder"),
+  IunitBuilder: Symbol("IunitBuilder"),
   IGameDAO: Symbol("IGameDAO"),
-  IPlayerDAO: Symbol("IPlayerDAO"),
-  IGameModel: Symbol("IGameModel")
+  IUnitDAO: Symbol("IUnitDAO"),
+  IGameModel: Symbol("IGameModel"),
+  IUnitModel: Symbol("IUnit")
 };

@@ -34,11 +34,11 @@ functions:
             parameters:
               paths:
                 id: true
-  put-move-player:
-    handler: out/index.putMovePlayerLambda
+  put-move-unit:
+    handler: out/index.putMoveunitLambda
     events:
       - http:
-          path: /game/player/move/{gameId}/{playerId}
+          path: /game/unit/move/{gameId}/{unitId}
           method: put
           request:
             parameters:

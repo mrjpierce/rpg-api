@@ -1,13 +1,13 @@
 import Board from "./board";
-import Player, { IPlayer } from "./player";
+import unit, { Iunit } from "./unit";
 import { ICoordinates } from "./unit";
 
 describe("Board in ./board", () => {
   let board: Board;
-  let player1: IPlayer;
-  let player2: IPlayer;
-  let playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
-  let playerListTest: ReadonlyArray<IPlayer>;
+  let unit1: Iunit;
+  let unit2: Iunit;
+  let unitGrid: ReadonlyArray<ReadonlyArray<Iunit | null>>;
+  let unitListTest: ReadonlyArray<Iunit>;
   const gridSize = 3;
   const testId = [0, 1];
   const newCoords = { x: 0, y: 0 };
@@ -20,22 +20,22 @@ describe("Board in ./board", () => {
     { x: 4, y: 4 }
   ];
   beforeEach(() => {
-    player1 = Player.Build(testId[0], orgCoords1);
-    player2 = Player.Build(testId[1], orgCoords2);
+    unit1 = unit.Build(testId[0], orgCoords1);
+    unit2 = unit.Build(testId[1], orgCoords2);
     board = new Board(gridSize);
   });
-  describe("playerGrid", () => {
-    it("returns player grid with one player placed on it", () => {
-      board.placePlayer(orgCoords1, player1);
-      playerGrid = board.playerGrid;
-      expect(playerGrid).toBe(board.playerGrid);
+  describe("unitGrid", () => {
+    it("returns unit grid with one unit placed on it", () => {
+      board.placeunit(orgCoords1, unit1);
+      unitGrid = board.unitGrid;
+      expect(unitGrid).toBe(board.unitGrid);
     });
   });
-  describe("playerList", () => {
-    it("returns a list of players on the board", () => {
-      board.placePlayer(newCoords, player1);
-      playerListTest = board.playerList;
-      expect(playerListTest).toBe(board.playerList);
+  describe("unitList", () => {
+    it("returns a list of units on the board", () => {
+      board.placeunit(newCoords, unit1);
+      unitListTest = board.unitList;
+      expect(unitListTest).toBe(board.unitList);
     });
   });
   describe("gridLength", () => {
@@ -48,51 +48,51 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe("checkPlayerList", () => {
+  describe("checkunitList", () => {
     beforeEach(() => {
-      board.placePlayer(orgCoords1, player1);
+      board.placeunit(orgCoords1, unit1);
     });
-    it("returns true because id provided coresponds with an id of a player that exists on the playerList", () => {
-      expect(board.checkPlayerList(player1.Id)).toBeTruthy();
+    it("returns true because id provided coresponds with an id of a unit that exists on the unitList", () => {
+      expect(board.checkunitList(unit1.Id)).toBeTruthy();
     });
-    it("returns false because id provided does not coresponds with an id of a player that exists on the playerList", () => {
-      expect(board.checkPlayerList(3)).toBeFalsy();
+    it("returns false because id provided does not coresponds with an id of a unit that exists on the unitList", () => {
+      expect(board.checkunitList(3)).toBeFalsy();
     });
   });
-  describe("playerAtCoordinates", () => {
-    it("returns a player because the given coordinates are of a player on the board", () => {
-      board.placePlayer(orgCoords2, player2);
-      expect(board.playerAtCoordinates(orgCoords2)).toMatchObject(player2);
+  describe("unitAtCoordinates", () => {
+    it("returns a unit because the given coordinates are of a unit on the board", () => {
+      board.placeunit(orgCoords2, unit2);
+      expect(board.unitAtCoordinates(orgCoords2)).toMatchObject(unit2);
     });
-    it("Error is thrown because there is no player at provided coordinates ", () => {
-      expect(() => board.playerAtCoordinates(newCoords)).toThrowError(/No player at given coordinates/);
+    it("Error is thrown because there is no unit at provided coordinates ", () => {
+      expect(() => board.unitAtCoordinates(newCoords)).toThrowError(/No unit at given coordinates/);
     });
   });
   describe("move", () => {
-    it("moves the player to the given coordinates cordinates", () => {
-      board.placePlayer(orgCoords1, player1);
-      board.move(newCoords, player1);
-      expect(board.playerGrid[newCoords.x][newCoords.y]).toBe(player1);
+    it("moves the unit to the given coordinates cordinates", () => {
+      board.placeunit(orgCoords1, unit1);
+      board.move(newCoords, unit1);
+      expect(board.unitGrid[newCoords.x][newCoords.y]).toBe(unit1);
     });
-    it("removes player, changes player coord, places player and returns true", () => {
-      board.placePlayer(orgCoords1, player1);
-      expect(board.move(newCoords, player1)).toBeTruthy();
+    it("removes unit, changes unit coord, places unit and returns true", () => {
+      board.placeunit(orgCoords1, unit1);
+      expect(board.move(newCoords, unit1)).toBeTruthy();
     });
     it.each(incorrectInputs)(
       "it will return false because due to inputs not being compatable",
       (coordinates: ICoordinates) => {
-        board.move(coordinates, player1);
-        expect(board.move(coordinates, player1)).toBeFalsy();
+        board.move(coordinates, unit1);
+        expect(board.move(coordinates, unit1)).toBeFalsy();
       }
     );
-    it("throws an error because the provided player is not on either gird or list", () => {
-      expect(() => board.move(newCoords, player2)).toThrowError(/Provided player is not on/);
+    it("throws an error because the provided unit is not on either gird or list", () => {
+      expect(() => board.move(newCoords, unit2)).toThrowError(/Provided unit is not on/);
     });
-    it("throws error when the provided player is not on either gird or list", () => {
-      board.placePlayer(orgCoords1, player1);
-      const fooPlayer = Player.Build(player1.Id, player1.coordinates);
-      expect(() => board.move(orgCoords2, fooPlayer)).toThrowError(
-        /Player id mismatch; Player passed does not match the player with corresponding id on board/
+    it("throws error when the provided unit is not on either gird or list", () => {
+      board.placeunit(orgCoords1, unit1);
+      const foounit = unit.Build(unit1.Id, unit1.coordinates);
+      expect(() => board.move(orgCoords2, foounit)).toThrowError(
+        /unit id mismatch; unit passed does not match the unit with corresponding id on board/
       );
     });
     // i guess what i am really doing here if the move function will actually throw the error probably could make a more verbose way with .each
@@ -104,57 +104,57 @@ describe("Board in ./board", () => {
       expect(board.isFree(newCoords)).toBeTruthy();
     });
     it("returns falsey because given coordinate grid position is not free", () => {
-      board.placePlayer(newCoords, player2);
+      board.placeunit(newCoords, unit2);
       expect(() => board.isFree(newCoords)).toBeFalsy;
     });
   });
-  describe("removePlayer", () => {
+  describe("removeunit", () => {
     it("removes old coordinates and sets them to null", () => {
-      board.placePlayer(orgCoords1, player1);
-      board.removePlayer(player1);
-      expect(board.playerGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
+      board.placeunit(orgCoords1, unit1);
+      board.removeunit(unit1);
+      expect(board.unitGrid[orgCoords1.x][orgCoords1.y]).toBe(null);
     });
-    it("throws error when the provided player is not on either gird or list", () => {
-      expect(() => board.removePlayer(player2)).toThrowError(/Provided player is not on/);
+    it("throws error when the provided unit is not on either gird or list", () => {
+      expect(() => board.removeunit(unit2)).toThrowError(/Provided unit is not on/);
     });
-    it("throws error when the provided player is not on either gird or list", () => {
-      board.placePlayer(orgCoords1, player1);
-      const fooPlayer = Player.Build(player1.Id, player1.coordinates);
-      expect(() => board.removePlayer(fooPlayer)).toThrowError(
-        /Player id mismatch; Player passed does not match the player with corresponding id on board/
+    it("throws error when the provided unit is not on either gird or list", () => {
+      board.placeunit(orgCoords1, unit1);
+      const foounit = unit.Build(unit1.Id, unit1.coordinates);
+      expect(() => board.removeunit(foounit)).toThrowError(
+        /unit id mismatch; unit passed does not match the unit with corresponding id on board/
       );
     });
   });
-  describe("placePlayer", () => {
-    it("updates the players coordinates with the new given coordinats", () => {
-      board.placePlayer(newCoords, player1);
-      expect(player1.coordinates.x === newCoords.x);
-      expect(player1.coordinates.y === newCoords.y);
+  describe("placeunit", () => {
+    it("updates the units coordinates with the new given coordinats", () => {
+      board.placeunit(newCoords, unit1);
+      expect(unit1.coordinates.x === newCoords.x);
+      expect(unit1.coordinates.y === newCoords.y);
     });
-    it("adds the player to the playerList", () => {
-      const playerArr = [player1];
-      board.placePlayer(orgCoords1, player1);
-      expect(board.playerList).toEqual(expect.arrayContaining(playerArr));
+    it("adds the unit to the unitList", () => {
+      const unitArr = [unit1];
+      board.placeunit(orgCoords1, unit1);
+      expect(board.unitList).toEqual(expect.arrayContaining(unitArr));
     });
-    it("throws error that player cannot be placed because given coordinates are not valid", () => {
-      expect(() => board.placePlayer(incorrectInputs[1], player1)).toThrowError(/^Player cannot be placed$/);
+    it("throws error that unit cannot be placed because given coordinates are not valid", () => {
+      expect(() => board.placeunit(incorrectInputs[1], unit1)).toThrowError(/^unit cannot be placed$/);
     });
     it("throws error that position is not free", () => {
-      board.placePlayer(orgCoords1, player2);
-      expect(() => board.placePlayer(orgCoords1, player1)).toThrowError(/^Position is not free$/);
+      board.placeunit(orgCoords1, unit2);
+      expect(() => board.placeunit(orgCoords1, unit1)).toThrowError(/^Position is not free$/);
     });
-    it("throws error that player is already on list", () => {
-      board.placePlayer(orgCoords1, player2);
-      expect(() => board.placePlayer(newCoords, player2)).toThrowError(/^Player already exists on list$/);
+    it("throws error that unit is already on list", () => {
+      board.placeunit(orgCoords1, unit2);
+      expect(() => board.placeunit(newCoords, unit2)).toThrowError(/^unit already exists on list$/);
     });
-    it("player is added to the player grid correctly", () => {
-      const playerArr = [player2];
-      board.placePlayer(orgCoords1, player2);
-      expect(board.playerGrid[player2.coordinates.x]).toEqual(expect.arrayContaining(playerArr));
+    it("unit is added to the unit grid correctly", () => {
+      const unitArr = [unit2];
+      board.placeunit(orgCoords1, unit2);
+      expect(board.unitGrid[unit2.coordinates.x]).toEqual(expect.arrayContaining(unitArr));
     });
-    it("player coordinates are updated to new coordinates", () => {
-      board.placePlayer(orgCoords1, player2);
-      expect(player2.coordinates).toEqual(orgCoords1);
+    it("unit coordinates are updated to new coordinates", () => {
+      board.placeunit(orgCoords1, unit2);
+      expect(unit2.coordinates).toEqual(orgCoords1);
     });
   });
 });

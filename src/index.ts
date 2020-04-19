@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { Lambdafy } from "@ifit/fleece";
 import { ContainerFactory } from "./container-factory";
 import { GetGameHandler } from "./handlers/get-game";
-import { PutMovePlayerHandler } from "./handlers/put-move-player";
+import { PutMoveunitHandler } from "./handlers/put-move-Unit";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 const mongoServer = new MongoMemoryServer();
@@ -34,9 +34,9 @@ mongoServer.getUri().then(mongoUri => {
 const containerFactory = new ContainerFactory();
 
 // const board = container.get<IBoard>(TYPES.IBoard);
-// const playerBuilder = container.get<PlayerBuildFuncType>(TYPES.IPlayerBuilder);
+// const unitBuilder = container.get<unitBuildFuncType>(TYPES.IunitBuilder);
 
 const lambdafy = (identifier: any) => Lambdafy.create(containerFactory, identifier);
 // lambadfy wraps the handler in function for scoping
 export const getGameLambda = lambdafy(GetGameHandler);
-export const putMovePlayerLambda = lambdafy(PutMovePlayerHandler);
+export const putMoveunitLambda = lambdafy(PutMoveunitHandler);

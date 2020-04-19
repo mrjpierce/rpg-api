@@ -1,8 +1,8 @@
 import { IDataObject } from "@ifit/mongoose-dao";
 import { IBoard } from "../board";
-import { IPlayer } from "../player";
+import { Iunit } from "../unit";
 
 export interface IGameDO extends IDataObject {
   board: IBoard;
-  players: Array<IPlayer>;
+  units: Array<Iunit>;
 }

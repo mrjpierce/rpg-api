@@ -1,11 +1,11 @@
 import Board from "../board";
-import Player from "../player";
+import unit from "../unit";
 import Game from "../game";
 
 const board0 = new Board(3);
-const player0 = Player.Build(0, { x: 0, y: 0 });
-const player1 = Player.Build(1, { x: 2, y: 0 });
-const game0 = new Game(board0, [player0, player1]);
+const unit0 = unit.Build(0, { x: 0, y: 0 });
+const unit1 = unit.Build(1, { x: 2, y: 0 });
+const game0 = new Game(board0, [unit0, unit1]);
 console.log("hey es me mock store");
 export const store = {
   games: {
@@ -14,8 +14,8 @@ export const store = {
   boards: {
     "0": board0
   },
-  players: {
-    "0": player0,
-    "1": player1
+  units: {
+    "0": unit0,
+    "1": unit1
   }
 };

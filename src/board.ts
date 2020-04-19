@@ -1,58 +1,58 @@
 import "reflect-metadata";
 import { injectable } from "inversify";
-import { IPlayer } from "./player";
+import { Iunit } from "./unit";
 import { ICoordinates } from "./unit";
 import { ITerrain } from "./terrain";
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
-  removePlayer(player: IPlayer): void;
-  placePlayer(coordinates: ICoordinates, player: IPlayer): void;
-  move(newCoordinates: ICoordinates, player: IPlayer): boolean;
-  playerGrid: ReadonlyArray<ReadonlyArray<IPlayer | null>>;
-  playerList: ReadonlyArray<IPlayer>;
-  checkPlayerList(id: number): boolean;
-  playerAtCoordinates(cooordinates: ICoordinates): IPlayer;
+  removeunit(unit: Iunit): void;
+  placeunit(coordinates: ICoordinates, unit: Iunit): void;
+  move(newCoordinates: ICoordinates, unit: Iunit): boolean;
+  unitGrid: ReadonlyArray<ReadonlyArray<Iunit | null>>;
+  unitList: ReadonlyArray<Iunit>;
+  checkunitList(id: number): boolean;
+  unitAtCoordinates(cooordinates: ICoordinates): Iunit;
 }
 
 @injectable()
 export default class Board implements IBoard {
-  private _playerGrid: Array<Array<IPlayer | null>>;
+  private _unitGrid: Array<Array<Iunit | null>>;
   private _terrainGrid: Array<Array<ITerrain>>;
-  private _playerList: Array<IPlayer>;
+  private _unitList: Array<Iunit>;
 
-  public get playerGrid(): ReadonlyArray<ReadonlyArray<IPlayer | null>> {
-    return this._playerGrid;
+  public get unitGrid(): ReadonlyArray<ReadonlyArray<Iunit | null>> {
+    return this._unitGrid;
   }
-  public get playerList(): ReadonlyArray<IPlayer> {
-    return this._playerList;
+  public get unitList(): ReadonlyArray<Iunit> {
+    return this._unitList;
   }
   public get gridLength(): number {
-    return this.playerGrid.length;
+    return this.unitGrid.length;
   }
   constructor(gridSize: number) {
-    this._playerList = new Array<IPlayer>();
+    this._unitList = new Array<Iunit>();
     this._terrainGrid = new Array<Array<ITerrain>>(gridSize);
-    this._playerGrid = new Array<Array<IPlayer>>(gridSize);
-    for (let i = 0; i < this._playerGrid.length; i++) {
-      this._playerGrid[i] = new Array<IPlayer>(gridSize);
+    this._unitGrid = new Array<Array<Iunit>>(gridSize);
+    for (let i = 0; i < this._unitGrid.length; i++) {
+      this._unitGrid[i] = new Array<Iunit>(gridSize);
       this._terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
-  public checkPlayerList(id: number): boolean {
-    const idBeingChecked = this._playerList.findIndex(player => player.Id === id);
+  public checkunitList(id: number): boolean {
+    const idBeingChecked = this._unitList.findIndex(unit => unit.Id === id);
     if (idBeingChecked === -1) {
       return false;
     }
     return true;
   }
-  public playerAtCoordinates(coordiantes: ICoordinates): IPlayer {
+  public unitAtCoordinates(coordiantes: ICoordinates): Iunit {
     if (!this.coordinateValidator(coordiantes)) {
       throw new Error("Given coordinates are not compatable");
     }
-    if (this._playerGrid[coordiantes.x][coordiantes.y] == null || undefined) {
-      throw new Error("No player at given coordinates");
-    } else return this._playerGrid[coordiantes.x][coordiantes.y];
+    if (this._unitGrid[coordiantes.x][coordiantes.y] == null || undefined) {
+      throw new Error("No unit at given coordinates");
+    } else return this._unitGrid[coordiantes.x][coordiantes.y];
   }
   private coordinateValidator(coordiantes: ICoordinates): boolean {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
@@ -63,12 +63,12 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  public move(newCooridnates: ICoordinates, player: IPlayer): boolean {
+  public move(newCooridnates: ICoordinates, unit: Iunit): boolean {
     if (!this.isFree(newCooridnates)) {
       return false;
     }
-    this.removePlayer(player);
-    this.placePlayer(newCooridnates, player);
+    this.removeunit(unit);
+    this.placeunit(newCooridnates, unit);
     return true;
   }
   public isFree(newCoordinates: ICoordinates): boolean {
@@ -76,40 +76,40 @@ export default class Board implements IBoard {
       return false;
     }
     if (
-      this._playerGrid[newCoordinates.x][newCoordinates.y] != null ||
-      this._playerGrid[newCoordinates.x][newCoordinates.y] != undefined
+      this._unitGrid[newCoordinates.x][newCoordinates.y] != null ||
+      this._unitGrid[newCoordinates.x][newCoordinates.y] != undefined
     ) {
       return false;
     }
     return true;
   }
-  public removePlayer(playerToBeRemoved: IPlayer): void {
-    const playerOnList = this._playerList.find(player => player.Id === playerToBeRemoved.Id);
-    const playerOnGrid = this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y];
-    if (playerOnGrid === undefined || playerOnList === undefined) {
-      throw new Error("Provided player is not on grid or list");
+  public removeunit(unitToBeRemoved: Iunit): void {
+    const unitOnList = this._unitList.find(unit => unit.Id === unitToBeRemoved.Id);
+    const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
+    if (unitOnGrid === undefined || unitOnList === undefined) {
+      throw new Error("Provided unit is not on grid or list");
     }
-    if (playerToBeRemoved !== playerOnList) {
-      throw new Error("Player id mismatch; Player passed does not match the player with corresponding id on board");
+    if (unitToBeRemoved !== unitOnList) {
+      throw new Error("unit id mismatch; unit passed does not match the unit with corresponding id on board");
     }
-    playerToBeRemoved.coordinates.x = null;
-    playerToBeRemoved.coordinates.y = null;
-    this._playerGrid[playerToBeRemoved.coordinates.x][playerToBeRemoved.coordinates.y] = null;
-    const returnedIndex = this._playerList.findIndex(player => player.Id === playerToBeRemoved.Id);
-    this._playerList.splice(returnedIndex, 1);
+    unitToBeRemoved.coordinates.x = null;
+    unitToBeRemoved.coordinates.y = null;
+    this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y] = null;
+    const returnedIndex = this._unitList.findIndex(unit => unit.Id === unitToBeRemoved.Id);
+    this._unitList.splice(returnedIndex, 1);
   }
-  public placePlayer(newCoordinates: ICoordinates, player: IPlayer): void {
+  public placeunit(newCoordinates: ICoordinates, unit: Iunit): void {
     if (!this.coordinateValidator(newCoordinates)) {
-      throw new Error("Player cannot be placed");
+      throw new Error("unit cannot be placed");
     }
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
     }
-    if (this._playerList.find(x => x.Id === player.Id)) {
-      throw new Error("Player already exists on list");
+    if (this._unitList.find(x => x.Id === unit.Id)) {
+      throw new Error("unit already exists on list");
     }
-    player.coordinates = newCoordinates;
-    this._playerGrid[newCoordinates.x][newCoordinates.y] = player;
-    this._playerList.push(player);
+    unit.coordinates = newCoordinates;
+    this._unitGrid[newCoordinates.x][newCoordinates.y] = unit;
+    this._unitList.push(unit);
   }
 }
