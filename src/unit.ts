@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { IUnitDO } from "./do/player-do";
+import { IUnitDO } from "./do/unit-do";
 
 export interface ICoordinates {
   x: number;

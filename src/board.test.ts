@@ -1,5 +1,5 @@
 import Board from "./board";
-import unit, { Iunit } from "./unit";
+import Unit, { Iunit } from "./unit";
 import { ICoordinates } from "./unit";
 
 describe("Board in ./board", () => {
@@ -20,8 +20,8 @@ describe("Board in ./board", () => {
     { x: 4, y: 4 }
   ];
   beforeEach(() => {
-    unit1 = unit.Build(testId[0], orgCoords1);
-    unit2 = unit.Build(testId[1], orgCoords2);
+    unit1 = Unit.Build(testId[0], orgCoords1);
+    unit2 = Unit.Build(testId[1], orgCoords2);
     board = new Board(gridSize);
   });
   describe("unitGrid", () => {
