@@ -1,35 +1,9 @@
 import "reflect-metadata";
-import mongoose from "mongoose";
 import { Lambdafy } from "@ifit/fleece";
 import { ContainerFactory } from "./container-factory";
 import { GetGameHandler } from "./handlers/get-game";
 import { PutMoveunitHandler } from "./handlers/put-move-Unit";
-import { MongoMemoryServer } from "mongodb-memory-server";
-
-const mongoServer = new MongoMemoryServer();
-
-mongoose.Promise = Promise;
-mongoServer.getUri().then(mongoUri => {
-  const mongooseOpts = {
-    autoReconnect: true,
-    reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 1000
-  };
-
-  mongoose.connect(mongoUri, mongooseOpts);
-
-  mongoose.connection.on("error", e => {
-    if (e.message.code === "ETIMEDOUT") {
-      console.log(e);
-      mongoose.connect(mongoUri, mongooseOpts);
-    }
-    console.log(e);
-  });
-
-  mongoose.connection.once("open", () => {
-    console.log(`MongoDB successfully connected to ${mongoUri}`);
-  });
-});
+import { PostUnitHandler } from "./handlers/post-create-Unit";
 
 const containerFactory = new ContainerFactory();
 
@@ -40,3 +14,4 @@ const lambdafy = (identifier: any) => Lambdafy.create(containerFactory, identifi
 // lambadfy wraps the handler in function for scoping
 export const getGameLambda = lambdafy(GetGameHandler);
 export const putMoveunitLambda = lambdafy(PutMoveunitHandler);
+export const postUnitLambda = lambdafy(PostUnitHandler);

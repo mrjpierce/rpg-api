@@ -44,6 +44,13 @@ functions:
             parameters:
               paths:
                 id: true
+  post-create-unit:
+    handler: out/index.postUnitLambda
+    events:
+      - http:
+          path: /unit/player
+          method: post
+          cors: true
 plugins:
   - serverless-offline
   - '@ifit/blab'

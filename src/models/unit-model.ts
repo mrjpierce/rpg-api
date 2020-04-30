@@ -6,10 +6,10 @@ initMongoCleanAndTimestamp();
 
 export type IUnitDoc = IUnitDO & Document;
 export type IUnitModel = Model<IUnitDoc>;
-export const modelName = "unit";
+export const modelName = "Unit";
 
 export const unitSchema = new Schema({
-  unit: { type: Schema.Types.ObjectId, ref: "unit" }
+  unit: { type: Schema.Types.ObjectId, ref: "Unit" }
 });
 
 export function getUnitModel(): IUnitModel {

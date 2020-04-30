@@ -1,41 +1,41 @@
 import "reflect-metadata";
 import { injectable } from "inversify";
-import { Iunit } from "./unit";
+import { IUnit } from "./unit";
 import { ICoordinates } from "./unit";
 import { ITerrain } from "./terrain";
 
 export interface IBoard {
   isFree(coordinates: ICoordinates): boolean;
-  removeunit(unit: Iunit): void;
-  placeunit(coordinates: ICoordinates, unit: Iunit): void;
-  move(newCoordinates: ICoordinates, unit: Iunit): boolean;
-  unitGrid: ReadonlyArray<ReadonlyArray<Iunit | null>>;
-  unitList: ReadonlyArray<Iunit>;
+  removeunit(unit: IUnit): void;
+  placeunit(coordinates: ICoordinates, unit: IUnit): void;
+  move(newCoordinates: ICoordinates, unit: IUnit): boolean;
+  unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
+  unitList: ReadonlyArray<IUnit>;
   checkunitList(id: number): boolean;
-  unitAtCoordinates(cooordinates: ICoordinates): Iunit;
+  unitAtCoordinates(cooordinates: ICoordinates): IUnit;
 }
 
 @injectable()
 export default class Board implements IBoard {
-  private _unitGrid: Array<Array<Iunit | null>>;
+  private _unitGrid: Array<Array<IUnit | null>>;
   private _terrainGrid: Array<Array<ITerrain>>;
-  private _unitList: Array<Iunit>;
+  private _unitList: Array<IUnit>;
 
-  public get unitGrid(): ReadonlyArray<ReadonlyArray<Iunit | null>> {
+  public get unitGrid(): ReadonlyArray<ReadonlyArray<IUnit | null>> {
     return this._unitGrid;
   }
-  public get unitList(): ReadonlyArray<Iunit> {
+  public get unitList(): ReadonlyArray<IUnit> {
     return this._unitList;
   }
   public get gridLength(): number {
     return this.unitGrid.length;
   }
   constructor(gridSize: number) {
-    this._unitList = new Array<Iunit>();
+    this._unitList = new Array<IUnit>();
     this._terrainGrid = new Array<Array<ITerrain>>(gridSize);
-    this._unitGrid = new Array<Array<Iunit>>(gridSize);
+    this._unitGrid = new Array<Array<IUnit>>(gridSize);
     for (let i = 0; i < this._unitGrid.length; i++) {
-      this._unitGrid[i] = new Array<Iunit>(gridSize);
+      this._unitGrid[i] = new Array<IUnit>(gridSize);
       this._terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
@@ -46,7 +46,7 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  public unitAtCoordinates(coordiantes: ICoordinates): Iunit {
+  public unitAtCoordinates(coordiantes: ICoordinates): IUnit {
     if (!this.coordinateValidator(coordiantes)) {
       throw new Error("Given coordinates are not compatable");
     }
@@ -63,7 +63,7 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  public move(newCooridnates: ICoordinates, unit: Iunit): boolean {
+  public move(newCooridnates: ICoordinates, unit: IUnit): boolean {
     if (!this.isFree(newCooridnates)) {
       return false;
     }
@@ -83,7 +83,7 @@ export default class Board implements IBoard {
     }
     return true;
   }
-  public removeunit(unitToBeRemoved: Iunit): void {
+  public removeunit(unitToBeRemoved: IUnit): void {
     const unitOnList = this._unitList.find(unit => unit.Id === unitToBeRemoved.Id);
     const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
     if (unitOnGrid === undefined || unitOnList === undefined) {
@@ -98,7 +98,7 @@ export default class Board implements IBoard {
     const returnedIndex = this._unitList.findIndex(unit => unit.Id === unitToBeRemoved.Id);
     this._unitList.splice(returnedIndex, 1);
   }
-  public placeunit(newCoordinates: ICoordinates, unit: Iunit): void {
+  public placeunit(newCoordinates: ICoordinates, unit: IUnit): void {
     if (!this.coordinateValidator(newCoordinates)) {
       throw new Error("unit cannot be placed");
     }

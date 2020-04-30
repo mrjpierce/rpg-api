@@ -12,7 +12,7 @@ describe("constructor", () => {
     boardInstance = new Board(3);
     unitInstanceOne = new Unit({ x: 0, y: 0 });
     unitInstanceTwo = new Unit({ x: 0, y: 1 });
-    instance = new Game(boardInstance, [unitInstanceOne, unitInstanceTwo]);
+    instance = new Game(instance);
   });
   it("should be an instance of BoardCreation", () => {
     expect(instance).toBeInstanceOf(Game);

@@ -29,6 +29,8 @@ export class PutMoveunitHandler extends HTTPHandler<IPutMoveUnitBody, IPutMoveUn
     const newCordinates = { x: newX, y: newY };
     const game = this.gameDao.find(`${gameId}`);
     const unit = this.unitDao.find(`${unitId}`);
+
+    // this id is what auto generates from mongo correct?
     const moveunit = function(): boolean {
       if (game.board.move(newCordinates, unit)) {
         return true;

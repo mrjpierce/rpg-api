@@ -5,6 +5,7 @@ import { TYPES } from "./types";
 import { GameDAO, IGameDAO } from "./dao/game-dao";
 import { IUnitDAO, UnitDAO } from "./dao/unit-dao";
 import { IGameModel, getGameModel } from "./models/game-model";
+import { IUnitModel, getUnitModel } from "./models/unit-model";
 
 type ServiceEvent = HTTPEvent;
 
@@ -36,6 +37,7 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
 
     // Models
     container.bind<IGameModel>(TYPES.IGameModel).toConstantValue(getGameModel());
+    container.bind<IUnitModel>(TYPES.IUnitModel).toConstantValue(getUnitModel());
 
     return container;
   }

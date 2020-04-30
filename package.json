@@ -12,7 +12,7 @@
     "url": "https://github.com/mrjpierce/rpg-api/issues"
   },
   "homepage": "https://github.com/mrjpierce/rpg-api#readme",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "scripts": {
     "build": "yarn clean && tsc -p .",
     "clean": "npx rimraf out coverage",
@@ -25,7 +25,7 @@
     "start": "yarn build && sls offline --stage local --prefix=rpg-api",
     "swagger-editor": "swagger-editor-live swagger.yaml",
     "tdd": "jest --watch",
-    "test": "jest src/board.test.ts",
+    "test": "jest src/unit.test.ts",
     "test:ci": "yarn build && jest out/**/*.test.js",
     "validate": "yarn lint:ci && yarn test:ci",
     "watch": "yarn clean; tsc -p . -w"

@@ -8,6 +8,8 @@ export interface ICoordinates {
 
 export interface IUnit {
   coordinates: ICoordinates;
+  id?: string;
+  Id: number;
 }
 
 export class Unit implements IUnit {
@@ -30,5 +32,6 @@ export class Unit implements IUnit {
   constructor(init?: Partial<IUnitDO>) {
     this._x = init.x;
     this._y = init.y;
+    // what would the auto gereneated id from mongo look like?
   }
 }
