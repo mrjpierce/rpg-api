@@ -4,5 +4,6 @@ export const TYPES = {
   IGameDAO: Symbol("IGameDAO"),
   IUnitDAO: Symbol("IUnitDAO"),
   IGameModel: Symbol("IGameModel"),
-  IUnitModel: Symbol("IUnitModel")
+  IUnitModel: Symbol("IUnitModel"),
+  IMongoService: Symbol("IMongoService")
 };

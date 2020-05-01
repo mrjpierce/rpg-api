@@ -9,8 +9,8 @@ export type IUnitModel = Model<IUnitDoc>;
 export const modelName = "Unit";
 
 export const unitSchema = new Schema({
-  x: { type: [Number] },
-  y: { type: [Number] }
+  x: Number,
+  y: Number
 });
 
 export function getUnitModel(): IUnitModel {
