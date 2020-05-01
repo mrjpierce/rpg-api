@@ -1,5 +1,5 @@
 import Board from "./board";
-import { IUnit } from "./unit";
+import { IUnit, Unit } from "./unit";
 // import Unit from "./unit";
 import { ICoordinates } from "./unit";
 
@@ -11,20 +11,25 @@ describe("Board in ./board", () => {
   let unitListTest: ReadonlyArray<IUnit>;
   const gridSize = 3;
   // const testId = [0, 1];
-  const newCoords = { x: 0, y: 0 };
-  const orgCoords1 = { x: 0, y: 1 };
-  const orgCoords2 = { x: 2, y: 2 };
+  const testStringId1 = "5099803df3f4948bd2f98391";
+  const testStringId2 = "1111803df3f4948bd2f00000";
+  const newCoords1 = { x: 0, y: 0 };
+  const newCoords2 = { x: 2, y: 2 };
+  const testInit1 = { x: 1, y: 1, id: testStringId1 };
+  const testInit2 = { x: 0, y: 0, id: testStringId2 };
+
   const incorrectInputs: ICoordinates[] = [
     { x: "strang" as any, y: 0 },
     { x: 4, y: 0 },
     { x: 0, y: 3 },
     { x: 4, y: 4 }
   ];
-  // beforeEach(() => {
-  //   unit1 = Unit.Build(testId[0], orgCoords1);
-  //   unit2 = Unit.Build(testId[1], orgCoords2);
-  //   board = new Board(gridSize);
-  // });
+  beforeEach(() => {
+    unit1 = new Unit(testInit1);
+    unit2 = new Unit(testInit2);
+
+    board = new Board(gridSize);
+  });
   describe("unitGrid", () => {
     it("returns unit grid with one unit placed on it", () => {
       board.placeunit(orgCoords1, unit1);

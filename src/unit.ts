@@ -13,7 +13,7 @@ export interface IUnit {
 }
 
 export class Unit implements IUnit {
-  public readonly Id: number;
+  public readonly _id: string;
   protected _x: number;
   protected _y: number;
 
@@ -32,6 +32,7 @@ export class Unit implements IUnit {
   constructor(init?: Partial<IUnitDO>) {
     this._x = init.x;
     this._y = init.y;
+    this._id = init.id;
     // what would the auto gereneated id from mongo look like?
   }
 }
