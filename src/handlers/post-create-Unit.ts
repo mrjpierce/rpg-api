@@ -1,4 +1,5 @@
 import "reflect-metadata";
+
 import { injectable, inject } from "inversify";
 import { HTTPHandler, HTTPEvent, HTTPResult } from "@ifit/fleece";
 import { TYPES } from "../types";
@@ -11,11 +12,14 @@ export interface IPostUnitEvent extends HTTPEvent<IUnitDO, null, null> {}
 export class PostUnitHandler extends HTTPHandler<IUnitDO, null, null> {
   constructor(@inject(TYPES.IUnitDAO) private unitDAO: IUnitDAO) {
     super();
+    console.log(unitDAO);
   }
   public async run(event: IPostUnitEvent): Promise<HTTPResult> {
     const newDoc = event.processed.body as IUnitDO;
-
+    console.log("post newDoc");
+    console.log(newDoc);
     const createdDoc = await this.unitDAO.create(newDoc);
+    console.log("newDoc");
     return {
       body: createdDoc,
       statusCode: 200
