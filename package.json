@@ -25,7 +25,7 @@
     "start": "yarn build && sls offline --stage local --prefix=rpg-api",
     "swagger-editor": "swagger-editor-live swagger.yaml",
     "tdd": "jest --watch",
-    "test": "jest src/unit.test.ts",
+    "test": "jest src/board.test.ts",
     "test:ci": "yarn build && jest out/**/*.test.js",
     "validate": "yarn lint:ci && yarn test:ci",
     "watch": "yarn clean; tsc -p . -w"

@@ -9,7 +9,7 @@ export interface ICoordinates {
 export interface IUnit {
   coordinates: ICoordinates;
   id?: string;
-  Id: number;
+  Id?: number;
 }
 
 export class Unit implements IUnit {
