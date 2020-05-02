@@ -9,13 +9,19 @@ export type IUnitModel = Model<IUnitDoc>;
 export const modelName = "Unit";
 
 export const unitSchema = new Schema({
-  unit: { type: Schema.Types.ObjectId, ref: "Unit" }
+  x: Number,
+  y: Number
 });
 
 export function getUnitModel(): IUnitModel {
+  console.log("getUnitModel");
   try {
+    console.log("getUnitModel try");
+
     return model<IUnitDoc>(modelName);
   } catch {
+    console.log("getUnitModel catch");
+    console.log(model<IUnitDoc>(modelName, unitSchema));
     return model<IUnitDoc>(modelName, unitSchema);
   }
 }
