@@ -1,19 +1,19 @@
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import Board from "./board";
-import Player from "./player";
+import { Unit } from "./unit";
 
 @injectable()
 export class Service {
   protected board: Board;
-  protected player1: Player;
-  protected player2: Player;
+  protected unit1: Unit;
+  protected unit2: Unit;
 
-  constructor(@inject(Board) board: Board, @inject(Player) player1: Player, @inject(Player) player2: Player) {
+  constructor(@inject(Board) board: Board, @inject(Unit) unit1: Unit, @inject(Unit) unit2: Unit) {
     this.board = board;
-    this.player1 = player1;
-    this.player2 = player2;
-    const firstService = new Service(this.board, this.player1, this.player2);
+    this.unit1 = unit1;
+    this.unit2 = unit2;
+    const firstService = new Service(this.board, this.unit1, this.unit2);
 
     console.log(firstService);
   }

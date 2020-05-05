@@ -10,7 +10,7 @@ export const modelName = "Game";
 
 export const gameSchema = new Schema({
   board: { type: Schema.Types.ObjectId, ref: "Board" },
-  players: [{ type: Schema.Types.ObjectId, ref: "Player" }]
+  units: [{ type: Schema.Types.ObjectId, ref: "Unit" }]
 });
 
 export function getGameModel(): IGameModel {

@@ -34,16 +34,23 @@ functions:
             parameters:
               paths:
                 id: true
-  put-move-player:
-    handler: out/index.putMovePlayerLambda
+  put-move-unit:
+    handler: out/index.putMoveunitLambda
     events:
       - http:
-          path: /game/player/move/{gameId}/{playerId}
+          path: /game/unit/move/{gameId}/{unitId}
           method: put
           request:
             parameters:
               paths:
                 id: true
+  post-create-unit:
+    handler: out/index.postUnitLambda
+    events:
+      - http:
+          path: /unit/player
+          method: post
+          cors: true
 plugins:
   - serverless-offline
   - '@ifit/blab'
