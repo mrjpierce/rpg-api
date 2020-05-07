@@ -1,6 +1,5 @@
 import Board from "./board";
 import { IUnit, Unit } from "./unit";
-// import Unit from "./unit";
 import { ICoordinates } from "./unit";
 
 describe("Board in ./board", () => {
@@ -10,7 +9,6 @@ describe("Board in ./board", () => {
   let unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   let unitListTest: ReadonlyArray<IUnit>;
   const gridSize = 3;
-  // const testId = [0, 1];
   const testStringId1 = "5099803df3f4948bd2f98391";
   const testStringId2 = "1111803df3f4948bd2f00000";
   const newCoords1 = { x: 0, y: 0 };
