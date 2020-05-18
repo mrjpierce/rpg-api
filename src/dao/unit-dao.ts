@@ -6,9 +6,7 @@ import { IUnitModel } from "../models/unit-model";
 import { IUnit, Unit } from "../unit";
 import { TYPES } from "../types";
 
-export interface IUnitDAO extends IDataAccessObject<IUnitDO, IUnit> {
-  find?(id: string): any;
-}
+export interface IUnitDAO extends IDataAccessObject<IUnitDO, IUnit> {}
 @injectable()
 export class UnitDAO extends DataAccessObject<IUnitDO, IUnit> implements IUnitDAO {
   protected targetClass = Unit;

@@ -11,7 +11,7 @@ export interface IBoard {
   move(newCoordinates: ICoordinates, unit: IUnit): boolean;
   unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   unitList: ReadonlyArray<IUnit>;
-  checkunitList(id: number): boolean;
+  checkunitList(id: string): boolean;
   unitAtCoordinates(cooordinates: ICoordinates): IUnit;
 }
 
@@ -39,8 +39,11 @@ export default class Board implements IBoard {
       this._terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
-  public checkunitList(id: number): boolean {
-    const idBeingChecked = this._unitList.findIndex(unit => unit.Id === id);
+  public checkunitList(id: string): boolean {
+    const idBeingChecked = this._unitList.findIndex(unit => unit.id === id);
+    console.log(idBeingChecked);
+    console.log(id);
+
     if (idBeingChecked === -1) {
       return false;
     }
@@ -84,7 +87,7 @@ export default class Board implements IBoard {
     return true;
   }
   public removeunit(unitToBeRemoved: IUnit): void {
-    const unitOnList = this._unitList.find(unit => unit.Id === unitToBeRemoved.Id);
+    const unitOnList = this._unitList.find(unit => unit.id === unitToBeRemoved.id);
     const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
     if (unitOnGrid === undefined || unitOnList === undefined) {
       throw new Error("Provided unit is not on grid or list");
@@ -95,7 +98,7 @@ export default class Board implements IBoard {
     unitToBeRemoved.coordinates.x = null;
     unitToBeRemoved.coordinates.y = null;
     this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y] = null;
-    const returnedIndex = this._unitList.findIndex(unit => unit.Id === unitToBeRemoved.Id);
+    const returnedIndex = this._unitList.findIndex(unit => unit.id === unitToBeRemoved.id);
     this._unitList.splice(returnedIndex, 1);
   }
   public placeunit(newCoordinates: ICoordinates, unit: IUnit): void {
@@ -105,7 +108,7 @@ export default class Board implements IBoard {
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
     }
-    if (this._unitList.find(x => x.Id === unit.Id)) {
+    if (this._unitList.find(x => x.id === unit.id)) {
       throw new Error("unit already exists on list");
     }
     unit.coordinates = newCoordinates;

@@ -9,13 +9,13 @@ describe("Board in ./board", () => {
   let unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   let unitListTest: ReadonlyArray<IUnit>;
   const gridSize = 3;
-  const testStringId1 = "5099803df3f4948bd2f98391";
-  const testStringId2 = "1111803df3f4948bd2f00000";
   const newCoords1 = { x: 0, y: 0 };
   const newCoords2 = { x: 2, y: 2 };
   const newCoords3 = { x: 1, y: 1 };
-  const testInit1 = { x: 1, y: 1, id: testStringId1 };
-  const testInit2 = { x: 0, y: 0, id: testStringId2 };
+  const testInit1 = { x: 1, y: 1, id: "507f1f77bcf86cd799439011" };
+  const testInit2 = { x: 0, y: 0, id: "507f191e810c19729de860ea" };
+  //Testing if mongo does return and sets the unit.id with a string is soley mongo side so leave it up to them
+  // end to end integration tests are good but no need to worry now
 
   const incorrectInputs: ICoordinates[] = [
     { x: "strang" as any, y: 0 },
@@ -53,15 +53,12 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe("checkunitList", () => {
-    beforeEach(() => {
-      board.placeunit(newCoords1, unit1);
+  describe.only("checkunitList", () => {
+    it("returns true because id provided coresponds with an id of a unit that exists on the unitList", () => {
+      expect(board.checkunitList(unit1.id)).toBeTruthy();
     });
-    // it("returns true because id provided coresponds with an id of a unit that exists on the unitList", () => {
-    //   expect(board.checkunitList(unit1.Id)).toBeTruthy();
-    // });
     it("returns false because id provided does not coresponds with an id of a unit that exists on the unitList", () => {
-      expect(board.checkunitList(3)).toBeFalsy();
+      expect(board.checkunitList("randomstring")).toBeFalsy();
     });
   });
   describe("unitAtCoordinates", () => {

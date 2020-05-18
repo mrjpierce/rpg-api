@@ -6,9 +6,7 @@ import { TYPES } from "../types";
 import { IGameModel } from "../models/game-model";
 import { IGameDO } from "../do/game-do";
 
-export interface IGameDAO extends DataAccessObject<IGameDO, IGame> {
-  find?(id: string): any;
-}
+export interface IGameDAO extends DataAccessObject<IGameDO, IGame> {}
 
 @injectable()
 export class GameDAO extends DataAccessObject<IGameDO, IGame> implements IGameDAO {
