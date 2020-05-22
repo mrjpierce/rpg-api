@@ -51,6 +51,20 @@ functions:
           path: /unit/player
           method: post
           cors: true
+  post-create-board:
+    handler: out/index.postBoardLambda
+    events:
+      - http:
+          path: /board
+          method: post
+          cors: true
+  post-create-game:
+    handler: out/index.postGameLambda
+    events:
+      - http:
+          path: /game
+          method: post
+          cors: true
 plugins:
   - serverless-offline
   - '@ifit/blab'

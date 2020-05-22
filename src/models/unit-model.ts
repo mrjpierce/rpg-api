@@ -14,14 +14,9 @@ export const unitSchema = new Schema({
 });
 
 export function getUnitModel(): IUnitModel {
-  console.log("getUnitModel");
   try {
-    console.log("getUnitModel try");
-
     return model<IUnitDoc>(modelName);
   } catch {
-    console.log("getUnitModel catch");
-    console.log(model<IUnitDoc>(modelName, unitSchema));
     return model<IUnitDoc>(modelName, unitSchema);
   }
 }

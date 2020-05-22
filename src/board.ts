@@ -3,8 +3,10 @@ import { injectable } from "inversify";
 import { IUnit } from "./unit";
 import { ICoordinates } from "./unit";
 import { ITerrain } from "./terrain";
+import { IBoardDO } from "./do/board-do";
 
 export interface IBoard {
+  id?: string;
   isFree(coordinates: ICoordinates): boolean;
   removeunit(unit: IUnit): void;
   placeunit(coordinates: ICoordinates, unit: IUnit): void;
@@ -16,7 +18,7 @@ export interface IBoard {
 }
 
 @injectable()
-export default class Board implements IBoard {
+export class Board implements IBoard {
   private _unitGrid: Array<Array<IUnit | null>>;
   private _terrainGrid: Array<Array<ITerrain>>;
   private _unitList: Array<IUnit>;
@@ -30,17 +32,17 @@ export default class Board implements IBoard {
   public get gridLength(): number {
     return this.unitGrid.length;
   }
-  constructor(gridSize: number) {
+  constructor(init?: Partial<IBoardDO>) {
     this._unitList = new Array<IUnit>();
-    this._terrainGrid = new Array<Array<ITerrain>>(gridSize);
-    this._unitGrid = new Array<Array<IUnit>>(gridSize);
+    this._terrainGrid = new Array<Array<ITerrain>>(init.gridSize);
+    this._unitGrid = new Array<Array<IUnit>>(init.gridSize);
     for (let i = 0; i < this._unitGrid.length; i++) {
-      this._unitGrid[i] = new Array<IUnit>(gridSize);
-      this._terrainGrid[i] = new Array<ITerrain>(gridSize);
+      this._unitGrid[i] = new Array<IUnit>(init.gridSize);
+      this._terrainGrid[i] = new Array<ITerrain>(init.gridSize);
     }
   }
   public checkUnitList(id: string): boolean {
-    const idBeingChecked = this._unitList.findIndex(unit => unit._id.localeCompare(id) === 0);
+    const idBeingChecked = this._unitList.findIndex(unit => unit.id.localeCompare(id) === 0);
 
     if (idBeingChecked != 0) {
       return false;
@@ -85,7 +87,7 @@ export default class Board implements IBoard {
     return true;
   }
   public removeunit(unitToBeRemoved: IUnit): void {
-    const unitOnList = this._unitList.find(unit => unit._id.localeCompare(unitToBeRemoved._id) === 0);
+    const unitOnList = this._unitList.find(unit => unit.id.localeCompare(unitToBeRemoved.id) === 0);
     const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
     if (unitOnGrid === undefined || unitOnList === undefined) {
       throw new Error("Provided unit is not on grid or list");
@@ -93,7 +95,7 @@ export default class Board implements IBoard {
     unitToBeRemoved.coordinates.x = null;
     unitToBeRemoved.coordinates.y = null;
     this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y] = null;
-    const returnedIndex = this._unitList.findIndex(unit => unit._id.localeCompare(unitToBeRemoved._id) === 0);
+    const returnedIndex = this._unitList.findIndex(unit => unit.id.localeCompare(unitToBeRemoved.id) === 0);
     this._unitList.splice(returnedIndex, 1);
   }
   public placeunit(newCoordinates: ICoordinates, unit: IUnit): void {
@@ -103,7 +105,7 @@ export default class Board implements IBoard {
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
     }
-    if (this._unitList.find(x => x._id === unit._id)) {
+    if (this._unitList.find(x => x.id === unit.id)) {
       throw new Error("unit already exists on list");
     }
     unit.coordinates = newCoordinates;

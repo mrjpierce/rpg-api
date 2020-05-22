@@ -9,6 +9,7 @@ export type IBoardModel = Model<IBoardDoc>;
 export const modelName = "Board";
 
 export const boardSchema = new Schema({
+  gridSize: Number,
   unitGrid: [[{ type: Schema.Types.ObjectId, ref: "UnitGrid" }]],
   unitList: [{ type: Schema.Types.ObjectId, ref: "UnitList" }]
 });

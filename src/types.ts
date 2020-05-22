@@ -6,5 +6,6 @@ export const TYPES = {
   IGameModel: Symbol("IGameModel"),
   IUnitModel: Symbol("IUnitModel"),
   IBoardModel: Symbol("IBoardModel"),
+  IBoardDAO: Symbol("IBoardDAO"),
   IMongoService: Symbol("IMongoService")
 };

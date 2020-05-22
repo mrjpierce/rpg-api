@@ -1,4 +1,4 @@
-import Board from "./board";
+import { Board } from "./board";
 import { IUnit, Unit } from "./unit";
 import { ICoordinates } from "./unit";
 
@@ -8,14 +8,12 @@ describe("Board in ./board", () => {
   let unit2: IUnit;
   let unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   let unitListTest: ReadonlyArray<IUnit>;
-  const gridSize = 3;
+  const gridSize = { gridSize: 3 };
   const newCoords1 = { x: 0, y: 0 };
   const newCoords2 = { x: 2, y: 2 };
   const newCoords3 = { x: 1, y: 1 };
   const testInit1 = { x: 1, y: 1, id: "507f1f77bcf86cd799439011" };
   const testInit2 = { x: 0, y: 0, id: "507f191e810c19729de860ea" };
-  //Testing if mongo does return and sets the unit.id with a string is soley mongo side so leave it up to them
-  // end to end integration tests are good but no need to worry now
 
   const incorrectInputs: ICoordinates[] = [
     { x: "strang" as any, y: 0 },
@@ -92,9 +90,6 @@ describe("Board in ./board", () => {
     it("throws an error because the provided unit is not on either gird or list", () => {
       expect(() => board.move(newCoords3, unit2)).toThrowError(/Provided unit is not on/);
     });
-    // i guess what i am really doing here if the move function will actually throw the error probably could make a more verbose way with .each
-    // Yes testing in both places because black box we don't know whats happening inside move method, we are worried about what it returns to the client and that
-    // if changing a single method or small code change causes mulitple tests to break and fail it might be a code smell and worth revisiting those test to ensure they are not fraile and easy breakable
   });
   describe("isFree", () => {
     it("returns true because the grid is open on the 3D array", () => {

@@ -1,6 +1,6 @@
 import Game, { IGame } from "./game";
 import { IUnit, Unit } from "./unit";
-import Board, { IBoard } from "./board";
+import { IBoard, Board } from "./board";
 
 describe("constructor", () => {
   let instance: IGame;
@@ -9,7 +9,7 @@ describe("constructor", () => {
   let unitInstanceTwo: IUnit;
 
   beforeEach(() => {
-    boardInstance = new Board(3);
+    boardInstance = new Board({ gridSize: 3 });
     unitInstanceOne = new Unit({ x: 0, y: 0 });
     unitInstanceTwo = new Unit({ x: 0, y: 1 });
     instance = new Game(instance);
