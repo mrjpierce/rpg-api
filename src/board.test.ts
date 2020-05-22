@@ -53,12 +53,14 @@ describe("Board in ./board", () => {
       expect(board).toBeInstanceOf(Board);
     });
   });
-  describe.only("checkunitList", () => {
+  describe("checkunitList", () => {
     it("returns true because id provided coresponds with an id of a unit that exists on the unitList", () => {
-      expect(board.checkunitList(unit1.id)).toBeTruthy();
+      board.placeunit(newCoords1, unit1);
+      expect(board.checkUnitList(testInit1.id)).toBeTruthy();
     });
     it("returns false because id provided does not coresponds with an id of a unit that exists on the unitList", () => {
-      expect(board.checkunitList("randomstring")).toBeFalsy();
+      board.placeunit(newCoords2, unit1);
+      expect(board.checkUnitList("randomstring")).toBeFalsy();
     });
   });
   describe("unitAtCoordinates", () => {
@@ -90,13 +92,6 @@ describe("Board in ./board", () => {
     it("throws an error because the provided unit is not on either gird or list", () => {
       expect(() => board.move(newCoords3, unit2)).toThrowError(/Provided unit is not on/);
     });
-    it("throws error when the provided unit is not on either gird or list", () => {
-      board.placeunit(newCoords1, unit1);
-      const foounit = new Unit(unit1.coordinates);
-      expect(() => board.move(newCoords2, foounit)).toThrowError(
-        /unit id mismatch; unit passed does not match the unit with corresponding id on board/
-      );
-    });
     // i guess what i am really doing here if the move function will actually throw the error probably could make a more verbose way with .each
     // Yes testing in both places because black box we don't know whats happening inside move method, we are worried about what it returns to the client and that
     // if changing a single method or small code change causes mulitple tests to break and fail it might be a code smell and worth revisiting those test to ensure they are not fraile and easy breakable
@@ -119,13 +114,6 @@ describe("Board in ./board", () => {
     it("throws error when the provided unit is not on either gird or list", () => {
       expect(() => board.removeunit(unit2)).toThrowError(/Provided unit is not on/);
     });
-    // it("throws error when the provided unit is not on either gird or list", () => {
-    //   board.placeunit(newCoords31, unit1);
-    //   const foounit = unit.Build(unit1.Id, unit1.coordinates);
-    //   expect(() => board.removeunit(foounit)).toThrowError(
-    //     /unit id mismatch; unit passed does not match the unit with corresponding id on board/
-    //   );
-    // });
   });
   describe("placeunit", () => {
     it("updates the units coordinates with the new given coordinats", () => {

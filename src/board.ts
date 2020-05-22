@@ -11,7 +11,7 @@ export interface IBoard {
   move(newCoordinates: ICoordinates, unit: IUnit): boolean;
   unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   unitList: ReadonlyArray<IUnit>;
-  checkunitList(id: string): boolean;
+  checkUnitList(id: string): boolean;
   unitAtCoordinates(cooordinates: ICoordinates): IUnit;
 }
 
@@ -39,12 +39,10 @@ export default class Board implements IBoard {
       this._terrainGrid[i] = new Array<ITerrain>(gridSize);
     }
   }
-  public checkunitList(id: string): boolean {
-    const idBeingChecked = this._unitList.findIndex(unit => unit.id === id);
-    console.log(idBeingChecked);
-    console.log(id);
+  public checkUnitList(id: string): boolean {
+    const idBeingChecked = this._unitList.findIndex(unit => unit._id.localeCompare(id) === 0);
 
-    if (idBeingChecked === -1) {
+    if (idBeingChecked != 0) {
       return false;
     }
     return true;
@@ -87,18 +85,15 @@ export default class Board implements IBoard {
     return true;
   }
   public removeunit(unitToBeRemoved: IUnit): void {
-    const unitOnList = this._unitList.find(unit => unit.id === unitToBeRemoved.id);
+    const unitOnList = this._unitList.find(unit => unit._id.localeCompare(unitToBeRemoved._id) === 0);
     const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
     if (unitOnGrid === undefined || unitOnList === undefined) {
       throw new Error("Provided unit is not on grid or list");
     }
-    if (unitToBeRemoved !== unitOnList) {
-      throw new Error("unit id mismatch; unit passed does not match the unit with corresponding id on board");
-    }
     unitToBeRemoved.coordinates.x = null;
     unitToBeRemoved.coordinates.y = null;
     this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y] = null;
-    const returnedIndex = this._unitList.findIndex(unit => unit.id === unitToBeRemoved.id);
+    const returnedIndex = this._unitList.findIndex(unit => unit._id.localeCompare(unitToBeRemoved._id) === 0);
     this._unitList.splice(returnedIndex, 1);
   }
   public placeunit(newCoordinates: ICoordinates, unit: IUnit): void {
@@ -108,7 +103,7 @@ export default class Board implements IBoard {
     if (!this.isFree(newCoordinates)) {
       throw new Error("Position is not free");
     }
-    if (this._unitList.find(x => x.id === unit.id)) {
+    if (this._unitList.find(x => x._id === unit._id)) {
       throw new Error("unit already exists on list");
     }
     unit.coordinates = newCoordinates;

@@ -8,13 +8,13 @@ export interface ICoordinates {
 
 export interface IUnit {
   coordinates: ICoordinates;
-  id?: string;
+  _id?: string;
 }
 
 export class Unit implements IUnit {
   public readonly _id: string;
-  protected _x: number;
-  protected _y: number;
+  private _x: number;
+  private _y: number;
 
   public get coordinates(): ICoordinates {
     return {
