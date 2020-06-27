@@ -14,4 +14,15 @@ export class GameDAO extends DataAccessObject<IGameDO, IGame> implements IGameDA
   constructor(@inject(TYPES.IGameModel) protected model: IGameModel) {
     super();
   }
+  findById(id: string): Promise<IGameDO> {
+    return this.model
+      .findById(id)
+      .populate("board")
+      .populate("unitGrid")
+      .populate("unitList")
+      .exec((err, game) => {
+        console.log(game);
+        console.log(err);
+      });
+  }
 }

@@ -59,7 +59,7 @@ functions:
           method: post
           cors: true
   post-create-game:
-    handler: out/index.postGameLambda
+    handler: out/index.postNewGameLambda
     events:
       - http:
           path: /game

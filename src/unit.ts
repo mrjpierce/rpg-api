@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { IUnitDO } from "./do/unit-do";
+import { Packagable } from "./do/game-do";
 
 export interface ICoordinates {
   x: number;
@@ -11,7 +12,10 @@ export interface IUnit {
   id?: string;
 }
 
-export class Unit implements IUnit {
+// each unit could have a owner field
+//
+
+export class Unit extends Packagable<IUnitDO> implements IUnit {
   public readonly _id: string;
   private _x: number;
   private _y: number;
@@ -33,8 +37,18 @@ export class Unit implements IUnit {
   }
 
   constructor(init?: Partial<IUnitDO>) {
+    super();
     this._id = init.id;
     this._x = init.x;
     this._y = init.y;
+  }
+
+  public toDataObject(): IUnitDO {
+    // reverse what we are doing in the constructor, all serialized fields
+    return {
+      id: this._id,
+      x: this._x,
+      y: this._y
+    };
   }
 }

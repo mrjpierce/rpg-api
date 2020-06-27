@@ -1,30 +1,32 @@
-import { IGameDO } from "./do/game-do";
-import { DataObject } from "@ifit/mongoose-dao";
+import { IGameDO, Packagable } from "./do/game-do";
 import { IBoard } from "./board";
-import { IUnit } from "./unit";
 
 export interface IGame {
   id?: string;
   board: IBoard;
-  units: Array<IUnit>;
 }
 
-export default class Game extends DataObject<IGameDO> implements IGame {
-  private _board: IBoard;
-  units: Array<IUnit>;
-  //game holds a reference to the board and units,
+export default class Game extends Packagable<IGameDO> implements IGame {
+  public readonly _board: IBoard;
+  public readonly _id: string;
+
+  public get id(): string {
+    return this._id;
+  }
 
   public get board(): IBoard {
     return this._board;
   }
 
-  public get unitList(): Array<IUnit> {
-    return this.units;
-  }
-
   constructor(init?: Partial<IGameDO>) {
-    super(init);
+    super();
+    this._id = init.id;
     this._board = init.board;
-    this.units = init.units;
+  }
+  public toDataObject(): IGameDO {
+    return {
+      id: this.id,
+      board: this.board
+    };
   }
 }

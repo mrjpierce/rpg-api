@@ -5,7 +5,7 @@ import { GetGameHandler } from "./handlers/get-game";
 import { PutMoveunitHandler } from "./handlers/put-move-Unit";
 import { PostUnitHandler } from "./handlers/post-create-Unit";
 import { PostBoardHandler } from "./handlers/post-create-Board";
-import { PostGameHandler } from "./handlers/post-create-Game";
+import { PostNewGameHandler } from "./handlers/post-create-newGame";
 
 const containerFactory = new ContainerFactory();
 
@@ -18,4 +18,4 @@ export const getGameLambda = lambdafy(GetGameHandler);
 export const putMoveunitLambda = lambdafy(PutMoveunitHandler);
 export const postUnitLambda = lambdafy(PostUnitHandler);
 export const postBoardLambda = lambdafy(PostBoardHandler);
-export const postGameLambda = lambdafy(PostGameHandler);
+export const postNewGameLambda = lambdafy(PostNewGameHandler);

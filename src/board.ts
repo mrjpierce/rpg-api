@@ -4,6 +4,7 @@ import { IUnit } from "./unit";
 import { ICoordinates } from "./unit";
 import { ITerrain } from "./terrain";
 import { IBoardDO } from "./do/board-do";
+import { Packagable } from "./do/game-do";
 
 export interface IBoard {
   id?: string;
@@ -18,21 +19,27 @@ export interface IBoard {
 }
 
 @injectable()
-export class Board implements IBoard {
+export class Board extends Packagable<IBoardDO> implements IBoard {
+  public readonly _id: string;
   private _unitGrid: Array<Array<IUnit | null>>;
   private _terrainGrid: Array<Array<ITerrain>>;
   private _unitList: Array<IUnit>;
 
+  public get id(): string {
+    return this._id;
+  }
   public get unitGrid(): ReadonlyArray<ReadonlyArray<IUnit | null>> {
     return this._unitGrid;
   }
   public get unitList(): ReadonlyArray<IUnit> {
     return this._unitList;
   }
-  public get gridLength(): number {
+  public get gridSize(): number {
     return this.unitGrid.length;
   }
   constructor(init?: Partial<IBoardDO>) {
+    super();
+    this._id = init.id;
     this._unitList = new Array<IUnit>();
     this._terrainGrid = new Array<Array<ITerrain>>(init.gridSize);
     this._unitGrid = new Array<Array<IUnit>>(init.gridSize);
@@ -61,7 +68,7 @@ export class Board implements IBoard {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
     }
-    if (coordiantes.x > this.gridLength - 1 || coordiantes.y > this.gridLength - 1) {
+    if (coordiantes.x > this.gridSize - 1 || coordiantes.y > this.gridSize - 1) {
       return false;
     }
     return true;
@@ -111,5 +118,14 @@ export class Board implements IBoard {
     unit.coordinates = newCoordinates;
     this._unitGrid[newCoordinates.x][newCoordinates.y] = unit;
     this._unitList.push(unit);
+  }
+  public toDataObject(): IBoardDO {
+    return {
+      id: this.id,
+      gridSize: this.gridSize,
+      unitGrid: this.unitGrid,
+      terrainGrid: this._terrainGrid,
+      unitList: this.unitList
+    };
   }
 }

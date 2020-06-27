@@ -43,7 +43,7 @@ describe("Board in ./board", () => {
   });
   describe("gridLength", () => {
     it("returns an number of the grid length", () => {
-      expect(board.gridLength).toEqual(gridSize.gridSize);
+      expect(board.gridSize).toEqual(gridSize.gridSize);
     });
   });
   describe("constructor", () => {
