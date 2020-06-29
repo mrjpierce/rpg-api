@@ -1,9 +1,8 @@
 import { IDataObject } from "@ifit/mongoose-dao";
-import { IBoard } from "../board";
 
 export interface IGameDO extends IDataObject {
-  id: string;
-  board: IBoard;
+  id?: string;
+  boardId: string;
 }
 
 export abstract class Packagable<TDataObject> {

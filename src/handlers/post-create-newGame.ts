@@ -4,14 +4,14 @@ import { injectable, inject } from "inversify";
 import { HTTPEvent, HTTPResult } from "@ifit/fleece";
 import { TYPES } from "../types";
 import { IUnitDAO } from "../dao/unit-dao";
-import { IUnitDO } from "../do/unit-do";
 import { IMongoService } from "../mongo-service";
 import { BaseHandler } from "./base-handler";
 import { IBoardDAO } from "../dao/board-dao";
 import { IGameDAO } from "../dao/game-dao";
 import { IBoardDO } from "../do/board-do";
-import { IGameDO } from "../do/game-do";
-import { Unit } from "../unit";
+// import { IGameDO } from "../do/game-do";
+// import { Unit } from "../unit";
+// import { Board } from "../board";
 
 export interface IPostGameEvent extends HTTPEvent<IBoardDO, null, null> {}
 
@@ -26,27 +26,22 @@ export class PostNewGameHandler extends BaseHandler<IBoardDO, null, null> {
     super(mongoService, "PostGameHandler");
   }
 
-  //need: way to validate what we pass to the DAO
-  // creating an unit without the board being aware of the position, need to figure out how to limit how units gets created
-
   public async run(event: IPostGameEvent): Promise<HTTPResult> {
-    const newUnit = new Unit({ x: 0, y: 0 });
+    // const newUnit = new Unit({ x: 0, y: 0 });
+    // const newBoard = new Board({ gridSize: 3 });
+    // newBoard.placeunit({ x: 1, y: 1 }, newUnit);
+    // so the problem with doing it above is no ids, and the i'm understanding is that we need to create those in
+    // mongo so we have the id's in order to move forward
 
-    newUnit.toDataObject();
-
-    // not all these DataObjects are identical to the object classes them selves. For
-
-    const newUnitCoords = { x: 0, y: 0 } as IUnitDO;
-    const createdUnit = await this.unitDAO.create(newUnitCoords);
+    const createdUnit = await this.unitDAO.create({ x: 0, y: 0 });
     const newBoardSize = event.processed.body as IBoardDO;
     const createdBoard = await this.boardDAO.create(newBoardSize);
-    const newGame = { board: createdBoard } as IGameDO;
-    const createdGame = await this.gameDAO.create(newGame);
-    console.log(createdGame.id);
-    await createdBoard.placeunit(createdUnit.coordinates, createdUnit);
-    console.log(createdBoard);
-    const gameDoc = await this.gameDAO.findById(createdGame.id);
-    return HTTPResult.OK({ body: gameDoc });
-    // get this to return result of the game.toDataObject
+    await createdBoard.placeunit({ x: 1, y: 1 }, createdUnit);
+    console.log(createdBoard.id);
+    const createdGame = await this.gameDAO.create({ boardId: createdBoard.id });
+    console.log(createdGame);
+    // I know this is what we are trying to avoid creating 3 seperate docs one at a time but I'm not sure how to do the
+    // multi populate thing in a way where we could populate the ids of units for the board and then board for the game
+    return HTTPResult.OK({ body: createdGame });
   }
 }

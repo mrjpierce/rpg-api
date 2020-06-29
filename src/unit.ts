@@ -12,9 +12,6 @@ export interface IUnit {
   id?: string;
 }
 
-// each unit could have a owner field
-//
-
 export class Unit extends Packagable<IUnitDO> implements IUnit {
   public readonly _id: string;
   private _x: number;
@@ -44,7 +41,6 @@ export class Unit extends Packagable<IUnitDO> implements IUnit {
   }
 
   public toDataObject(): IUnitDO {
-    // reverse what we are doing in the constructor, all serialized fields
     return {
       id: this._id,
       x: this._x,
