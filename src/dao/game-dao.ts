@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import Game, { IGame } from "../game";
+import { Game, IGame } from "../game";
 import { injectable, inject } from "inversify";
 import { DataAccessObject } from "@ifit/mongoose-dao";
 import { TYPES } from "../types";

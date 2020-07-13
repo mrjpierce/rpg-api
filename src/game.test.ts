@@ -1,4 +1,4 @@
-import Game, { IGame } from "./game";
+import { Game, IGame } from "./game";
 import { IUnit, Unit } from "./unit";
 import { IBoard, Board } from "./board";
 

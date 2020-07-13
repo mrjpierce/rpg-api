@@ -9,7 +9,7 @@ export type IGameModel = Model<IGameDoc>;
 export const modelName = "Game";
 
 export const gameSchema = new Schema({
-  boardId: String
+  board: [{ type: Schema.Types.ObjectId, ref: "Board" }]
 });
 
 export function getGameModel(): IGameModel {

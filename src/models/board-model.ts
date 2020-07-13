@@ -10,7 +10,7 @@ export const modelName = "Board";
 
 export const boardSchema = new Schema({
   gridSize: Number,
-  unitGrid: [[{ type: Schema.Types.ObjectId, ref: "Unit" }]],
+  terrianGrid: Array,
   unitList: [{ type: Schema.Types.ObjectId, ref: "Unit" }]
 });
 

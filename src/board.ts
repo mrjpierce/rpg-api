@@ -9,8 +9,8 @@ import { Packagable } from "./do/game-do";
 export interface IBoard {
   id?: string;
   isFree(coordinates: ICoordinates): boolean;
-  removeunit(unit: IUnit): void;
-  placeunit(coordinates: ICoordinates, unit: IUnit): void;
+  removeUnit(unit: IUnit): void;
+  placeUnit(coordinates: ICoordinates, unit: IUnit): void;
   move(newCoordinates: ICoordinates, unit: IUnit): boolean;
   unitGrid: ReadonlyArray<ReadonlyArray<IUnit | null>>;
   unitList: ReadonlyArray<IUnit>;
@@ -28,26 +28,36 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
   public get id(): string {
     return this._id;
   }
+
   public get unitGrid(): ReadonlyArray<ReadonlyArray<IUnit | null>> {
     return this._unitGrid;
   }
+
   public get unitList(): ReadonlyArray<IUnit> {
     return this._unitList;
   }
+
   public get gridSize(): number {
     return this.unitGrid.length;
   }
+
   constructor(init?: Partial<IBoardDO>) {
     super();
     this._id = init.id;
-    this._unitList = new Array<IUnit>();
-    this._terrainGrid = new Array<Array<ITerrain>>(init.gridSize);
+    this._unitList = init.unitList || new Array<IUnit>();
+    this._terrainGrid = init.terrainGrid;
+
     this._unitGrid = new Array<Array<IUnit>>(init.gridSize);
     for (let i = 0; i < this._unitGrid.length; i++) {
       this._unitGrid[i] = new Array<IUnit>(init.gridSize);
       this._terrainGrid[i] = new Array<ITerrain>(init.gridSize);
     }
+
+    init.unitList.forEach(unit => {
+      this.placeUnit(unit.coordinates, unit);
+    });
   }
+
   public checkUnitList(id: string): boolean {
     const idBeingChecked = this._unitList.findIndex(unit => unit.id.localeCompare(id) === 0);
 
@@ -56,6 +66,7 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     }
     return true;
   }
+
   public unitAtCoordinates(coordiantes: ICoordinates): IUnit {
     if (!this.coordinateValidator(coordiantes)) {
       throw new Error("Given coordinates are not compatable");
@@ -64,6 +75,7 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
       throw new Error("No unit at given coordinates");
     } else return this._unitGrid[coordiantes.x][coordiantes.y];
   }
+
   private coordinateValidator(coordiantes: ICoordinates): boolean {
     if (!isFinite(coordiantes.x || coordiantes.y)) {
       return false;
@@ -73,14 +85,16 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     }
     return true;
   }
+
   public move(newCooridnates: ICoordinates, unit: IUnit): boolean {
     if (!this.isFree(newCooridnates)) {
       return false;
     }
-    this.removeunit(unit);
-    this.placeunit(newCooridnates, unit);
+    this.removeUnit(unit);
+    this.placeUnit(newCooridnates, unit);
     return true;
   }
+
   public isFree(newCoordinates: ICoordinates): boolean {
     if (!this.coordinateValidator(newCoordinates)) {
       return false;
@@ -93,7 +107,8 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     }
     return true;
   }
-  public removeunit(unitToBeRemoved: IUnit): void {
+
+  public removeUnit(unitToBeRemoved: IUnit): void {
     const unitOnList = this._unitList.find(unit => unit.id.localeCompare(unitToBeRemoved.id) === 0);
     const unitOnGrid = this._unitGrid[unitToBeRemoved.coordinates.x][unitToBeRemoved.coordinates.y];
     if (unitOnGrid === undefined || unitOnList === undefined) {
@@ -105,7 +120,8 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     const returnedIndex = this._unitList.findIndex(unit => unit.id.localeCompare(unitToBeRemoved.id) === 0);
     this._unitList.splice(returnedIndex, 1);
   }
-  public placeunit(newCoordinates: ICoordinates, unit: IUnit): void {
+
+  public placeUnit(newCoordinates: ICoordinates, unit: IUnit): void {
     if (!this.coordinateValidator(newCoordinates)) {
       throw new Error("unit cannot be placed");
     }
@@ -119,13 +135,16 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     this._unitGrid[newCoordinates.x][newCoordinates.y] = unit;
     this._unitList.push(unit);
   }
+
   public toDataObject(): IBoardDO {
     return {
       id: this.id,
       gridSize: this.gridSize,
-      unitGrid: this.unitGrid,
       terrainGrid: this._terrainGrid,
-      unitList: this.unitList
+      unitList: this._unitList
     };
   }
 }
+
+// way to test: create an instance of a board populate assert everything needed for the board. Then try and
+// board using the toDataObject for the init of the second board

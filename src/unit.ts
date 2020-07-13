@@ -13,9 +13,9 @@ export interface IUnit {
 }
 
 export class Unit extends Packagable<IUnitDO> implements IUnit {
-  public readonly _id: string;
-  private _x: number;
-  private _y: number;
+  public readonly _id?: string;
+  private _x?: number;
+  private _y?: number;
 
   public get id(): string {
     return this._id;
@@ -32,6 +32,8 @@ export class Unit extends Packagable<IUnitDO> implements IUnit {
     this._x = newCoordinates.x;
     this._y = newCoordinates.y;
   }
+
+  // needs to be a way to constarin the setting the coordinates without aboard
 
   constructor(init?: Partial<IUnitDO>) {
     super();

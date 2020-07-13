@@ -3,31 +3,31 @@ import { IBoard } from "./board";
 
 export interface IGame {
   id?: string;
-  boardId: string;
   board?: IBoard;
 }
 
-export default class Game extends Packagable<IGameDO> implements IGame {
-  public readonly _boardId: string;
+export class Game extends Packagable<IGameDO> implements IGame {
+  public readonly _board: IBoard;
   public readonly _id: string;
 
   public get id(): string {
     return this._id;
   }
 
-  public get boardId(): string {
-    return this._boardId;
+  public get board(): IBoard {
+    return this._board;
   }
 
   constructor(init?: Partial<IGameDO>) {
     super();
     this._id = init.id;
-    this._boardId = init.boardId;
+    this._board = init.board;
   }
+
   public toDataObject(): IGameDO {
     return {
       id: this.id,
-      boardId: this.boardId
+      board: this.board
     };
   }
 }
