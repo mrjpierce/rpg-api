@@ -3,12 +3,12 @@ import { injectable, inject } from "inversify";
 import { IDataAccessObject, DataAccessObject } from "@ifit/mongoose-dao";
 import { IUnitDO } from "../do/unit-do";
 import { IUnitModel } from "../models/unit-model";
-import { IUnit, Unit } from "../unit";
+import { Unit } from "../unit";
 import { TYPES } from "../types";
 
-export interface IUnitDAO extends IDataAccessObject<IUnitDO, IUnit> {}
+export interface IUnitDAO extends IDataAccessObject<IUnitDO, Unit> {}
 @injectable()
-export class UnitDAO extends DataAccessObject<IUnitDO, IUnit> implements IUnitDAO {
+export class UnitDAO extends DataAccessObject<IUnitDO, Unit> implements IUnitDAO {
   protected targetClass = Unit;
   constructor(@inject(TYPES.IUnitModel) protected model: IUnitModel) {
     super();

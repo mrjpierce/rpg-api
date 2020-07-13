@@ -22,7 +22,7 @@
     "lint": "tslint --fix -c tslint.json -p .",
     "lint:ci": "tslint -c tslint.json -p .",
     "prettier": "prettier --write \"./**/*.ts\" \"*.json\"",
-    "start": "yarn build && sls offline --stage local --prefix=rpg-api && nodemon ./src/index.ts",
+    "start": "yarn build && sls offline --stage local --prefix=rpg-api",
     "swagger-editor": "swagger-editor-live swagger.yaml",
     "tdd": "jest --watch",
     "test": "jest src/board.test.ts",

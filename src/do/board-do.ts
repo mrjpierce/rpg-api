@@ -5,6 +5,6 @@ import { ITerrain } from "../terrain";
 export interface IBoardDO extends IDataObject {
   id?: string;
   gridSize: number;
-  terrainGrid: Array<Array<ITerrain>>;
-  unitList: Array<IUnit>;
+  terrainGrid?: Array<Array<ITerrain>>;
+  unitList?: Array<IUnit>;
 }

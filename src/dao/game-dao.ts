@@ -6,10 +6,10 @@ import { TYPES } from "../types";
 import { IGameModel } from "../models/game-model";
 import { IGameDO } from "../do/game-do";
 
-export interface IGameDAO extends DataAccessObject<IGameDO, IGame> {}
+export interface IGameDAO extends DataAccessObject<IGameDO, Game> {}
 
 @injectable()
-export class GameDAO extends DataAccessObject<IGameDO, IGame> implements IGameDAO {
+export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO {
   protected targetClass = Game;
   constructor(@inject(TYPES.IGameModel) protected model: IGameModel) {
     super();

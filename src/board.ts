@@ -43,17 +43,19 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
 
   constructor(init?: Partial<IBoardDO>) {
     super();
-    this._id = init.id;
-    this._unitList = init.unitList || new Array<IUnit>();
-    this._terrainGrid = init.terrainGrid;
+    this._id = init?.id;
+    this._unitList = init?.unitList || new Array<IUnit>();
+    this._terrainGrid = init?.terrainGrid || new Array<Array<ITerrain>>();
 
-    this._unitGrid = new Array<Array<IUnit>>(init.gridSize);
+    this._unitGrid = new Array<Array<IUnit>>(init?.gridSize || 0);
     for (let i = 0; i < this._unitGrid.length; i++) {
       this._unitGrid[i] = new Array<IUnit>(init.gridSize);
-      this._terrainGrid[i] = new Array<ITerrain>(init.gridSize);
+      if (!init?.terrainGrid) {
+        this._terrainGrid[i] = new Array<ITerrain>(init.gridSize);
+      }
     }
 
-    init.unitList.forEach(unit => {
+    init?.unitList?.forEach(unit => {
       this.placeUnit(unit.coordinates, unit);
     });
   }

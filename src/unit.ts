@@ -37,9 +37,9 @@ export class Unit extends Packagable<IUnitDO> implements IUnit {
 
   constructor(init?: Partial<IUnitDO>) {
     super();
-    this._id = init.id;
-    this._x = init.x;
-    this._y = init.y;
+    this._id = init?.id;
+    this._x = init?.x;
+    this._y = init?.y;
   }
 
   public toDataObject(): IUnitDO {

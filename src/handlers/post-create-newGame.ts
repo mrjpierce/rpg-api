@@ -26,24 +26,23 @@ export class PostNewGameHandler extends BaseHandler<IBoardDO, null, null> {
   }
 
   public async run(): Promise<HTTPResult> {
-    const unit1 = new Unit();
+    let unit1 = new Unit();
     const unit2 = new Unit();
-    const board = new Board();
+    const board = new Board({ gridSize: 3 });
+    console.log("creation complete");
+    unit1 = await this.unitDAO.create(unit1.toDataObject());
+    this.unitDAO.create(unit2.toDataObject());
     board.placeUnit({ x: 0, y: 0 }, unit1);
     board.placeUnit({ x: 1, y: 1 }, unit2);
+    console.log("before dataobject");
     const game = new Game({ board });
     console.log("before dataobject");
-    this.unitDAO.create(unit1.toDataObject());
     console.log(unit1);
 
-    this.unitDAO.create(unit2.toDataObject());
     this.boardDAO.create(board.toDataObject());
-    this.gameDAO.create(game.toDataObject());
-    console.log(unit1);
-    console.log(unit2);
-    console.log(board);
+    const savedGame = this.gameDAO.create(game.toDataObject());
 
     console.log(game);
-    return HTTPResult.OK({ body: game });
+    return HTTPResult.OK({ body: savedGame });
   }
 }

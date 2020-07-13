@@ -20,8 +20,8 @@ export class Game extends Packagable<IGameDO> implements IGame {
 
   constructor(init?: Partial<IGameDO>) {
     super();
-    this._id = init.id;
-    this._board = init.board;
+    this._id = init?.id;
+    this._board = init?.board;
   }
 
   public toDataObject(): IGameDO {
