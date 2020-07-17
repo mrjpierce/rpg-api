@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Game, IGame } from "../game";
+import { Game } from "../game";
 import { injectable, inject } from "inversify";
 import { DataAccessObject } from "@ifit/mongoose-dao";
 import { TYPES } from "../types";
@@ -15,14 +15,13 @@ export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO
     super();
   }
   findById(id: string): Promise<IGameDO> {
-    return this.model
-      .findById(id)
-      .populate("board")
-      .populate("unitGrid")
-      .populate("unitList")
-      .exec((err, game) => {
-        console.log(game);
-        console.log(err);
-      });
+    return this.model.findById(id);
+    // .populate("board")
+    // .populate("unitGrid")
+    // .populate("unitList")
+    // .exec((err, game) => {
+    //   console.log(game);
+    //   console.log(err);
+    // });
   }
 }

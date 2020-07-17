@@ -33,8 +33,6 @@ export class Unit extends Packagable<IUnitDO> implements IUnit {
     this._y = newCoordinates.y;
   }
 
-  // needs to be a way to constarin the setting the coordinates without aboard
-
   constructor(init?: Partial<IUnitDO>) {
     super();
     this._id = init?.id;

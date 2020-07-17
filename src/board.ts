@@ -55,9 +55,11 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
       }
     }
 
-    init?.unitList?.forEach(unit => {
-      this.placeUnit(unit.coordinates, unit);
-    });
+    // init?.unitList?.forEach(unit => {
+    //   this.placeUnit(unit.coordinates, unit);
+    //   console.log("unit list");
+    // });
+    // I don't think I'll need this guy. Since i'm probably never gonna include a unitList with an init this will never be called
   }
 
   public checkUnitList(id: string): boolean {
@@ -147,6 +149,3 @@ export class Board extends Packagable<IBoardDO> implements IBoard {
     };
   }
 }
-
-// way to test: create an instance of a board populate assert everything needed for the board. Then try and
-// board using the toDataObject for the init of the second board
