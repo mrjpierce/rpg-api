@@ -6,7 +6,9 @@ import { TYPES } from "../types";
 import { IGameModel } from "../models/game-model";
 import { IGameDO } from "../do/game-do";
 
-export interface IGameDAO extends DataAccessObject<IGameDO, Game> {}
+export interface IGameDAO extends DataAccessObject<IGameDO, Game> {
+  findGameById(id: string);
+}
 
 @injectable()
 export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO {
@@ -14,14 +16,15 @@ export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO
   constructor(@inject(TYPES.IGameModel) protected model: IGameModel) {
     super();
   }
-  findById(id: string): Promise<IGameDO> {
-    return this.model.findById(id);
-    // .populate("board")
-    // .populate("unitGrid")
-    // .populate("unitList")
-    // .exec((err, game) => {
-    //   console.log(game);
-    //   console.log(err);
-    // });
+  findGameById(id: string): Promise<IGameDO> {
+    return this.model
+      .findById(id)
+      .populate("board")
+      .populate("unitGrid")
+      .populate("unitList")
+      .exec((err, game) => {
+        console.log(game);
+        console.log(err);
+      });
   }
 }
