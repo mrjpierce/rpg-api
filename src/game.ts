@@ -7,21 +7,15 @@ export interface IGame {
 }
 
 export class Game extends Packagable<IGameDO> implements IGame {
-  public readonly _board: IBoard;
-  public readonly _id: string;
-
-  public get id(): string {
-    return this._id;
-  }
-
-  public get board(): IBoard {
-    return this._board;
-  }
+  public readonly board: IBoard;
+  public readonly id: string;
 
   constructor(init?: Partial<IGameDO>) {
     super();
-    this._id = init?.id;
-    this._board = init?.board;
+    console.log("init console log");
+    console.log(init);
+    this.id = init?.id;
+    this.board = init?.board;
   }
 
   public toDataObject(): IGameDO {

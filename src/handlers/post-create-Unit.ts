@@ -17,7 +17,6 @@ export class PostUnitHandler extends BaseHandler<IUnitDO, null, null> {
     @inject(TYPES.IMongoService) protected mongoService: IMongoService
   ) {
     super(mongoService, "PostUnitHandler");
-    console.log(unitDAO);
   }
 
   public async run(event: IPostUnitEvent): Promise<HTTPResult> {

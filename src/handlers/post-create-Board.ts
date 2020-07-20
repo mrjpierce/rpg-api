@@ -17,7 +17,6 @@ export class PostBoardHandler extends BaseHandler<IBoardDO, null, null> {
     @inject(TYPES.IMongoService) protected mongoService: IMongoService
   ) {
     super(mongoService, "PostBoardHandler");
-    console.log(boardDAO);
   }
 
   public async run(event: IPostBoardEvent): Promise<HTTPResult> {

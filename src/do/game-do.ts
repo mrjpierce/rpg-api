@@ -2,7 +2,7 @@ import { IDataObject } from "@ifit/mongoose-dao";
 import { IBoard } from "../board";
 
 export interface IGameDO extends IDataObject {
-  id?: string;
+  _id?: string;
   board: IBoard;
 }
 
