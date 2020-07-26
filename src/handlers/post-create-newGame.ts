@@ -35,6 +35,7 @@ export class PostNewGameHandler extends BaseHandler<IBoardDO, null, null> {
     board.placeUnit({ x: 0, y: 0 }, unit1);
     board.placeUnit({ x: 1, y: 1 }, unit2);
     let game = new Game({ board });
+    console.log(game);
     game = await this.gameDAO.create(game.toDataObject());
 
     return HTTPResult.OK({ body: game });

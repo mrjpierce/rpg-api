@@ -6,11 +6,10 @@ import { IGameDAO } from "../dao/game-dao";
 
 export interface IGetGameQuery {
   name?: string;
+  _id: string;
 }
 
-export interface IGetGamePath {
-  id: string;
-}
+export interface IGetGamePath {}
 
 export interface IGetGameEvent extends HTTPEvent<null, IGetGamePath, IGetGameQuery> {}
 
@@ -20,8 +19,11 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
     super();
   }
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
-    const { id } = event.processed.pathParameters;
-    const game = await this.gameDao.findGameById(`${id}`);
+    const _id = await event.processed.queryStringParameters;
+    console.log(_id);
+    console.log(typeof _id);
+
+    const game = await this.gameDao.findGameById(`${_id}`);
     return HTTPResult.OK({ body: JSON.stringify(game) });
   }
 }
