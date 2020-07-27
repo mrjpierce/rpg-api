@@ -19,8 +19,6 @@ export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO
   }
   async create(data: IGameDO): Promise<Game> {
     const foo = await super.create(data);
-    console.log("foo console log");
-    console.log(foo);
     return this.findGameById(foo.id);
   }
   async findGameById(id: string): Promise<Game> {

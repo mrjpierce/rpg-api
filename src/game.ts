@@ -12,8 +12,6 @@ export class Game extends Packagable<IGameDO> implements IGame {
 
   constructor(init?: Partial<IGameDO>) {
     super();
-    console.log("init console log");
-    console.log(init);
     this.id = init?.id;
     this.board = init?.board;
   }
