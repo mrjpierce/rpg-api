@@ -6,7 +6,7 @@ import { IGameDAO } from "../dao/game-dao";
 
 export interface IGetGameQuery {
   name?: string;
-  _id: string;
+  _id: any;
 }
 
 export interface IGetGamePath {}
@@ -19,11 +19,18 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
     super();
   }
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
-    const _id = await event.processed.queryStringParameters;
-    console.log(_id);
-    console.log(typeof _id);
+    // const id = event.processed.pathParameters;
+    const id = event.processed.queryStringParameters;
+    console.log(JSON.stringify(id));
 
-    const game = await this.gameDao.findGameById(`${_id}`);
-    return HTTPResult.OK({ body: JSON.stringify(game) });
+    const game = await this.gameDao.findGameById(JSON.stringify(id));
+    console.log(game);
+    return HTTPResult.OK({ body: "hello wolrd" });
   }
 }
+/*
+Help with:
+1. game-model.ts - the way I was setting up the model was incorrect. I am using an array right now. How can I improve the schema
+2. get-game - how can i better send the id? currently it looks like this when I send it {"":"5f1e3bb4c454ca9b52c779a3"}
+3. this.model.findById() is still undefined and I can't get them sum bitch to work.
+*/

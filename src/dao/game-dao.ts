@@ -24,17 +24,18 @@ export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO
     return this.findGameById(foo.id);
   }
   async findGameById(id: string): Promise<Game> {
-    // this needs to return a real instance of a game and the state
     console.log("id");
+    console.log(id);
+    const foo = { id };
+    console.log(foo);
+    console.log(typeof foo);
 
-    const passableId = { id }.id;
-    console.log(passableId);
+    const passableId = "5f1e3bb4c454ca9b52c779a3";
     const IGameDoc = await this.model
-      // this sum bitch is undefined,
       .findById(passableId)
-      // .populate("board")
-      // .populate("unitGrid")
-      // .populate("unitList")
+      .populate("board")
+      .populate("unitGrid")
+      .populate("unitList")
       .exec(err => {
         if (err) {
           console.log(err);
