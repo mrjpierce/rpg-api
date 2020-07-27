@@ -21,13 +21,10 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
     const id = event.processed.queryStringParameters;
     console.log(id);
-    const game = await this.gameDao.findGameById(id.åid);
+    const game = await this.gameDao.findGameById(id.id);
     return HTTPResult.OK({ body: game });
   }
 }
 /*
-Help with:
-1. game-model.ts - the way I was setting up the model was incorrect. I am using an array right now. How can I improve the schema
-2. get-game - how can i better send the id? currently it looks like this when I send it {"":"5f1e3bb4c454ca9b52c779a3"}
-3. this.model.findById() is still undefined and I can't get them sum bitch to work.
+
 */
