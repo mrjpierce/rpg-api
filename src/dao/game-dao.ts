@@ -26,23 +26,24 @@ export class GameDAO extends DataAccessObject<IGameDO, Game> implements IGameDAO
   async findGameById(id: string): Promise<Game> {
     console.log("id");
     console.log(id);
-    const foo = { id };
-    console.log(foo);
-    console.log(typeof foo);
 
-    const passableId = "5f1e3bb4c454ca9b52c779a3";
-    const IGameDoc = await this.model
-      .findById(passableId)
-      .populate("board")
-      .populate("unitGrid")
-      .populate("unitList")
-      .exec(err => {
-        if (err) {
-          console.log(err);
-        }
-      });
-    console.log("findgamebyId console log");
-    console.log(IGameDoc);
-    return new Game(IGameDoc.toObject());
+    return new Promise<Game>(async (resolve, reject) => {
+      await this.model
+        .findById(id)
+        .populate({
+          path: "board",
+          populate: {
+            path: "unitList"
+          }
+        })
+        .exec((err, game) => {
+          if (err) {
+            console.log(err);
+            reject(err);
+          }
+          console.log(game);
+          resolve(game.toObject());
+        });
+    });
   }
 }

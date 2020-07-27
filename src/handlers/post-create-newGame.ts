@@ -28,12 +28,14 @@ export class PostNewGameHandler extends BaseHandler<IBoardDO, null, null> {
   public async run(): Promise<HTTPResult> {
     let unit1 = new Unit();
     let unit2 = new Unit();
-    let board = new Board({ gridSize: 3 });
     unit1 = await this.unitDAO.create(unit1.toDataObject());
     unit2 = await this.unitDAO.create(unit2.toDataObject());
-    board = await this.boardDAO.create(board.toDataObject());
+    let board = new Board({ gridSize: 3 });
     board.placeUnit({ x: 0, y: 0 }, unit1);
     board.placeUnit({ x: 1, y: 1 }, unit2);
+    unit1 = await this.unitDAO.update(unit1.toDataObject());
+    unit2 = await this.unitDAO.update(unit2.toDataObject());
+    board = await this.boardDAO.create(board.toDataObject());
     let game = new Game({ board });
     console.log(game);
     game = await this.gameDAO.create(game.toDataObject());
@@ -41,3 +43,6 @@ export class PostNewGameHandler extends BaseHandler<IBoardDO, null, null> {
     return HTTPResult.OK({ body: game });
   }
 }
+/*
+
+ */

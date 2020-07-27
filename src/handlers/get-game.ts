@@ -21,9 +21,8 @@ export class GetGameHandler extends HTTPHandler<null, IGetGamePath, IGetGameQuer
   public async run(event: IGetGameEvent): Promise<HTTPResult> {
     // const id = event.processed.pathParameters;
     const id = event.processed.queryStringParameters;
-    console.log(JSON.stringify(id));
-
-    const game = await this.gameDao.findGameById(JSON.stringify(id));
+    console.log(id);
+    const game = await this.gameDao.findGameById(id._id);
     console.log(game);
     return HTTPResult.OK({ body: "hello wolrd" });
   }
