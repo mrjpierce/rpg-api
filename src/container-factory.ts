@@ -7,6 +7,8 @@ import { IUnitDAO, UnitDAO } from "./dao/unit-dao";
 import { IGameModel, getGameModel } from "./models/game-model";
 import { IUnitModel, getUnitModel } from "./models/unit-model";
 import { IMongoService, MongoService } from "./mongo-service";
+import { IBoardModel, getBoardModel } from "./models/board-model";
+import { IBoardDAO, BoardDAO } from "./dao/board-dao";
 
 type ServiceEvent = HTTPEvent;
 
@@ -35,11 +37,13 @@ export class ContainerFactory implements IContainerFactory<ServiceEvent> {
     // DAOs
     container.bind<IGameDAO>(TYPES.IGameDAO).to(GameDAO);
     container.bind<IUnitDAO>(TYPES.IUnitDAO).to(UnitDAO);
+    container.bind<IBoardDAO>(TYPES.IBoardDAO).to(BoardDAO);
     container.bind<IMongoService>(TYPES.IMongoService).to(MongoService);
 
     // Models
     container.bind<IGameModel>(TYPES.IGameModel).toConstantValue(getGameModel());
     container.bind<IUnitModel>(TYPES.IUnitModel).toConstantValue(getUnitModel());
+    container.bind<IBoardModel>(TYPES.IBoardModel).toConstantValue(getBoardModel());
 
     return container;
   }

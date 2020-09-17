@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { IUnitDO } from "./do/unit-do";
+import { Packagable } from "./do/game-do";
 
 export interface ICoordinates {
   x: number;
@@ -8,15 +9,17 @@ export interface ICoordinates {
 
 export interface IUnit {
   coordinates: ICoordinates;
-  Id: number;
   id?: string;
 }
 
-export class Unit implements IUnit {
-  public readonly Id: number;
-  public readonly _id: string;
-  protected _x: number;
-  protected _y: number;
+export class Unit extends Packagable<IUnitDO> implements IUnit {
+  public readonly _id?: string;
+  private _x?: number;
+  private _y?: number;
+
+  public get id(): string {
+    return this._id;
+  }
 
   public get coordinates(): ICoordinates {
     return {
@@ -31,10 +34,17 @@ export class Unit implements IUnit {
   }
 
   constructor(init?: Partial<IUnitDO>) {
-    console.log(init);
-    this._id = init.id;
-    this._x = init.x;
-    this._y = init.y;
-    // what would the auto gereneated id from mongo look like?
+    super();
+    this._id = init?.id;
+    this._x = init?.x;
+    this._y = init?.y;
+  }
+
+  public toDataObject(): IUnitDO {
+    return {
+      id: this._id,
+      x: this._x,
+      y: this._y
+    };
   }
 }

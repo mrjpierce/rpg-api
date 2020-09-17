@@ -16,6 +16,7 @@ describe("unit.ts", () => {
     });
     it("sets public props correctly", () => {
       expect(testUnit.coordinates).toEqual(testCoords1);
+      expect(testUnit.id).toBeTruthy();
     });
   });
   describe("get coordinates", () => {
